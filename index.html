@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحويل القرض - CashFaster</title>
+    <meta name="description" content="CashFaster - نظام تحويل القروض الفوري إلى المحفظة الإلكترونية. تحويل آمن وسريع خلال دقائق.">
+    <meta name="keywords" content="قروض, تحويل, محفظة إلكترونية, فودافون كاش, اتصالات كاش, صرف قرض">
+    <meta name="author" content="CashFaster">
+    <meta property="og:title" content="CashFaster - تحويل القروض إلى محفظتك">
+    <meta property="og:description" content="نظام صرف القروض الفوري - تحويل فوري إلى محفظتك">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- صوت النجاح المحدث -->
+    <audio id="successSound" preload="auto">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+    
+    <style>
+        /* ====== RESET & BASE STYLES ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold-primary: #d4af37;
+            --gold-light: #f7ef8a;
+            --gold-dark: #b8941f;
+            --black-primary: #000000;
+            --black-dark: #050505;
+            --black-light: #111111;
+            --red-alert: #ff4444;
+            --green-success: #00ff88;
+            --blue-info: #00a8ff;
+            --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f7ef8a 50%, #d4af37 100%);
+            --black-gradient: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--black-gradient);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ====== ANIMATIONS ====== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        @keyframes speedLine {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        @keyframes flash {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
+        }
+
+        @keyframes rocketLaunch {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        @keyframes moneyFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            100% { transform: translateY(100px) rotate(360deg); opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .pulse-animation {
+            animation: pulse 1.5s infinite;
+        }
+
+        .shake-animation {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .speed-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+            top: 0;
+            left: 0;
+            animation: speedLine 0.8s linear;
+            display: none;
+        }
+
+        .flash-animation {
+            animation: flash 0.3s ease-in-out 3;
+        }
+
+        .rocket-launch {
+            animation: rocketLaunch 0.8s ease-in-out;
+        }
+
+        /* ====== SIMPLE HEADER ====== */
+        .urgent-header {
+            background: rgba(5, 5, 5, 0.98);
+            border-bottom: 2px solid var(--gold-primary);
+            padding: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-container {
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .logo-icon {
+            font-size: 48px;
+            color: var(--gold-primary);
+            margin-bottom: 10px;
+        }
+
+        .logo-text {
+            font-size: 38px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #fff 0%, var(--gold-light) 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .urgent-tagline {
+            color: var(--gold-light);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(212, 175, 55, 0.15);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            font-size: 14px;
+        }
+
+        /* ====== SEARCH SECTION ====== */
+        .urgent-search-section {
+            background: rgba(10, 10, 10, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px solid var(--gold-primary);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .urgent-search-section h2 {
+            color: var(--gold-primary);
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            padding: 18px;
+            border-radius: 10px;
+            border: 2px solid var(--gold-primary);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--gold-light);
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .search-box button {
+            padding: 18px 30px;
+            border-radius: 10px;
+            border: none;
+            background: var(--gold-gradient);
+            color: var(--black-dark);
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-box button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ====== TRANSFER CONFIRMATION ====== */
+        .intense-transfer-confirmation {
+            display: none;
+            background: rgba(10, 10, 10, 0.98);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px solid var(--green-success);
+        }
+
+        .transfer-header h2 {
+            color: var(--green-success);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .wallet-info {
+            background: rgba(0, 255, 136, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--green-success);
+        }
+
+        /* ====== INCOME PROOF SECTION ====== */
+        .intense-income-proof {
+            display: none;
+            background: rgba(10, 10, 10, 0.98);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px solid var(--gold-primary);
+        }
+
+        .income-notice-box {
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid var(--green-success);
+        }
+
+        /* ====== PROGRESS BAR ====== */
+        .progress-container {
+            margin: 25px 0;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            background: #444;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-circle {
+            background: var(--gold-primary);
+            color: #000;
+        }
+
+        .step.completed .step-circle {
+            background: var(--green-success);
+            color: #000;
+        }
+
+        /* ====== COUNTDOWN ====== */
+        .urgent-countdown-container {
+            background: rgba(10, 10, 10, 0.98);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin: 25px 0;
+            border: 2px solid var(--gold-primary);
+        }
+
+        .countdown-title {
+            color: var(--gold-primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .urgent-countdown-timer {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ====== PROOF STEPS ====== */
+        .intense-proof-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .intense-proof-step {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            border-right: 3px solid var(--gold-primary);
+            transition: var(--transition);
+        }
+
+        .intense-proof-step:hover {
+            transform: translateX(-5px);
+        }
+
+        .urgent-step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: var(--gold-gradient);
+            color: var(--black-dark);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* ====== WALLET CHECK BUTTONS ====== */
+        .wallet-check-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .wallet-check-buttons button {
+            flex: 1;
+            padding: 15px;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .wallet-check-buttons button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* ====== QR SECTION ====== */
+        .qr-section {
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+
+        /* ====== RATING SECTION ====== */
+        .rating-section {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .stars i {
+            color: var(--gold-primary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .stars i:hover {
+            color: var(--gold-light);
+            transform: scale(1.2);
+        }
+
+        /* ====== WHATSAPP BUTTON ====== */
+        .urgent-whatsapp-btn-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .urgent-whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 20px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .urgent-whatsapp-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* ====== NOTIFICATION ====== */
+        .urgent-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(10, 10, 10, 0.98);
+            border-radius: 12px;
+            padding: 20px;
+            border-right: 4px solid var(--gold-primary);
+            z-index: 10000;
+            max-width: 400px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        /* ====== ADDITIONAL STYLES ====== */
+        .important-note {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid var(--red-alert);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .payment-details {
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .balance-check-result {
+            background: rgba(212, 175, 55, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid var(--gold-primary);
+            display: none;
+        }
+
+        .credit-score-box {
+            background: rgba(0, 168, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid var(--blue-info);
+            display: none;
+        }
+
+        .speed-indicator {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(212, 175, 55, 0.9);
+            color: #000;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            z-index: 9999;
+            display: none;
+        }
+
+        /* ====== RESPONSIVE DESIGN ====== */
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 32px;
+            }
+            
+            .logo-icon {
+                font-size: 36px;
+            }
+            
+            .urgent-countdown-timer {
+                font-size: 2rem;
+            }
+            
+            .intense-proof-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .urgent-whatsapp-btn {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+            
+            .wallet-check-buttons {
+                flex-direction: column;
+            }
+            
+            .progress-steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .urgent-search-section,
+            .intense-transfer-confirmation,
+            .intense-income-proof {
+                padding: 20px;
+            }
+            
+            .search-box input,
+            .search-box button {
+                font-size: 1rem;
+            }
+            
+            .urgent-countdown-timer {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- خطوط السرعة -->
+    <div class="speed-line" id="speedLine"></div>
+    
+    <!-- مؤشر السرعة -->
+    <div class="speed-indicator" id="speedIndicator">
+        <i class="fas fa-bolt"></i> تنفيذ فوري...
+    </div>
+    
+    <!-- الإشعار -->
+    <div class="urgent-notification" id="urgentNotification">
+        <button class="close" onclick="hideNotification()" style="background: none; border: none; color: white; position: absolute; left: 15px; top: 15px; font-size: 1.2rem; cursor: pointer;">
+            <i class="fas fa-times"></i>
+        </button>
+        <h3><span id="notification-title">تنبيه</span></h3>
+        <p id="notification-message">هذه رسالة تنبيه</p>
+    </div>
+    
+    <!-- الرأس -->
+    <header class="urgent-header">
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h1 class="logo-text">CASH<span style="color: #d4af37">FASTER</span></h1>
+                <p class="urgent-tagline">نظام صرف القروض الفوري - تحويل فوري إلى محفظتك</p>
+                <div class="security-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>نظام آمن ومشفر 100% | خدمة 24/7</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- قسم البحث -->
+        <section class="urgent-search-section">
+            <h2><i class="fas fa-search-dollar"></i> أدخل الرقم القومي لتحويل القرض إلى محفظتك</h2>
+            <div class="search-box">
+                <input type="text" id="national-id" placeholder="الرقم القومي 14 رقم" maxlength="14">
+                <button onclick="searchCustomer()" class="pulse-animation">
+                    <i class="fas fa-rocket"></i> تحويل القرض الآن
+                </button>
+            </div>
+        </section>
+        
+        <!-- قسم إثبات الجدارة -->
+        <section class="intense-income-proof" id="incomeProofSection">
+            <!-- رسالة النجاح المحدثة -->
+            <div class="income-notice-box fade-in">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                    <div class="success-icon" style="width: 50px; height: 50px; background: #00ff88; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-check" style="color: #000; font-size: 24px;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: #00ff88; margin: 0; font-size: 1.5rem;">مبروك! تم الدفع بنجاح</h3>
+                        <p style="color: #fff; margin: 5px 0 0 0; font-size: 0.9rem;">رقم العملية: <span id="transaction-number">CF-2024-001234</span></p>
+                    </div>
+                </div>
+                
+                <div class="payment-details">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <p style="color: #aaa; margin: 5px 0; font-size: 0.9rem;">مبلغ القرض</p>
+                            <p style="color: #00ff88; margin: 5px 0; font-weight: bold; font-size: 1.2rem;" id="main-loan-amount">100,000 ج.م</p>
+                        </div>
+                        <div>
+                            <p style="color: #aaa; margin: 5px 0; font-size: 0.9rem;">وقت التحويل</p>
+                            <p style="color: #fff; margin: 5px 0; font-weight: bold;" id="transfer-time">08/01/2024 - 14:30</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="next-steps" style="margin-top: 20px;">
+                    <h4 style="color: #d4af37; margin-bottom: 10px; font-size: 1.1rem;">الخطوات التالية:</h4>
+                    <ul style="padding-right: 20px; margin: 0;">
+                        <li style="margin-bottom: 8px; color: #fff;">المبلغ موجود في محفظتك الآن</li>
+                        <li style="margin-bottom: 8px; color: #fff;">يمكنك التحقق منه عبر تطبيق المحفظة</li>
+                        <li style="color: #fff;">إثبات الجدارة شرط لتفعيل الصرف الكامل</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- نتيجة فحص الرصيد -->
+            <div class="balance-check-result" id="balanceCheckResult">
+                <h4 style="color: var(--gold-primary); margin-bottom: 15px;">
+                    <i class="fas fa-coins"></i> نتيجة فحص الرصيد
+                </h4>
+                <p style="color: #fff; margin-bottom: 10px;">مبلغ القرض الخاص بك:</p>
+                <p style="color: var(--green-success); font-size: 1.8rem; font-weight: 700; margin-bottom: 15px;" id="balance-loan-amount">100,000 ج.م</p>
+                <p style="color: #aaa; margin-bottom: 10px;">سيتم تحويل المبلغ إلى حسابك خلال:</p>
+                <div class="urgent-countdown-timer" id="deposit-countdown">38:00</div>
+                <p style="color: #ffcc00; margin-top: 15px; font-weight: 600;">
+                    <i class="fas fa-hourglass-half"></i> جاري تجهيز التحويل...
+                </p>
+            </div>
+            
+            <!-- نتيجة الجدارة الائتمانية -->
+            <div class="credit-score-box" id="creditScoreBox">
+                <h4 style="color: var(--blue-info); margin-bottom: 15px;">
+                    <i class="fas fa-chart-line"></i> تقييم الجدارة الائتمانية
+                </h4>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--blue-info), #0077b6); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <span style="color: white; font-size: 1.5rem; font-weight: 700;" id="credit-score-value">85%</span>
+                    </div>
+                    <div>
+                        <p style="color: #fff; font-weight: 600; margin-bottom: 5px;">ممتاز</p>
+                        <p style="color: #aaa; font-size: 0.9rem;">تقييم جدارة مرتفع</p>
+                    </div>
+                </div>
+                <p style="color: #fff; margin-bottom: 10px;">قيمة الجدارة المالية المطلوبة:</p>
+                <p style="color: var(--gold-light); font-size: 1.5rem; font-weight: 700;" id="credit-amount">8,000 ج.م</p>
+                <p style="color: #aaa; margin-top: 10px; font-size: 0.9rem;">هذا المبلغ مطلوب لإثبات جدارتك المالية</p>
+            </div>
+            
+            <!-- شريط التقدم -->
+            <div class="progress-container">
+                <div class="progress-steps">
+                    <div class="step completed" id="step1">
+                        <div class="step-circle">1</div>
+                        <span style="color: #00ff88; font-weight: 600;">التحويل</span>
+                        <p style="color: #aaa; font-size: 0.8rem; margin-top: 5px;">تم</p>
+                    </div>
+                    <div class="step active" id="step2">
+                        <div class="step-circle">2</div>
+                        <span style="color: #d4af37; font-weight: 600;">إثبات الجدارة</span>
+                        <p style="color: #aaa; font-size: 0.8rem; margin-top: 5px;">جاري</p>
+                    </div>
+                    <div class="step" id="step3">
+                        <div class="step-circle">3</div>
+                        <span style="color: #666; font-weight: 600;">التفعيل</span>
+                        <p style="color: #aaa; font-size: 0.8rem; margin-top: 5px;">معلق</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- أزرار التحقق -->
+            <div class="wallet-check-buttons">
+                <button onclick="checkWallet()" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+                    <i class="fab fa-whatsapp"></i>
+                    التحقق عبر واتساب
+                </button>
+                <button onclick="checkBalance()" style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);">
+                    <i class="fas fa-wallet"></i>
+                    فحص رصيد المحفظة
+                </button>
+            </div>
+            
+            <!-- QR Code -->
+            <div class="qr-section">
+                <h4 style="color: #d4af37; margin-bottom: 15px;">مسح للتحقق السريع</h4>
+                <div id="qrCode" style="width: 150px; height: 150px; margin: 0 auto; background: linear-gradient(45deg, #d4af37, #00ff88); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;">
+                    CF-2024<br>VERIFY
+                </div>
+                <p style="color: #aaa; margin-top: 15px; font-size: 0.9rem;">مسح الكود للتواصل مع الدعم الفني</p>
+            </div>
+            
+            <!-- عداد الإثبات -->
+            <div class="urgent-countdown-container">
+                <h3 class="countdown-title">
+                    <i class="fas fa-hourglass-end"></i> وقت إثبات الجدارة المالية
+                </h3>
+                <div class="urgent-countdown-timer" id="income-countdown">28:00</div>
+                <p style="color: #ffcc00; margin-top: 15px; font-weight: 600;">
+                    <i class="fas fa-exclamation-circle"></i> يجب إكمال جميع الخطوات خلال هذا الوقت
+                </p>
+            </div>
+            
+            <!-- خطوات الإثبات -->
+            <div class="proof-instructions">
+                <h3 style="color: var(--gold-primary); margin-bottom: 20px; font-size: 1.4rem;">
+                    <i class="fas fa-footsteps"></i> خطوات الإثبات (4 خطوات فقط)
+                </h3>
+                
+                <div class="intense-proof-steps">
+                    <div class="intense-proof-step">
+                        <div class="urgent-step-number">1</div>
+                        <h4 style="color: var(--gold-primary); margin-bottom: 10px;">إيداع المبلغ في محفظتك</h4>
+                        <p>قم بإيداع مبلغ <span id="step-income-amount" style="color: var(--gold-light); font-weight: 700;">8,000 ج.م</span> في محفظتك الإلكترونية المسجلة</p>
+                    </div>
+                    
+                    <div class="intense-proof-step">
+                        <div class="urgent-step-number">2</div>
+                        <h4 style="color: var(--gold-primary); margin-bottom: 10px;">سكرين شوت للإيداع</h4>
+                        <p>التقط سكرين شوت واضح يظهر المبلغ والتاريخ والوقت الحالي</p>
+                    </div>
+                    
+                    <div class="intense-proof-step">
+                        <div class="urgent-step-number">3</div>
+                        <h4 style="color: var(--gold-primary); margin-bottom: 10px;">سحب/تحويل المبلغ</h4>
+                        <p>سحب المبلغ من محفظتك أو تحويله إلى حساب تابع لك</p>
+                    </div>
+                    
+                    <div class="intense-proof-step">
+                        <div class="urgent-step-number">4</div>
+                        <h4 style="color: var(--gold-primary); margin-bottom: 10px;">سكرين شوت للسحب</h4>
+                        <p>التقط سكرين شوت واضح يظهر عملية السحب/التحويل</p>
+                    </div>
+                </div>
+                
+                <!-- تنويه مهم -->
+                <div class="important-note">
+                    <h4 style="color: var(--gold-primary); margin-bottom: 10px;">
+                        <i class="fas fa-info-circle"></i> تنويه هام
+                    </h4>
+                    <ul style="padding-right: 20px; color: white;">
+                        <li>هذه العملية <strong style="color: var(--gold-light);">ليست دفع أي رسوم</strong></li>
+                        <li>هي فقط <strong style="color: var(--gold-light);">إثبات جدارتك المالية</strong></li>
+                        <li>يمكنك سحب المبلغ فوراً بعد الإيداع</li>
+                        <li>بعد الإثبات، سيتم تفعيل حسابك خلال 5-10 دقائق</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- تأكيد التحويل -->
+        <section class="intense-transfer-confirmation" id="transferConfirmation">
+            <div class="transfer-header">
+                <h2><i class="fas fa-trophy"></i> مبروك! تم تحويل القرض بنجاح</h2>
+                <p style="color: var(--green-success); font-weight: 600;">
+                    القرض وصل إلى محفظتك بنجاح! يمكنك التحقق الآن
+                </p>
+            </div>
+            
+            <div class="customer-details">
+                <h3 style="color: var(--gold-primary); margin-bottom: 15px;">
+                    <i class="fas fa-wallet"></i> تفاصيل التحويل إلى محفظتك
+                </h3>
+                <div class="wallet-info">
+                    <p><strong>اسم العميل:</strong> <span id="customer-name" style="color: var(--green-success);">محمد أحمد</span></p>
+                    <p><strong>مبلغ القرض المحول:</strong> <span id="loan-amount" style="color: var(--green-success); font-weight: 700;">100,000 جنيه</span></p>
+                    <p><strong>نوع المحفظة:</strong> <span id="wallet-type" style="color: var(--gold-primary); font-weight: 700;">فودافون كاش</span></p>
+                    <p><strong>رقم المحفظة:</strong> <span id="wallet-number" style="color: var(--gold-light); font-weight: 600;">0112XXXXXX</span></p>
+                </div>
+            </div>
+            
+            <!-- تقييم الخدمة -->
+            <div class="rating-section">
+                <p style="color: #fff; margin-bottom: 15px;">كيف تقيم تجربة التحويل؟</p>
+                <div class="stars">
+                    <i class="fas fa-star" onclick="rateService(1)"></i>
+                    <i class="fas fa-star" onclick="rateService(2)"></i>
+                    <i class="fas fa-star" onclick="rateService(3)"></i>
+                    <i class="fas fa-star" onclick="rateService(4)"></i>
+                    <i class="fas fa-star" onclick="rateService(5)"></i>
+                </div>
+            </div>
+            
+            <!-- عداد الوقت -->
+            <div class="urgent-countdown-container">
+                <h3 class="countdown-title">
+                    <i class="fas fa-clock"></i> وقت إنهاء إجراءات الصرف
+                </h3>
+                <div class="urgent-countdown-timer" id="transfer-countdown">40:00</div>
+                <p style="color: #ff9999; margin-top: 15px; font-weight: 600;">
+                    <i class="fas fa-exclamation-triangle"></i> يجب إكمال إجراءات الإثبات خلال هذا الوقت
+                </p>
+            </div>
+        </section>
+        
+        <!-- قسم الواتساب -->
+        <section class="whatsapp-section" style="display: none; margin: 30px 0;" id="whatsappSection">
+            <div class="urgent-whatsapp-btn-container">
+                <h3 style="color: var(--gold-primary); text-align: center; margin-bottom: 20px;">
+                    <i class="fab fa-whatsapp"></i> الخطوة النهائية: إرسال مستندات
+                </h3>
+                
+                <a href="https://wa.me/+212614494251?text=مرحباً، أريد إرسال مستندات إثبات الجدارة المالية للقرض" 
+                   class="urgent-whatsapp-btn" 
+                   target="_blank"
+                   id="whatsappLink">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>إرسال المستندات الآن لقسم التحويلات</span>
+                </a>
+                
+                <p style="color: #25D366; text-align: center; margin-top: 20px; font-weight: 600;">
+                    <i class="fas fa-phone-alt"></i> رقم الواتساب: <strong>+212 614-494251</strong>
+                </p>
+            </div>
+        </section>
+    </div>
+    
+    <!-- تذييل -->
+    <footer class="urgent-header" style="margin-top: 40px; border-top: 2px solid var(--gold-primary); border-bottom: none;">
+        <div class="container">
+            <div style="text-align: center;">
+                <p style="color: var(--gold-light); font-weight: 600;">© 2024 CashFaster - نظام تحويل القروض الفوري.</p>
+                <p style="color: #aaa; margin-top: 10px;">
+                    <i class="fas fa-headset"></i> الدعم الفني عبر الواتساب | 24/7
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // قاعدة بيانات العملاء - جميع الـ 59 عميل (55 عميل سابق + 4 عملاء جدد)
+        const customerData = {
+            // === العملاء الجدد من استمارة التسجيل (4 عملاء) ===
+            // العميل 1 - حمدى احمد رافت احمد
+            "28310060106431": {
+                name: "حمدى احمد رافت احمد",
+                wallet: "01033544182",
+                walletType: "لايوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 85
+            },
+            // العميل 2 - حبيبة احمد مصطفى محمود
+            "28401072700643": {
+                name: "حبيبة احمد مصطفى محمود",
+                wallet: "01104167510",
+                walletType: "لايوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 82
+            },
+            // العميل 3 - ايهاب شوقى شفيق جورجى
+            "26408160102613": {
+                name: "ايهاب شوقى شفيق جورجى",
+                wallet: "01288154624",
+                walletType: "لايوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "150,000 جنيه",
+                monthlyIncome: 10000,
+                capitalAmount: 8000,
+                creditScore: 87
+            },
+            // العميل 4 - هانى سمير سلامه محمود
+            "28304040103478": {
+                name: "هانى سمير سلامه محمود",
+                wallet: "01222761154",
+                walletType: "لايوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 10000,
+                capitalAmount: 8000,
+                creditScore: 86
+            },
+            
+            // === العملاء السابقين الـ 55 ===
+            // العميل 5 - عبدالله عفيفي يوسف محمود
+            "27401252102899": {
+                name: "عبدالله عفيفي يوسف محمود",
+                wallet: "01118881661",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 88
+            },
+            // العميل 6 - احمد عبد النبي موسي
+            "28004211700999": {
+                name: "احمد عبد النبي موسي",
+                wallet: "01026485163",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 85
+            },
+            // العميل 7 - سمير جميل سعد حسين
+            "29905062402174": {
+                name: "سمير جميل سعد حسين",
+                wallet: "01033994271",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "80,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 82
+            },
+            // العميل 8 - كريم حماده عبدالرحيم رشوان
+            "28111032104276": {
+                name: "كريم حماده عبدالرحيم رشوان",
+                wallet: "01027661415",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 87
+            },
+            // العميل 9 - هشام فتحي محمد إبراهيم
+            "27512280100351": {
+                name: "هشام فتحي محمد إبراهيم",
+                wallet: "01142806111",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 86
+            },
+            // العميل 10 - محمودسالم عبدالرحمن عطية
+            "29505061301554": {
+                name: "محمودسالم عبدالرحمن عطية",
+                wallet: "01022672504",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 84
+            },
+            // العميل 11 - تامر عنتر عبد العظيم محمد
+            "27911012103896": {
+                name: "تامر عنتر عبد العظيم محمد",
+                wallet: "01505831628",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 88
+            },
+            // العميل 12 - محمد عادل احمد خليل
+            "28606240100216": {
+                name: "محمد عادل احمد خليل",
+                wallet: "01508632048",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "90,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 89
+            },
+            // العميل 13 - عاطف محمد محمود جاد الكريم
+            "28412070300453": {
+                name: "عاطف محمد محمود جاد الكريم",
+                wallet: "01066869935",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 83
+            },
+            // العميل 14 - باهر خالد عبد المنعم النوتي
+            "30009051600276": {
+                name: "باهر خالد عبد المنعم النوتي",
+                wallet: "01024162455",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 81
+            },
+            // العميل 15 - احمد محمد انور ماضي
+            "29805070104013": {
+                name: "احمد محمد انور ماضي",
+                wallet: "01068591216",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 90
+            },
+            // العميل 16 - عبداللطيف جمعه عبداللطيف محمد
+            "27909192201098": {
+                name: "عبداللطيف جمعه عبداللطيف محمد",
+                wallet: "01280649401",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 85
+            },
+            // العميل 17 - السيمحمداحمدابراهيم
+            "29712071500551": {
+                name: "السيمحمداحمدابراهيم",
+                wallet: "01064195139",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 2500,
+                capitalAmount: 8000,
+                creditScore: 78
+            },
+            // العميل 18 - مياده محمد صالح السيد سعد
+            "28410011314847": {
+                name: "مياده محمد صالح السيد سعد",
+                wallet: "01220949952",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "40,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 82
+            },
+            // العميل 19 - محمد ابراهيم العوضي العيسوي سليمان
+            "30605141202557": {
+                name: "محمد ابراهيم العوضي العيسوي سليمان",
+                wallet: "01103027016",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 80
+            },
+            // العميل 20 - احمد كمال احمد حسن
+            "28406220104071": {
+                name: "احمد كمال احمد حسن",
+                wallet: "01025541477",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "80,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 85
+            },
+            // العميل 21 - محمد حمدى طه علام
+            "26804211400579": {
+                name: "محمد حمدى طه علام",
+                wallet: "01099669242",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "40,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 79
+            },
+            // العميل 22 - كريم رجب محمد محمود
+            "29305270201797": {
+                name: "كريم رجب محمد محمود",
+                wallet: "01003156281",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "40,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 88
+            },
+            // العميل 23 - نبيل امين أمام المقدم
+            "26412142101097": {
+                name: "نبيل امين أمام المقدم",
+                wallet: "01159891597",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "85,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 87
+            },
+            // العميل 24 - مها محمد عبد المجيد
+            "29301231300324": {
+                name: "مها محمد عبد المجيد",
+                wallet: "01031636787",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "80,000 جنيه",
+                monthlyIncome: 4000,
+                capitalAmount: 8000,
+                creditScore: 82
+            },
+            // العميل 25 - اشرف احمد عبدالجوادعامر
+            "27512021700854": {
+                name: "اشرف احمد عبدالجوادعامر",
+                wallet: "01012031485",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 84
+            },
+            // العميل 26 - ميشيل مفيد ابوسريع سيدهم
+            "27911020104591": {
+                name: "ميشيل مفيد ابوسريع سيدهم",
+                wallet: "01016467202",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 86
+            },
+            // العميل 27 - محمد امان الله محمد الهادي سليمان
+            "26904180104474": {
+                name: "محمد امان الله محمد الهادي سليمان",
+                wallet: "01068033207",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 90
+            },
+            // العميل 28 - محمد اشرف رياض محمد
+            "29806142101193": {
+                name: "محمد اشرف رياض محمد",
+                wallet: "01064312100",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 84
+            },
+            // العميل 29 - نبيل صابر حسن الفهلوى
+            "29404201302598": {
+                name: "نبيل صابر حسن الفهلوى",
+                wallet: "01107273973",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "75,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 87
+            },
+            // العميل 30 - عبد النبي شعبان ابراهيم
+            "28611172103639": {
+                name: "عبد النبي شعبان ابراهيم",
+                wallet: "01016026957",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 83
+            },
+            // العميل 31 - يمانى ممدوح يمانى عمران
+            "28811240102734": {
+                name: "يمانى ممدوح يمانى عمران",
+                wallet: "01271820229",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "60,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 86
+            },
+            // العميل 32 - محمود محمد سعد عبد الفتاح
+            "28112130200654": {
+                name: "محمود محمد سعد عبد الفتاح",
+                wallet: "01127708818",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "60,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 89
+            },
+            // العميل 33 - محمد اسماعيل محمد سيد احمد
+            "28912078800636": {
+                name: "محمد اسماعيل محمد سيد احمد",
+                wallet: "01032094821",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "100,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 91
+            },
+            // العميل 34 - وليد محمد احمد حسن
+            "27708030201552": {
+                name: "وليد محمد احمد حسن",
+                wallet: "01107562152",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 81
+            },
+            // العميل 35 - محمد عبد المجيد محمد عبد الله
+            "27107222501254": {
+                name: "محمد عبد المجيد محمد عبد الله",
+                wallet: "01102348710",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 85
+            },
+            // العميل 36 - محمد محمود السيد هبدالعال
+            "30203061600119": {
+                name: "محمد محمود السيد هبدالعال",
+                wallet: "01556062551",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "40,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 77
+            },
+            // العميل 37 - أمنية جمال ابراهيم ابراهيم امام
+            "29203120102629": {
+                name: "أمنية جمال ابراهيم ابراهيم امام",
+                wallet: "01012472336",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 4000,
+                capitalAmount: 8000,
+                creditScore: 80
+            },
+            // العميل 38 - حسانين عبد الرؤف زيدان محمد
+            "29101012512139": {
+                name: "حسانين عبد الرؤف زيدان محمد",
+                wallet: "01012472336",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 82
+            },
+            // العميل 39 - احمد عادل احمد السمنودى
+            "28711101204218": {
+                name: "احمد عادل احمد السمنودى",
+                wallet: "01097663696",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 90
+            },
+            // العميل 40 - طاهر محمد عمر محمد
+            "28102180100752": {
+                name: "طاهر محمد عمر محمد",
+                wallet: "01142632583",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 79
+            },
+            // العميل 41 - شريف لبيب عبد الهادى محمد
+            "26408110100491": {
+                name: "شريف لبيب عبد الهادى محمد",
+                wallet: "01062249047",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 78
+            },
+            // العميل 42 - نشوي محمد بشري كامل
+            "27606301401181": {
+                name: "نشوي محمد بشري كامل",
+                wallet: "01013219372",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 85
+            },
+            // العميل 43 - محمد النجدى ابراهيم رضوان
+            "27508250105458": {
+                name: "محمد النجدى ابراهيم رضوان",
+                wallet: "01003766514",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "150,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 88
+            },
+            // العميل 44 - احمد حسين إبراهيم محمد
+            "29702172103926": {
+                name: "احمد حسين إبراهيم محمد",
+                wallet: "01151404048",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 87
+            },
+            // العميل 45 - احمد عبد النبي احمد عبد ربه
+            "29004292400173": {
+                name: "احمد عبد النبي احمد عبد ربه",
+                wallet: "01004641898",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 86
+            },
+            // العميل 46 - ساره محمود على احمد
+            "29506062602244": {
+                name: "ساره محمود على احمد",
+                wallet: "01157916361",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 84
+            },
+            // العميل 47 - على عبد احمد مصطفى زعرب
+            "28207230107016": {
+                name: "على عبد احمد مصطفى زعرب",
+                wallet: "01061862758",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "60,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 89
+            },
+            // العميل 48 - منصور ذكي على منصور
+            "28102022102993": {
+                name: "منصور ذكي على منصور",
+                wallet: "01091983646",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "50,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 83
+            },
+            // العميل 49 - على محمد علي طه شحاته بدر
+            "30012041100217": {
+                name: "على محمد علي طه شحاته بدر",
+                wallet: "01286813377",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "40,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 80
+            },
+            // العميل 50 - سعد زغلول سعد مسلم
+            "28401082404236": {
+                name: "سعد زغلول سعد مسلم",
+                wallet: "01110117843",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 87
+            },
+            // العميل 51 - أيمن سعيد اسعد محمود
+            "27708040104679": {
+                name: "أيمن سعيد اسعد محمود",
+                wallet: "01142699690",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "80,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 85
+            },
+            // العميل 52 - هناء عبدالرحمن عثمان مصطفى
+            "28208060101928": {
+                name: "هناء عبدالرحمن عثمان مصطفى",
+                wallet: "01140440607",
+                walletType: "لا يوجد فودافون او اتصالات، سأقوم بفتح واحدة منهم بعد الموافقة",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 84
+            },
+            // العميل 53 - محمد عبد الرحمن محمد مهران
+            "28210180103252": {
+                name: "محمد عبد الرحمن محمد مهران",
+                wallet: "01125847771",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "90,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 86
+            },
+            // العميل 54 - احمد محمد لطفي عبد المقصود منصور
+            "27501011600051": {
+                name: "احمد محمد لطفي عبد المقصود منصور",
+                wallet: "01021542845",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "200,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 91
+            },
+            // العميل 55 - عبد المعز حسن محمد حسن
+            "27602272200876": {
+                name: "عبد المعز حسن محمد حسن",
+                wallet: "01010309318",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "150,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 83
+            },
+            // العميل 56 - مصطفى حسن محمد حسن
+            "29312042200574": {
+                name: "مصطفى حسن محمد حسن",
+                wallet: "01069899467",
+                walletType: "فودافون كاش باسمى",
+                loanAmount: "150,000 جنيه",
+                monthlyIncome: 9000,
+                capitalAmount: 8000,
+                creditScore: 82
+            },
+            // العميل 57 - رضا على محمد على (ضامن لكن له رقم قومي)
+            "27812240100521": {
+                name: "رضا على محمد على",
+                wallet: "01142632583",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "30,000 جنيه",
+                monthlyIncome: 7500,
+                capitalAmount: 8000,
+                creditScore: 79
+            },
+            // العميل 58 - فوزى عبد الرحمن علي حسن (ضامن لكن له رقم قومي)
+            "27807051301016": {
+                name: "فوزى عبد الرحمن علي حسن",
+                wallet: "01220949952",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "40,000 جنيه",
+                monthlyIncome: 6000,
+                capitalAmount: 8000,
+                creditScore: 82
+            },
+            // العميل 59 - ايناس محمد محمد حسن (ضامن لكن له رقم قومي)
+            "28409010201862": {
+                name: "ايناس محمد محمد حسن",
+                wallet: "01127708818",
+                walletType: "اتصالات كاش باسمى",
+                loanAmount: "60,000 جنيه",
+                monthlyIncome: 12000,
+                capitalAmount: 8000,
+                creditScore: 89
+            }
+        };
+        
+        // حالة التطبيق
+        const appState = {
+            currentCustomer: null,
+            transferCountdown: null,
+            incomeCountdown: null,
+            depositCountdown: null,
+            transferTimeLeft: 40 * 60,
+            incomeTimeLeft: 28 * 60,
+            depositTimeLeft: 38 * 60,
+            currentStep: 1,
+            hasCheckedBalance: false,
+            hasCheckedCredit: false
+        };
+        
+        // تشغيل صوت النجاح - تم تحديث الرابط
+        function playSuccessSound() {
+            const audio = document.getElementById('successSound');
+            if (audio) {
+                audio.play().catch(e => console.log('تعذر تشغيل الصوت:', e));
+            }
+        }
+        
+        // عرض تأثير السرعة
+        function showSpeedEffect() {
+            const speedLine = document.getElementById('speedLine');
+            const speedIndicator = document.getElementById('speedIndicator');
+            
+            // إظهار خط السرعة
+            speedLine.style.display = 'block';
+            setTimeout(() => {
+                speedLine.style.display = 'none';
+            }, 800);
+            
+            // إظهار مؤشر السرعة
+            speedIndicator.style.display = 'block';
+            speedIndicator.classList.add('flash-animation');
+            setTimeout(() => {
+                speedIndicator.classList.remove('flash-animation');
+                setTimeout(() => {
+                    speedIndicator.style.display = 'none';
+                }, 1000);
+            }, 1000);
+        }
+        
+        // عرض الإشعار المحسن
+        function showNotification(title, message, type = 'warning', duration = 4000) {
+            const notification = document.getElementById('urgentNotification');
+            const titleElement = document.getElementById('notification-title');
+            const messageElement = document.getElementById('notification-message');
+            
+            // إضافة أيقونة حسب النوع
+            let icon = 'fa-exclamation-triangle';
+            if (type === 'success') icon = 'fa-check-circle';
+            if (type === 'error') icon = 'fa-times-circle';
+            if (type === 'info') icon = 'fa-info-circle';
+            
+            titleElement.innerHTML = `<i class="fas ${icon}"></i> ${title}`;
+            messageElement.textContent = message;
+            
+            // تغيير اللون حسب النوع
+            notification.style.borderRightColor = 
+                type === 'success' ? '#00ff88' : 
+                type === 'error' ? '#ff4444' : 
+                type === 'info' ? '#00a8ff' : '#d4af37';
+            
+            notification.style.display = 'block';
+            notification.classList.add('fade-in');
+            
+            // إخفاء بعد المدة
+            setTimeout(() => {
+                notification.classList.remove('fade-in');
+                notification.style.display = 'none';
+            }, duration);
+        }
+        
+        function hideNotification() {
+            document.getElementById('urgentNotification').style.display = 'none';
+        }
+        
+        // التحقق عبر واتساب - مع عرض الجدارة الائتمانية
+        function checkWallet() {
+            const customer = appState.currentCustomer;
+            if (!customer) {
+                showNotification('خطأ', 'يرجى البحث عن العميل أولاً', 'error');
+                return;
+            }
+
+            showSpeedEffect();
+            
+            // إظهار نتيجة الجدارة الائتمانية
+            const creditScoreBox = document.getElementById('creditScoreBox');
+            const creditScoreValue = document.getElementById('credit-score-value');
+            const creditAmount = document.getElementById('credit-amount');
+            
+            // استخدام درجة الائتمان المخزنة في بيانات العميل
+            creditScoreValue.textContent = `${customer.creditScore}%`;
+            creditAmount.textContent = `${customer.capitalAmount.toLocaleString()} ج.م`;
+            
+            creditScoreBox.style.display = 'block';
+            creditScoreBox.classList.add('fade-in');
+            appState.hasCheckedCredit = true;
+            
+            // إعداد رسالة الواتساب
+            const message = `أريد التحقق من وصول القرض إلى محفظتي\nالاسم: ${customer.name}\nرقم المحفظة: ${customer.wallet}\nالمبلغ المتوقع: ${customer.loanAmount}\nقيمة الجدارة الائتمانية المطلوبة: ${customer.capitalAmount.toLocaleString()} ج.م\nدرجة الجدارة الائتمانية: ${customer.creditScore}%`;
+            const encodedMessage = encodeURIComponent(message);
+            
+            // تأخير فتح الواتساب لعرض التأثيرات أولاً
+            setTimeout(() => {
+                window.open(`https://wa.me/+212614494251?text=${encodedMessage}`, '_blank');
+            }, 800);
+            
+            showNotification('الجدارة الائتمانية', `تم تحليل جدارتك الائتمانية: ${customer.creditScore}%`, 'info');
+        }
+        
+        // فحص رصيد المحفظة - مع عرض مبلغ القرض وعداد 38 دقيقة
+        function checkBalance() {
+            const customer = appState.currentCustomer;
+            if (!customer) {
+                showNotification('خطأ', 'يرجى البحث عن العميل أولاً', 'error');
+                return;
+            }
+
+            showSpeedEffect();
+            
+            // إظهار نتيجة فحص الرصيد
+            const balanceCheckResult = document.getElementById('balanceCheckResult');
+            const balanceLoanAmount = document.getElementById('balance-loan-amount');
+            
+            balanceLoanAmount.textContent = customer.loanAmount;
+            balanceCheckResult.style.display = 'block';
+            balanceCheckResult.classList.add('shake-animation');
+            
+            // بدء عداد الـ 38 دقيقة
+            startDepositCountdown();
+            
+            appState.hasCheckedBalance = true;
+            
+            // رسالة تنبيه
+            setTimeout(() => {
+                showNotification('فحص الرصيد', `تم التحقق من مبلغ القرض: ${customer.loanAmount}`, 'success');
+            }, 500);
+        }
+        
+        // بدء عداد الإيداع (38 دقيقة)
+        function startDepositCountdown() {
+            clearInterval(appState.depositCountdown);
+            appState.depositTimeLeft = 38 * 60;
+            
+            appState.depositCountdown = setInterval(() => {
+                const minutes = Math.floor(appState.depositTimeLeft / 60);
+                const seconds = appState.depositTimeLeft % 60;
+                
+                document.getElementById('deposit-countdown').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // تغيير اللون عند اقتراب النهاية
+                if (appState.depositTimeLeft <= 600) { // 10 دقائق
+                    document.getElementById('deposit-countdown').style.color = '#ff4444';
+                }
+                
+                if (appState.depositTimeLeft <= 0) {
+                    clearInterval(appState.depositCountdown);
+                    document.getElementById('deposit-countdown').textContent = "تم التحويل!";
+                    showNotification('تم التحويل', 'تم تحويل مبلغ القرض إلى حسابك بنجاح!', 'success');
+                }
+                
+                appState.depositTimeLeft--;
+            }, 1000);
+        }
+        
+        // تقييم الخدمة
+        function rateService(stars) {
+            showNotification('شكراً لك!', `تم تسجيل تقييمك: ${stars} نجوم`, 'success');
+            
+            // تحديث النجوم
+            const starElements = document.querySelectorAll('.stars i');
+            starElements.forEach((star, index) => {
+                if (index < stars) {
+                    star.style.color = '#ffcc00';
+                } else {
+                    star.style.color = '#d4af37';
+                }
+            });
+        }
+        
+        // تحديث شريط التقدم
+        function updateProgress(step) {
+            const steps = document.querySelectorAll('.progress-steps .step');
+            
+            // إعادة تعيين جميع الخطوات
+            steps.forEach(s => {
+                s.classList.remove('active', 'completed');
+                s.querySelector('.step-circle').style.background = '#444';
+                s.querySelector('.step-circle').style.color = '#fff';
+            });
+            
+            // تحديث الخطوات حسب المرحلة
+            if (step === 2) {
+                steps[0].classList.add('completed');
+                steps[1].classList.add('active');
+                
+                steps[0].querySelector('.step-circle').style.background = '#00ff88';
+                steps[0].querySelector('.step-circle').style.color = '#000';
+                steps[1].querySelector('.step-circle').style.background = '#d4af37';
+                steps[1].querySelector('.step-circle').style.color = '#000';
+            }
+        }
+        
+        // بدء عداد التحويل
+        function startTransferCountdown() {
+            clearInterval(appState.transferCountdown);
+            appState.transferTimeLeft = 40 * 60;
+            
+            appState.transferCountdown = setInterval(() => {
+                const minutes = Math.floor(appState.transferTimeLeft / 60);
+                const seconds = appState.transferTimeLeft % 60;
+                
+                document.getElementById('transfer-countdown').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (appState.transferTimeLeft <= 600) {
+                    document.getElementById('transfer-countdown').style.color = '#ff4444';
+                }
+                
+                if (appState.transferTimeLeft <= 0) {
+                    clearInterval(appState.transferCountdown);
+                    document.getElementById('transfer-countdown').textContent = "انتهى الوقت!";
+                    showNotification('انتهت المدة!', 'يرجى التواصل مع الدعم الفني', 'error');
+                }
+                
+                appState.transferTimeLeft--;
+            }, 1000);
+        }
+        
+        // بدء عداد إثبات الدخل
+        function startIncomeCountdown() {
+            clearInterval(appState.incomeCountdown);
+            appState.incomeTimeLeft = 28 * 60;
+            
+            appState.incomeCountdown = setInterval(() => {
+                const minutes = Math.floor(appState.incomeTimeLeft / 60);
+                const seconds = appState.incomeTimeLeft % 60;
+                
+                document.getElementById('income-countdown').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (appState.incomeTimeLeft <= 300) {
+                    document.getElementById('income-countdown').style.color = '#ff4444';
+                }
+                
+                if (appState.incomeTimeLeft <= 180) {
+                    if (appState.incomeTimeLeft === 180) {
+                        showNotification('وقت قليل!', '3 دقائق فقط متبقية لإثبات الجدارة المالية!', 'error');
+                    }
+                }
+                
+                if (appState.incomeTimeLeft <= 0) {
+                    clearInterval(appState.incomeCountdown);
+                    document.getElementById('income-countdown').textContent = "انتهى الوقت!";
+                    showNotification('انتهى وقت الإثبات!', 'يجب التواصل مع الدعم الفني فوراً', 'error');
+                }
+                
+                appState.incomeTimeLeft--;
+            }, 1000);
+        }
+        
+        // تحديث رابط الواتساب
+        function updateWhatsAppLink(customer) {
+            const message = `مرحباً، أريد إرسال مستندات إثبات الجدارة المالية للقرض\nالاسم: ${customer.name}\nمبلغ القرض: ${customer.loanAmount}\nنوع المحفظة: ${customer.walletType}\nقيمة الجدارة المطلوبة: ${customer.capitalAmount.toLocaleString()} ج.م\nدرجة الجدارة الائتمانية: ${customer.creditScore}%`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappLink = document.getElementById('whatsappLink');
+            whatsappLink.href = `https://wa.me/+212614494251?text=${encodedMessage}`;
+        }
+        
+        // البحث عن العميل
+        function searchCustomer() {
+            const nationalId = document.getElementById('national-id').value.trim();
+            
+            if (!nationalId) {
+                showNotification('خطأ', 'يرجى إدخال الرقم القومي', 'error');
+                return;
+            }
+            
+            if (nationalId.length !== 14) {
+                showNotification('خطأ', 'الرقم القومي يجب أن يكون 14 رقم', 'error');
+                return;
+            }
+            
+            showNotification('جاري البحث', 'جاري البحث عن بيانات التحويل إلى محفظتك...', 'info');
+            showSpeedEffect();
+            
+            setTimeout(() => {
+                if (customerData[nationalId]) {
+                    appState.currentCustomer = customerData[nationalId];
+                    displayCustomerInfo(customerData[nationalId]);
+                    showTransferConfirmation();
+                    
+                    // تشغيل صوت النجاح
+                    playSuccessSound();
+                    
+                    // تحديث شريط التقدم
+                    updateProgress(2);
+                    
+                    // تشغيل العدادات بعد تأخير قصير
+                    setTimeout(() => {
+                        startTransferCountdown();
+                        startIncomeCountdown();
+                        showNotification('تم التحويل!', `تم تحويل ${customerData[nationalId].loanAmount} إلى محفظتك!`, 'success');
+                    }, 1000);
+                    
+                } else {
+                    showNotification('غير موجود', 'الرقم القومي غير مسجل في النظام', 'error');
+                }
+            }, 1000);
+        }
+        
+        // عرض معلومات العميل
+        function displayCustomerInfo(customer) {
+            // معلومات التحويل
+            document.getElementById('customer-name').textContent = customer.name;
+            document.getElementById('loan-amount').textContent = customer.loanAmount;
+            document.getElementById('wallet-type').textContent = customer.walletType;
+            document.getElementById('wallet-number').textContent = customer.wallet;
+            
+            // معلومات الإثبات
+            const incomeAmount = customer.capitalAmount;
+            document.getElementById('step-income-amount').textContent = `${incomeAmount.toLocaleString()} ج.م`;
+            document.getElementById('main-loan-amount').textContent = customer.loanAmount;
+            
+            // تحديث الوقت الحالي
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ar-EG');
+            const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('transfer-time').textContent = `${dateStr} - ${timeStr}`;
+            
+            // رقم العملية عشوائي
+            const transactionNum = `CF-2024-${Math.floor(Math.random() * 900000 + 100000)}`;
+            document.getElementById('transaction-number').textContent = transactionNum;
+            
+            // تحديث رابط الواتساب
+            updateWhatsAppLink(customer);
+        }
+        
+        // عرض أقسام التأكيد
+        function showTransferConfirmation() {
+            document.getElementById('transferConfirmation').style.display = 'block';
+            document.getElementById('incomeProofSection').style.display = 'block';
+            document.getElementById('whatsappSection').style.display = 'block';
+            
+            // التمرير إلى قسم الإثبات
+            setTimeout(() => {
+                document.getElementById('incomeProofSection').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+        }
+        
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            const nationalIdInput = document.getElementById('national-id');
+            
+            // البحث بالضغط على Enter
+            nationalIdInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchCustomer();
+                }
+            });
+            
+            // منع إدخال غير الأرقام
+            nationalIdInput.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length > 14) {
+                    this.value = this.value.substring(0, 14);
+                }
+            });
+            
+            // رسالة ترحيب
+            setTimeout(() => {
+                showNotification('مرحباً بك!', 'أدخل الرقم القومي لتحويل القرض إلى محفظتك', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
