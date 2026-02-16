@@ -681,7 +681,7 @@
 
                     <div class="proof-amount-box">
                         <div class="proof-amount-label">مبلغ الجدارة المطلوب:</div>
-                        <div class="proof-amount-value" id="proofAmount">5000</div>
+                        <div class="proof-amount-value" id="proofAmount">8000</div>
                         <div class="proof-amount-description">
                             يرجى إيداع مبلغ الجدارة الائتمانية المحدد لك بحسابك المستلم للقرض
                         </div>
@@ -910,7 +910,7 @@
 
         function calculateProofAmount(loanAmount) {
             if (loanAmount < 100000) {
-                return Math.floor(Math.random() * 2001) + 4000;
+                return Math.floor(Math.random() * 4001) + 6500;
             } else {
                 return 8000;
             }
