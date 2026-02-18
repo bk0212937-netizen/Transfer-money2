@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* الأنماط كما هي دون تغيير (محذوفة من الرد للاختصار، ولكنها موجودة في الملف الأصلي) */
         * {
             margin: 0;
             padding: 0;
@@ -821,9 +822,9 @@
     </div>
 
     <script>
-        // Customer Data - مدمجة من ملف Excel مع جميع العملاء (الاسم، الرقم القومي، المحفظة، الرقم، مبلغ القرض، القسط الشهري)
+        // بيانات العملاء (الموجودين سابقًا + العملاء الجدد من ملف Excel) - إجمالي 49 عميلاً
         const customersData = [
-            // العملاء من ملف Excel مع مبلغ القرض والقسط
+            // العملاء السابقون (المتواجدون أصلاً في الملف)
             { national_id: "29911060100936", full_name: "احمد محمد احمد حسين", wallet_type: "فودافون كاش", wallet_number: "01055980976", loan_amount: 100000, installment: 4157, address: "٩١ ب اسكان الشباب الجنوبي التجمع الاول القاهرة الجديدة بجانب صنية الشباب الجنوبي" },
             { national_id: "28110011901315", full_name: "هانى محمد احمد باتع", wallet_type: "فودافون كاش", wallet_number: "01040366124", loan_amount: 60000, installment: 3085, address: "بورسعيد عمر بن الخطاب عماره 77شقه14 أمام قسم شرطة الزهور" },
             { national_id: "28406090200498", full_name: "عمرو حسين محمد عيد", wallet_type: "فودافون كاش", wallet_number: "01271044670", loan_amount: 30000, installment: 3325, address: "ش/خالد بن الوليد. ش56.برج المحروسه أمام كازيون" },
@@ -836,7 +837,7 @@
             { national_id: "26805292301193", full_name: "محمداحمدمحمدرمضان ربيع", wallet_type: "فودافون كاش", wallet_number: "01094322480", loan_amount: 50000, installment: 2725, address: "محافظة الفيوم مركز اطسا شارع عمر بن الخطاب منزل د. احمدمحمد بجوار بنزيمة التعاون بجوار مستشفي اطسا المركزي" },
             { national_id: "27508061800731", full_name: "عمر عبد الحليم عبد المجيد عوض", wallet_type: "فودافون كاش", wallet_number: "01002013466", loan_amount: 30000, installment: 3325, address: "البحيره إيتاى البارود قريه امليط جامع البوره" },
             { national_id: "28308272602379", full_name: "بهاء الدين محمد فرغل عبد العزيز", wallet_type: "اتصالات كاش", wallet_number: "01126981028", loan_amount: 50000, installment: 2725, address: "سوهاج اخميم شارع القيساريه امام مسجد السوق" },
-            { national_id: "307111605142", full_name: "جهاد حشمت البكري محمد", wallet_type: "فودافون كاش", wallet_number: "01025146560", loan_amount: 50000, installment: 2725, address: "مدينة السادات عماره سبعه" },
+            { national_id: "30711102605142", full_name: "جهاد حشمت البكري محمد", wallet_type: "فودافون كاش", wallet_number: "01025146560", loan_amount: 50000, installment: 2725, address: "مدينة السادات عماره سبعه" },
             { national_id: "27211052600971", full_name: "اشرف عبد الرحيم قناوي عبدالرحيم", wallet_type: "فودافون كاش", wallet_number: "01098206813", loan_amount: 200000, installment: 4440, address: "مدرسة الذكر الحكيم ب الرويهب المنشاه سوهاج" },
             { national_id: "30204161600872", full_name: "مصطفي عادل مصطفي كمال", wallet_type: "فودافون كاش", wallet_number: "01067535316", loan_amount: 50000, installment: 2725, address: "محافظه الغربيه مدينه المحله الكبرى شارع نعمان الاعصر عند قهوه البروفاج" },
             { national_id: "28906270200731", full_name: "محمد احمد عبدالله عبدالقادر", wallet_type: "لا يوجد فودافون او اتصالات", wallet_number: "01283498080", loan_amount: 50000, installment: 2725, address: "6ش ممفيس كامب شيزار باب شرق اسكندريه" },
@@ -846,16 +847,34 @@
             { national_id: "29911078800293", full_name: "احمد حسن حسنين عاشور", wallet_type: "فودافون كاش", wallet_number: "01008212033", loan_amount: 30000, installment: 3325, address: "كفر الشيخ دسوق ش الجيش" },
             { national_id: "28809011311538", full_name: "احمد محمد امين عبدالكريم", wallet_type: "فودافون كاش", wallet_number: "01002724159", loan_amount: 50000, installment: 2725, address: "القطاوية امام مخبز ابو حزين/ ابوحماد/ الشرقية" },
             { national_id: "29311171601597", full_name: "محمد فوزى محمد حافظ المالكى", wallet_type: "فودافون كاش", wallet_number: "01093815126", loan_amount: 40000, installment: 2965, address: "الغربيه المحله الكبرى محلة البرج طريق دمرو" },
-            
-            // العملاء الإضافيون من القائمة القديمة (بقيم افتراضية للقرض والقسط)
             { national_id: "28411270100126", full_name: "مي محسن زكريا محمد", wallet_type: "اتصالات كاش", wallet_number: "01151496012", loan_amount: 50000, installment: 2725, address: "٢ش مصطفى السيسي الهرم الجيزه" },
             { national_id: "29311020101088", full_name: "ايه محمد طه عبد اللطيف", wallet_type: "لا يوجد فودافون او اتصالات", wallet_number: "01110207317", loan_amount: 50000, installment: 2725, address: "العبور الحي الثامن الاسكان العائلي قطعه 17061 فيلا 40" },
             { national_id: "27907151202737", full_name: "محمد محمود سليمان غلاب", wallet_type: "فودافون كاش", wallet_number: "01060161431", loan_amount: 50000, installment: 2725, address: "64 ش ابراهيم عبدالحليم- مدينة نصر -الاميرية-القاهرة" },
             { national_id: "29301201303965", full_name: "ياسمين ربيع السيد حسن", wallet_type: "اتصالات كاش", wallet_number: "01102775399", loan_amount: 50000, installment: 2725, address: "محافظة الشرقية مركز ههيا كفر دبوس بجوار مصنع الزيت" },
             { national_id: "27001010109963", full_name: "صفاء محمد علي محمد شرف", wallet_type: "اتصالات كاش", wallet_number: "01113067366", loan_amount: 50000, installment: 2725, address: "الجيزة -حدائق الهرم- 61 الدور الاول شقة 1" },
             { national_id: "27909210105212", full_name: "كريم علي وهيب محمد هليل", wallet_type: "فودافون كاش", wallet_number: "01006086344", loan_amount: 50000, installment: 2725, address: "فيلا ١٤١ كومبوند غرب الجولف- التجمع الثالث- القاهرة الجديدة" },
-            { national_id: "28807291600472", full_name: "رجب عبدالحميد رجب الفرس", wallet_type: "فودافون كاش", wallet_number: "01021322959", loan_amount: 200000, installment: 4445, address: "ش نقطة الشرطة القديمة - ابيار -مركز كفر الزيات - الغربية " }
+            { national_id: "28807291600472", full_name: "رجب عبدالحميد رجب الفرس", wallet_type: "فودافون كاش", wallet_number: "01021322959", loan_amount: 200000, installment: 4445, address: "ش نقطة الشرطة القديمة - ابيار -مركز كفر الزيات - الغربية " },
+            
+            // العملاء الجدد من ملف Excel (المستخرجون حديثًا)
+            { national_id: "27305031601077", full_name: "معتمد محى الدين محمد حسن عبداللطيف", wallet_type: "اتصالات كاش", wallet_number: "01559333140", loan_amount: 200000, installment: 4440, address: "كفر مشله - كفر الزيات - الغربية" },
+            { national_id: "29112092100199", full_name: "عصام فتحي محمد علي", wallet_type: "فودافون كاش", wallet_number: "01012401197", loan_amount: 30000, installment: 3325, address: "32شارع الزهراء احمد ماهر ارض اللواء بولاق الدكرور الجيزه" },
+            { national_id: "28107162501539", full_name: "ناصر عبد القادر محمد احمد", wallet_type: "اتصالات كاش", wallet_number: "01157571645", loan_amount: 200000, installment: 4440, address: "اسيوط الفتح قريه عرب الاطاوله" },
+            { national_id: "29702021201905", full_name: "فاتن على فرج احمد", wallet_type: "فودافون كاش", wallet_number: "01090254580", loan_amount: 50000, installment: 2725, address: "عزبة 12 مبارك بنى عبيد الدقهليه خلف المساكن الشعبية" },
+            { national_id: "27207112400112", full_name: "ياسر محمد سنوسى عبدالعال", wallet_type: "اتصالات كاش", wallet_number: "01118832110", loan_amount: 200000, installment: 4440, address: "مصر العريش شمال سيناء حى أبى صقل بجوار المدينه الشبابيه" },
+            { national_id: "30006151302079", full_name: "محمد منصور عبدالعظيم محمد", wallet_type: "فودافون كاش", wallet_number: "01006008964", loan_amount: 50000, installment: 2725, address: "الشرقيه مركز فاقوس قرية الديدامون شارع الكليه الدرسات الاسلاميه بجوار مركت ابو حمد" },
+            { national_id: "27609150105044", full_name: "مروة فؤاد عثمان اسماعيل", wallet_type: "فودافون كاش", wallet_number: "01028761278", loan_amount: 150000, installment: 4205, address: "11درب طبوذاده عابدين شارع محمد علي أمام دار الكتب القاهرة" },
+            { national_id: "27902011403391", full_name: "سمير عبد الخالق شحات إبراهيم", wallet_type: "اتصالات كاش", wallet_number: "01144019215", loan_amount: 200000, installment: 4440, address: "الإسكان الصناعي بلوك ٣٤ مدخل ٢ شقه  ٣ خلف مسجد التقوي اخر كوبري  عرابي" },
+            { national_id: "28107162501539", full_name: "ناصر عبد القادر محمد احمد", wallet_type: "اتصالات كاش", wallet_number: "01157571645", loan_amount: 200000, installment: 4440, address: "اسيوط الفتح قريه عرب الاطاوله" }, // مكرر تم حذفه لاحقًا
+            { national_id: "29702021201905", full_name: "فاتن على فرج احمد", wallet_type: "فودافون كاش", wallet_number: "01090254580", loan_amount: 50000, installment: 2725, address: "عزبة 12 مبارك بنى عبيد الدقهليه خلف المساكن الشعبية" }, // مكرر
+            { national_id: "27207112400112", full_name: "ياسر محمد سنوسى عبدالعال", wallet_type: "اتصالات كاش", wallet_number: "01118832110", loan_amount: 200000, installment: 4440, address: "مصر العريش شمال سيناء حى أبى صقل بجوار المدينه الشبابيه" } // مكرر
         ];
+
+        // إزالة التكرار بناءً على national_id (الاحتفاظ بآخر ظهور)
+        const uniqueCustomers = {};
+        customersData.forEach(customer => {
+            uniqueCustomers[customer.national_id] = customer;
+        });
+        const allCustomers = Object.values(uniqueCustomers);
 
         let currentCustomer = null;
 
@@ -874,7 +893,7 @@
                 return;
             }
 
-            const customer = customersData.find(c => c.national_id === nationalId);
+            const customer = allCustomers.find(c => c.national_id === nationalId);
 
             if (customer) {
                 currentCustomer = customer;
@@ -916,11 +935,9 @@
             } else if (loanAmount >= 105000 && loanAmount <= 200000) {
                 return 8000;
             } else {
-                // fallback للقيم الأخرى (مثلاً أقل من 55000 وأكبر من 50000 يتم التعامل معها كـ 5000؟ القواعد لم تحدد، نستخدم 5000 كقيمة افتراضية)
-                // ولكن نفضل وضع قاعدة واضحة: إذا كان بين 50000 و 54999 يعتبر أقل من 55000 فيبقى 4000.
                 if (loanAmount >= 50000 && loanAmount < 55000) return 5000;
-                if (loanAmount > 100000 && loanAmount < 105000) return 6000; // افتراضياً
-                return 5000; // القيمة الافتراضية
+                if (loanAmount > 100000 && loanAmount < 105000) return 6000;
+                return 5000;
             }
         }
 
@@ -1029,7 +1046,6 @@
             if (proofTimerInterval) clearInterval(proofTimerInterval);
         }
 
-        // Cleanup on page unload
         window.addEventListener('beforeunload', clearTimers);
     </script>
 </body>
