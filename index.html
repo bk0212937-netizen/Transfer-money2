@@ -3,996 +3,978 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>كاش فاستر - تأكيد صرف القرض وإثبات الجدارة الائتمانية</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <title>CashFaster - خدمات التحويل  لحساب محفظة العميل</title>
     <style>
-        /* ============================================
-           تصميم ناري ذهبي متوهج احترافي
-           ============================================ */
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html, body {
-            font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);
-            color: #ffffff;
-            direction: rtl;
-            scroll-behavior: smooth;
-        }
-
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1410 50%, #0a0a0a 100%);
             min-height: 100vh;
-            padding: 0.75rem;
-            background-attachment: fixed;
+            direction: rtl;
+            overflow-x: hidden;
+            color: #1e293b;
         }
 
-        @media (min-width: 640px) {
-            body {
-                padding: 1.5rem;
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.25;
+            mix-blend-mode: screen;
+            animation: blob 8s infinite;
+        }
+
+        .blob1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #ffeb3b 0%, #ffd700 100%);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .blob2 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #ff9800 0%, #ff6f00 100%);
+            top: 30%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .blob3 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #ffeb3b 0%, #ffd700 100%);
+            bottom: 10%;
+            left: 30%;
+            animation-delay: 4s;
+        }
+
+        @keyframes blob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+
+        .logo {
+            font-size: 56px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffeb3b 0%, #ffd700 50%, #ffeb3b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: goldGlow 3s ease-in-out infinite;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 50px rgba(255, 235, 59, 0.8);
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.9));
+        }
+
+        @keyframes goldGlow {
+            0%, 100% { 
+                filter: drop-shadow(0 0 30px rgba(255, 235, 59, 1));
+                text-shadow: 0 0 50px rgba(255, 235, 59, 0.9);
+            }
+            50% { 
+                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1));
+                text-shadow: 0 0 70px rgba(255, 215, 0, 1);
             }
         }
 
-        .container {
-            max-width: 56rem;
-            margin: 0 auto;
+        .tagline {
+            color: #ffeb3b;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            animation: pulse-text 2s infinite;
+            text-shadow: 0 0 20px rgba(255, 235, 59, 0.6);
         }
 
-        /* ============================================
-           رأس الصفحة - Header
-           ============================================ */
-        .header {
-            text-align: center;
-            padding: 1.5rem 1rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.1), rgba(211, 47, 47, 0.05));
-            border: 2px solid;
-            border-image: linear-gradient(135deg, #d4af37 0%, #e63946 100%) 1;
-            border-radius: 1rem;
+        @keyframes pulse-text {
+            0%, 100% { opacity: 1; text-shadow: 0 0 20px rgba(255, 235, 59, 0.6); }
+            50% { opacity: 0.8; text-shadow: 0 0 40px rgba(255, 235, 59, 0.9); }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Card */
+        .card {
+            background: rgba(15, 15, 15, 0.98);
+            border-radius: 25px;
+            padding: 45px;
+            box-shadow: 0 0 80px rgba(255, 235, 59, 0.4), 0 0 120px rgba(255, 107, 53, 0.2), inset 0 0 40px rgba(255, 235, 59, 0.1);
+            border: 3px solid rgba(255, 235, 59, 0.6);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .header::before {
+        .card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-            animation: glow-rotate 20s linear infinite;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffeb3b, #ff9800, transparent);
+            animation: shimmer 3s infinite;
         }
 
-        @keyframes glow-rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        .header h1 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-            position: relative;
-            z-index: 1;
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 100px rgba(255, 235, 59, 0.6), 0 0 150px rgba(255, 107, 53, 0.3), inset 0 0 60px rgba(255, 235, 59, 0.15);
+            border-color: rgba(255, 235, 59, 0.9);
         }
 
-        .header p {
-            color: #e8e8e8;
-            font-size: 0.9rem;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
+        .card h2 {
+            color: #ffeb3b;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 32px;
+            text-shadow: 0 0 30px rgba(255, 235, 59, 0.8), 0 0 50px rgba(255, 215, 0, 0.5);
+            font-weight: 900;
+            letter-spacing: 2px;
         }
 
-        /* ============================================
-           نموذج البحث - Form Section
-           ============================================ */
-        .form-section {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(42, 42, 42, 0.95));
-            border: 2px solid #d4af37;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.05);
-            backdrop-filter: blur(10px);
-        }
-
-        .form-section h2 {
-            font-size: 1.25rem;
+        .card p {
+            color: #ffeb3b;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
             font-weight: 700;
-            color: #d4af37;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
         }
 
+        /* Form */
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 25px;
         }
 
-        .form-group label {
+        label {
             display: block;
-            color: #ffd700;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: #ffeb3b;
+            font-weight: 800;
+            font-size: 18px;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.6);
+            letter-spacing: 1px;
         }
 
-        .form-group input {
+        input, select {
             width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(10, 10, 10, 0.8);
-            border: 2px solid #d4af37;
-            border-radius: 0.5rem;
-            color: #ffffff;
-            font-size: 0.95rem;
-            font-family: 'Cairo', sans-serif;
+            padding: 16px 18px;
+            border: 3px solid rgba(255, 235, 59, 0.7);
+            border-radius: 12px;
+            font-size: 17px;
+            font-family: inherit;
+            direction: rtl;
+            text-align: right;
             transition: all 0.3s ease;
+            background: rgba(20, 20, 20, 0.95);
+            color: #ffeb3b;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(255, 235, 59, 0.3), inset 0 0 10px rgba(255, 235, 59, 0.1);
         }
 
-        .form-group input::placeholder {
-            color: #666;
-        }
-
-        .form-group input:focus {
+        input:focus, select:focus {
             outline: none;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), inset 0 0 10px rgba(212, 175, 55, 0.1);
-            border-color: #ffd700;
-            background: rgba(10, 10, 10, 0.95);
+            border-color: #ffeb3b;
+            box-shadow: 0 0 0 4px rgba(255, 235, 59, 0.4), 0 0 40px rgba(255, 235, 59, 0.5), inset 0 0 15px rgba(255, 235, 59, 0.15);
+            background: rgba(20, 20, 20, 0.98);
+            transform: scale(1.02);
         }
 
-        .error-message {
-            background-color: rgba(230, 57, 70, 0.15);
-            border-left: 4px solid #e63946;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            color: #ff8a8a;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .button {
-            width: 100%;
-            background: linear-gradient(135deg, #e63946 0%, #d32f2f 100%);
-            color: #ffffff;
-            font-weight: 700;
-            padding: 0.85rem 1rem;
-            border: 2px solid #e63946;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-family: 'Cairo', sans-serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(230, 57, 70, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .button:hover {
-            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            box-shadow: 0 0 30px rgba(230, 57, 70, 0.6), 0 0 50px rgba(212, 175, 55, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .button:active {
-            transform: translateY(0);
-        }
-
-        .button-outline {
-            background-color: transparent;
-            border: 2px solid #d4af37;
-            color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-        }
-
-        .button-outline:hover {
-            background-color: rgba(212, 175, 55, 0.1);
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-        }
-
-        .button-whatsapp {
-            background: linear-gradient(135deg, #25d366 0%, #20ba5a 100%);
-            border-color: #25d366;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.3);
-        }
-
-        .button-whatsapp:hover {
-            background: linear-gradient(135deg, #20ba5a 0%, #1aa84b 100%);
-            box-shadow: 0 0 30px rgba(37, 211, 102, 0.6);
-        }
-
-        /* ============================================
-           بطاقة التهاني - Congratulations Card
-           ============================================ */
-        .congratulations-card {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(42, 42, 42, 0.95));
-            border: 2px solid #d4af37;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.05);
-            animation: slideInUp 0.6s ease-out;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .congratulations-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
-        }
-
-        .congratulations-header h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #d4af37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .congratulations-header p {
-            color: #e8e8e8;
-            font-size: 0.95rem;
-        }
-
-        /* ============================================
-           بطاقة بيانات العميل - Customer Card
-           ============================================ */
-        .customer-card {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(42, 42, 42, 0.9));
-            border: 2px solid rgba(212, 175, 55, 0.6);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            animation: slideInUp 0.6s ease-out 0.1s both;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-        }
-
-        .customer-card-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .customer-card-icon {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(230, 57, 70, 0.1));
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 1.5rem;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-        }
-
-        .customer-card-title h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #d4af37;
-        }
-
-        .customer-card-title p {
-            color: #e8e8e8;
-            font-size: 0.8rem;
-        }
-
-        .customer-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-item {
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(26, 26, 26, 0.8));
-            border-radius: 0.5rem;
-            padding: 1rem;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .detail-item:hover {
-            border-color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .detail-label {
+        input::placeholder {
             color: #ffd700;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-        }
-
-        .detail-value {
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 700;
-        }
-
-        .verification-badge {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(230, 57, 70, 0.05));
-            border-left: 4px solid #d4af37;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
-        }
-
-        .verification-badge-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-            margin-top: 0.25rem;
-        }
-
-        .verification-badge-content p:first-child {
-            color: #d4af37;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        .verification-badge-content p:last-child {
-            color: #e8e8e8;
-            font-size: 0.75rem;
-        }
-
-        /* ============================================
-           ملخص القرض - Loan Summary
-           ============================================ */
-        .loan-summary {
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(26, 26, 26, 0.9));
-            border: 2px solid #d4af37;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin-top: 1rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-        }
-
-        .loan-summary-item {
-            text-align: center;
-        }
-
-        .loan-summary-label {
-            color: #d4af37;
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
-        .loan-summary-value {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #e63946 0%, #d32f2f 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 10px rgba(230, 57, 70, 0.3);
-            animation: glow-pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.85; }
-        }
-
-        /* ============================================
-           مؤقت العد التنازلي - Countdown Timer
-           ============================================ */
-        .countdown-timer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            border: 2px solid #d4af37;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(42, 42, 42, 0.95));
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
-            animation: slideInUp 0.6s ease-out 0.2s both;
-        }
-
-        .countdown-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #d4af37;
-            margin-bottom: 0.75rem;
-            text-align: center;
-        }
-
-        .countdown-display {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .countdown-number {
-            font-size: 2.5rem;
+        /* Button */
+        .btn {
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
             font-weight: 900;
-            color: #e63946;
-            text-shadow: 0 0 10px #e63946, 0 0 20px rgba(212, 175, 55, 0.3);
-            letter-spacing: 0.1em;
-            font-family: 'Courier New', monospace;
-            animation: glow-timer 1.5s ease-in-out infinite;
-        }
-
-        @keyframes glow-timer {
-            0%, 100% {
-                text-shadow: 0 0 10px #e63946, 0 0 20px rgba(212, 175, 55, 0.3);
-            }
-            50% {
-                text-shadow: 0 0 20px #e63946, 0 0 40px rgba(212, 175, 55, 0.5);
-            }
-        }
-
-        .countdown-separator {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #d4af37;
-        }
-
-        .countdown-message {
-            color: #e8e8e8;
-            font-size: 0.8rem;
-            text-align: center;
-        }
-
-        /* ============================================
-           التنبيهات - Alert Box
-           ============================================ */
-        .alert {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            font-size: 0.9rem;
-        }
-
-        .alert-icon {
-            font-size: 1.25rem;
-            flex-shrink: 0;
-            margin-top: 0.25rem;
-        }
-
-        .alert-danger {
-            background: rgba(230, 57, 70, 0.1);
-            border-left: 4px solid #e63946;
-            border-radius: 0.5rem;
-        }
-
-        .alert-danger .alert-icon {
-            color: #e63946;
-        }
-
-        .alert-danger p:first-child {
-            color: #e63946;
-            font-weight: 700;
-        }
-
-        .alert-danger p:last-child {
-            color: #e8e8e8;
-        }
-
-        .alert-success {
-            background: rgba(37, 211, 102, 0.1);
-            border-left: 4px solid #25d366;
-        }
-
-        .alert-success .alert-icon {
-            color: #25d366;
-        }
-
-        .alert-success p:first-child {
-            color: #25d366;
-            font-weight: 700;
-        }
-
-        .alert-success p:last-child {
-            color: #e8e8e8;
-        }
-
-        /* ============================================
-           قسم إثبات الجدارة - Proof Section
-           ============================================ */
-        .proof-section {
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(42, 42, 42, 0.95));
-            border: 2px solid #d4af37;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-            animation: slideInUp 0.6s ease-out 0.3s both;
-        }
-
-        .proof-section h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #d4af37;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .proof-amount-box {
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(26, 26, 26, 0.9));
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
-        }
-
-        .proof-amount-label {
-            color: #d4af37;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .proof-amount-value {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.75rem;
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-
-        .proof-amount-description {
-            color: #e8e8e8;
-            font-size: 0.85rem;
-            line-height: 1.5;
-        }
-
-        /* ============================================
-           خطوات الإثبات - Steps
-           ============================================ */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .step {
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(26, 26, 26, 0.8));
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            border-radius: 0.5rem;
-            padding: 1rem;
+            cursor: pointer;
             transition: all 0.3s ease;
+            text-transform: none;
+            font-family: inherit;
+            letter-spacing: 1px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
         }
 
-        .step:hover {
-            border-color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-            transform: translateY(-3px);
+        .btn-primary {
+            background: linear-gradient(135deg, #ffeb3b 0%, #ffd700 50%, #ffeb3b 100%);
+            color: #000;
+            box-shadow: 0 0 40px rgba(255, 235, 59, 0.7), 0 0 80px rgba(255, 215, 0, 0.4);
+            font-weight: 900;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .step-header {
+        .btn-primary:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 60px rgba(255, 235, 59, 0.9), 0 0 120px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        .btn-transfer {
+            background: linear-gradient(135deg, #ff9800 0%, #ff6f00 50%, #ff9800 100%);
+            color: #fff;
+            box-shadow: 0 0 50px rgba(255, 152, 0, 0.8), 0 0 100px rgba(255, 107, 53, 0.5);
+            font-weight: 900;
+            animation: pulse-fire 1.5s infinite;
+            border: 3px solid rgba(255, 152, 0, 0.8);
+            font-size: 19px;
+            padding: 18px 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-transfer:hover {
+            transform: scale(1.1);
+            animation: none;
+            box-shadow: 0 0 80px rgba(255, 152, 0, 1), 0 0 150px rgba(255, 107, 53, 0.7);
+        }
+
+        @keyframes pulse-fire {
+            0%, 100% { 
+                box-shadow: 0 0 50px rgba(255, 152, 0, 0.8), 0 0 100px rgba(255, 107, 53, 0.5);
+                text-shadow: 0 0 20px rgba(255, 107, 53, 0.6);
+            }
+            50% { 
+                box-shadow: 0 0 80px rgba(255, 152, 0, 1), 0 0 150px rgba(255, 107, 53, 0.8);
+                text-shadow: 0 0 30px rgba(255, 107, 53, 0.9);
+            }
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 50%, #25d366 100%);
+            color: white;
+            animation: pulse 2s infinite;
+            margin-top: 10px;
+            font-weight: 900;
+            box-shadow: 0 0 40px rgba(37, 211, 102, 0.7);
+            border: 2px solid rgba(37, 211, 102, 0.8);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            transform: scale(1.08);
+            animation: none;
+            box-shadow: 0 0 60px rgba(37, 211, 102, 0.9);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 40px rgba(37, 211, 102, 0.7); }
+            50% { box-shadow: 0 0 70px rgba(37, 211, 102, 1); }
+        }
+
+        .btn-proof {
+            background: linear-gradient(135deg, #ffeb3b 0%, #ffd700 50%, #ffeb3b 100%);
+            color: #000;
+            animation: pulse-gold 2s infinite;
+            margin-top: 10px;
+            font-weight: 900;
+            box-shadow: 0 0 40px rgba(255, 235, 59, 0.7);
+            border: 2px solid rgba(255, 235, 59, 0.8);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-proof:hover {
+            transform: scale(1.08);
+            animation: none;
+            box-shadow: 0 0 60px rgba(255, 235, 59, 0.9);
+        }
+
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 40px rgba(255, 235, 59, 0.7); }
+            50% { box-shadow: 0 0 70px rgba(255, 235, 59, 1); }
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.4) 0%, rgba(255, 107, 53, 0.4) 100%);
+            border-left: 8px solid #ff6f00;
+            border-radius: 18px;
+            padding: 30px;
+            margin-top: 25px;
+            color: #fff;
+            font-size: 17px;
+            line-height: 2.2;
+            box-shadow: 0 0 60px rgba(255, 107, 53, 0.6), 0 0 100px rgba(255, 152, 0, 0.4), inset 0 0 30px rgba(255, 152, 0, 0.2);
+            border: 3px solid rgba(255, 152, 0, 0.8);
+            font-weight: 700;
+        }
+
+        .warning-box strong {
+            display: block;
+            margin-bottom: 15px;
+            color: #ffeb3b;
+            text-shadow: 0 0 30px rgba(255, 235, 59, 0.8), 0 0 50px rgba(255, 152, 0, 0.6);
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        /* Reason Box */
+        .reason-box {
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.35) 0%, rgba(255, 215, 0, 0.35) 100%);
+            border-left: 8px solid #ffeb3b;
+            border-radius: 18px;
+            padding: 30px;
+            margin-top: 25px;
+            color: #fff;
+            font-size: 17px;
+            line-height: 2.2;
+            box-shadow: 0 0 60px rgba(255, 235, 59, 0.5), 0 0 100px rgba(255, 215, 0, 0.3), inset 0 0 30px rgba(255, 235, 59, 0.2);
+            border: 3px solid rgba(255, 235, 59, 0.7);
+            font-weight: 700;
+        }
+
+        .reason-box strong {
+            color: #ffeb3b;
+            text-shadow: 0 0 25px rgba(255, 235, 59, 0.7);
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .reason-box ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .reason-box li {
+            margin-bottom: 12px;
+            padding-right: 25px;
+            position: relative;
+        }
+
+        .reason-box li:before {
+            content: "✓";
+            position: absolute;
+            right: 0;
+            color: #ffeb3b;
+            font-weight: 900;
+            font-size: 20px;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.6);
+        }
+
+        /* Countdown */
+        .countdown {
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.25) 0%, rgba(255, 215, 0, 0.25) 100%);
+            border: 3px solid rgba(255, 235, 59, 0.7);
+            border-radius: 18px;
+            padding: 35px;
+            margin-top: 30px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(255, 235, 59, 0.4), 0 0 100px rgba(255, 215, 0, 0.2), inset 0 0 30px rgba(255, 235, 59, 0.15);
+        }
+
+        .countdown-label {
+            color: #ffeb3b;
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 0 0 25px rgba(255, 235, 59, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .countdown-time {
+            font-size: 56px;
+            font-weight: 900;
+            color: #ffeb3b;
+            text-shadow: 0 0 50px rgba(255, 235, 59, 0.8), 0 0 80px rgba(255, 215, 0, 0.6);
+            margin: 20px 0;
+            letter-spacing: 4px;
+            animation: countdown-pulse 1s infinite;
+        }
+
+        @keyframes countdown-pulse {
+            0%, 100% { text-shadow: 0 0 50px rgba(255, 235, 59, 0.8), 0 0 80px rgba(255, 215, 0, 0.6); }
+            50% { text-shadow: 0 0 70px rgba(255, 235, 59, 1), 0 0 120px rgba(255, 215, 0, 0.8); }
+        }
+
+        /* Customer Info */
+        .customer-info {
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.15) 0%, rgba(255, 215, 0, 0.15) 100%);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 40px rgba(255, 235, 59, 0.3), inset 0 0 20px rgba(255, 235, 59, 0.1);
+            border: 2px solid rgba(255, 235, 59, 0.5);
+        }
+
+        .customer-info-row {
             display: flex;
             justify-content: space-between;
+            padding: 18px 0;
+            border-bottom: 2px solid rgba(255, 235, 59, 0.3);
             align-items: center;
-            margin-bottom: 0.75rem;
         }
 
-        .step-number {
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+        .customer-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .customer-info-label {
+            color: #ffeb3b;
+            font-weight: 800;
+            font-size: 17px;
+            text-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .customer-info-value {
+            color: #fff;
+            font-weight: 800;
+            font-size: 17px;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.4);
+            background: rgba(255, 235, 59, 0.15);
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 235, 59, 0.4);
+        }
+
+        /* Transfer Message */
+        .transfer-message {
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.25) 0%, rgba(37, 211, 102, 0.25) 100%);
+            border: 3px solid #25d366;
+            border-radius: 18px;
+            padding: 30px;
+            margin-top: 25px;
+            color: #fff;
+            font-size: 17px;
+            line-height: 2.2;
+            box-shadow: 0 0 60px rgba(37, 211, 102, 0.5), 0 0 100px rgba(37, 211, 102, 0.3), inset 0 0 30px rgba(37, 211, 102, 0.15);
+            display: none;
+            font-weight: 700;
+        }
+
+        .transfer-message h3 {
+            color: #25d366;
+            margin-bottom: 15px;
+            font-size: 22px;
+            text-shadow: 0 0 25px rgba(37, 211, 102, 0.6);
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .transfer-message p {
+            margin-bottom: 12px;
+        }
+
+        .transfer-message strong {
+            color: #25d366;
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(37, 211, 102, 0.5);
+        }
+
+        /* Contract Section */
+        .contract-section {
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.12) 0%, rgba(255, 215, 0, 0.12) 100%);
+            border: 3px solid rgba(255, 235, 59, 0.5);
+            border-radius: 18px;
+            padding: 35px;
+            margin-top: 30px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 235, 59, 0.25), inset 0 0 30px rgba(255, 235, 59, 0.1);
+        }
+
+        .contract-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid rgba(255, 235, 59, 0.4);
+        }
+
+        .contract-logo {
+            font-size: 36px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffeb3b 0%, #ffd700 50%, #ffeb3b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-weight: 700;
-            font-size: 0.85rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 235, 59, 0.6);
+            letter-spacing: 3px;
+            filter: drop-shadow(0 0 20px rgba(255, 235, 59, 0.5));
         }
 
-        .step-header span {
-            font-size: 1.25rem;
+        .contract-title {
+            color: #ffeb3b;
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
+            letter-spacing: 1px;
         }
 
-        .step-title {
-            color: #d4af37;
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
+        .contract-subtitle {
+            color: #ffeb3b;
+            font-size: 17px;
+            font-weight: 800;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.4);
         }
 
-        .step-description {
-            color: #e8e8e8;
-            font-size: 0.8rem;
-            line-height: 1.4;
-        }
-
-        /* ============================================
-           معرض الصور - Proof Gallery
-           ============================================ */
-        .proof-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-        }
-
-        .proof-image-item {
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(26, 26, 26, 0.9));
-            border: 2px solid #d4af37;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-            flex-shrink: 0;
-            min-width: 200px;
-        }
-
-        .proof-image-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-        }
-
-        .proof-image-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .proof-image-label {
-            padding: 0.75rem;
+        .paid-stamp {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 130px;
+            height: 130px;
+            border: 4px solid #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-15deg);
+            opacity: 0.95;
+            font-weight: 900;
+            color: #25d366;
+            font-size: 20px;
             text-align: center;
-            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(42, 42, 42, 0.95));
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 40px rgba(37, 211, 102, 0.6);
+            text-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
         }
 
-        .proof-image-label p {
-            color: #d4af37;
-            font-weight: 600;
-            font-size: 0.8rem;
+        .contract-content {
+            color: #fff;
+            font-size: 17px;
+            line-height: 2.2;
+            text-align: justify;
+            font-weight: 700;
         }
 
-        /* ============================================
-           حاوية الرسوم البيانية - Infographic
-           ============================================ */
-        .infographic-container {
-            margin-bottom: 1.5rem;
-            border: 2px solid #d4af37;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(26, 26, 26, 0.9));
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        .contract-item {
+            margin-bottom: 25px;
+            padding: 22px;
+            background: linear-gradient(135deg, #fff9e6 0%, #fffaed 100%);
+            border-right: 6px solid #ffeb3b;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(255, 235, 59, 0.4), inset 0 0 15px rgba(255, 235, 59, 0.15);
         }
 
-        .infographic-container img {
-            width: 100%;
-            height: auto;
+        .contract-item strong {
+            color: #000;
+            font-weight: 900;
+            font-size: 18px;
             display: block;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /* ============================================
-           فئة مخفية - Hidden Class
-           ============================================ */
+        .contract-item span {
+            font-weight: 800;
+            color: #000;
+        }
+
+        /* Next Payment */
+        .next-payment {
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.2) 0%, rgba(255, 215, 0, 0.2) 100%);
+            border: 3px solid rgba(255, 235, 59, 0.6);
+            border-radius: 18px;
+            padding: 25px;
+            margin-top: 25px;
+            box-shadow: 0 0 50px rgba(255, 235, 59, 0.35), inset 0 0 20px rgba(255, 235, 59, 0.12);
+        }
+
+        .next-payment h4 {
+            color: #ffeb3b;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 235, 59, 0.7), 0 0 50px rgba(255, 215, 0, 0.5);
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .payment-info {
+            color: #fff;
+            font-size: 17px;
+            line-height: 2.2;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.3);
+        }
+
+        .payment-info strong {
+            color: #ffeb3b;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
+        }
+
+        .payment-code {
+            background: rgba(255, 235, 59, 0.2);
+            border: 3px dashed rgba(255, 235, 59, 0.7);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 12px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            color: #ffeb3b;
+            font-weight: 900;
+            font-size: 17px;
+            box-shadow: 0 0 30px rgba(255, 235, 59, 0.3);
+            letter-spacing: 2px;
+        }
+
+        /* Proof Steps */
+        .proof-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .proof-step {
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.2) 0%, rgba(255, 215, 0, 0.2) 100%);
+            border: 3px solid rgba(255, 235, 59, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 235, 59, 0.2);
+        }
+
+        .proof-step:hover {
+            border-color: #ffeb3b;
+            transform: translateY(-5px);
+            box-shadow: 0 0 50px rgba(255, 235, 59, 0.5);
+        }
+
+        .proof-step.completed {
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.25) 0%, rgba(37, 211, 102, 0.25) 100%);
+            border-color: #25d366;
+            box-shadow: 0 0 50px rgba(37, 211, 102, 0.5);
+        }
+
+        .proof-step-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffeb3b;
+            margin-bottom: 10px;
+            text-shadow: 0 0 25px rgba(255, 235, 59, 0.6);
+        }
+
+        .proof-step.completed .proof-step-number {
+            color: #25d366;
+            text-shadow: 0 0 20px rgba(37, 211, 102, 0.7);
+        }
+
+        .proof-step-title {
+            font-size: 16px;
+            color: #fff;
+            font-weight: 800;
+            line-height: 1.5;
+            text-shadow: 0 0 15px rgba(255, 235, 59, 0.3);
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.25) 0%, rgba(37, 211, 102, 0.25) 100%);
+            border: 3px solid #25d366;
+            border-radius: 12px;
+            padding: 20px;
+            color: #fff;
+            margin-top: 25px;
+            display: none;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 0 50px rgba(37, 211, 102, 0.5);
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        /* Hidden */
         .hidden {
             display: none !important;
         }
 
-        /* ============================================
-           الاستجابة - Responsive
-           ============================================ */
-        @media (max-width: 640px) {
-            .header h1 {
-                font-size: 1.3rem;
+        /* Responsive */
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 42px;
             }
 
-            .countdown-number {
-                font-size: 1.75rem;
+            .card {
+                padding: 25px;
             }
 
-            .proof-amount-value {
-                font-size: 1.75rem;
+            .countdown-time {
+                font-size: 42px;
             }
 
-            .customer-details {
-                grid-template-columns: 1fr;
+            .proof-steps {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             }
 
-            .loan-summary {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
+            .contract-section {
+                padding: 20px;
             }
 
-            .steps {
-                grid-template-columns: 1fr;
-            }
-
-            .form-section,
-            .congratulations-card,
-            .proof-section {
-                padding: 1rem;
-            }
-
-            .button {
-                padding: 0.75rem 0.75rem;
-                font-size: 0.85rem;
+            .paid-stamp {
+                width: 90px;
+                height: 90px;
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="animated-bg">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+
     <div class="container">
         <!-- Header -->
-        <div class="header">
-            <h1>✨ كاش فاستر - Cash Faster</h1>
-            <p>تأكيد صرف القرض وإثبات الجدارة الائتمانية</p>
-        </div>
+        <header>
+            <div class="logo">CashFaster</div>
+            <div class="tagline">خدمات التحويل لمحفظة العملاء</div>
+        </header>
 
         <!-- Main Content -->
-        <div id="formSection" class="form-section">
-            <h2>🔐 التحقق من الهوية</h2>
-            <form id="searchForm" onsubmit="handleSearch(event)">
-                <div class="form-group">
-                    <label for="nationalId">أدخل رقمك القومي</label>
-                    <input 
-                        type="text" 
-                        id="nationalId" 
-                        placeholder="مثال: 29204221200652"
-                        autocomplete="off"
-                    >
-                </div>
-                <div id="errorMessage" class="error-message hidden"></div>
-                <button type="submit" class="button">🔍 دخول إلى ملفك</button>
-            </form>
-        </div>
-
-        <!-- Customer Data Section (Hidden Initially) -->
-        <div id="customerSection" class="hidden">
-            <!-- Congratulations Card -->
-            <div class="congratulations-card">
-                <div class="congratulations-header">
-                    <h2>🎉 تهانينا!</h2>
-                    <p>تم دفع القرض إلى حسابك بنجاح</p>
-                </div>
-
-                <!-- Customer Card -->
-                <div class="customer-card">
-                    <div class="customer-card-header">
-                        <div class="customer-card-icon">✓</div>
-                        <div class="customer-card-title">
-                            <h2>بيانات العميل</h2>
-                            <p>معلومات مؤكدة ومسجلة</p>
-                        </div>
+        <div class="main-content">
+            <!-- Login Card -->
+            <div class="card" id="loginCard">
+                <h2>مرحباً بك في CashFaster</h2>
+                <p>أدخل رقمك القومي للتحويل لمحفظتك</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="nationalId">الرقم القومي</label>
+                        <input type="text" id="nationalId" placeholder="أدخل رقمك القومي" maxlength="14" required>
                     </div>
+                    <button type="submit" class="btn btn-primary">اضغط للتحويل لحسابك الان</button>
+                </form>
 
-                    <div class="customer-details">
-                        <div class="detail-item">
-                            <div class="detail-label">👤 الاسم الرباعي</div>
-                            <div class="detail-value" id="customerName"></div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">🆔 الرقم القومي</div>
-                            <div class="detail-value" id="customerNationalId"></div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">💼 نوع المحفظة</div>
-                            <div class="detail-value" id="customerWallet"></div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">📱 رقم المحفظة</div>
-                            <div class="detail-value" id="customerWalletNumber"></div>
-                        </div>
-                    </div>
-
-                    <!-- Loan Summary -->
-                    <div class="loan-summary">
-                        <div class="loan-summary-item">
-                            <div class="loan-summary-label">💵 مبلغ القرض المدفوع</div>
-                            <div class="loan-summary-value" id="loanAmount">0</div>
-                        </div>
-                        <div class="loan-summary-item">
-                            <div class="loan-summary-label">📆 القسط الشهري</div>
-                            <div class="loan-summary-value" id="installmentAmount">0</div>
-                        </div>
-                    </div>
-
-                    <div class="verification-badge">
-                        <div class="verification-badge-icon">✓</div>
-                        <div class="verification-badge-content">
-                            <p>✅ تم التحقق من البيانات</p>
-                            <p>جميع البيانات مؤكدة وموثقة في النظام</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Loan Receipt Timer -->
-                <div class="countdown-timer">
-                    <div class="countdown-title">⏱️ سيتم تسميع القرض خلال</div>
-                    <div class="countdown-display">
-                        <div class="countdown-number" id="loanTimer">40:00</div>
-                    </div>
-                    <div class="countdown-message">يرجى الانتظار - سيصل المبلغ إلى محفظتك قريباً</div>
-                </div>
-
-                <div class="alert alert-danger">
-                    <div class="alert-icon">📌</div>
-                    <div class="alert-content">
-                        <p>ملاحظة مهمة:</p>
-                        <p>سيتم تسميع مبلغ القرض إلى محفظتك خلال 40 دقيقة من الآن. يمكنك سحب المبلغ بعد التسميع مباشرة.</p>
-                    </div>
+                <div class="warning-box">
+                    <strong>⚠️ تحذير هام</strong>
+                    لا يوجد أي رسوم أو مصاريف مطلقاً.
                 </div>
             </div>
+        </div>
 
-            <!-- Proof Section (Displayed Automatically) -->
-            <div id="proofSection" class="proof-section">
-                <h3>📋 إثبات الجدارة الائتمانية - شرح مبسط وسهل</h3>
+        <!-- Loan Details Card -->
+        <div class="card hidden" id="loanCard">
+            <h2>تفاصيل القرض الشخصي</h2>
+            
+            <div class="customer-info" id="customerInfo"></div>
 
-                <!-- Proof Amount Box -->
-                <div class="proof-amount-box">
-                    <div class="proof-amount-label">مبلغ الجدارة المطلوب:</div>
-                    <div class="proof-amount-value" id="proofAmount">6000</div>
-                    <div class="proof-amount-description">
-                        يرجى إيداع مبلغ الجدارة الائتمانية المحدد لك بحسابك المستلم للقرض
+            <button class="btn btn-transfer" id="transferBtn" onclick="processTransfer()"></button>
+
+            <div class="transfer-message" id="transferMessage"></div>
+
+            <div class="countdown" id="loanCountdown" style="display: none;">
+                <div class="countdown-label">وقت استلام المبلغ المتبقي</div>
+                <div class="countdown-time" id="loanTimer">39:00</div>
+                <div class="countdown-label">سيتم تسميع القرض إلى حسابك خلال هذه المهلة</div>
+            </div>
+
+            <!-- Contract Section -->
+            <div class="contract-section" id="contractSection" style="display: none;">
+                <div class="paid-stamp">✓ مدفوع</div>
+                
+                <div class="contract-header">
+                    <div class="contract-logo">CashFaster</div>
+                    <div class="contract-title">عقد اتفاق القرض الشخصي</div>
+                    <div class="contract-subtitle">وثيقة رسمية معتمدة</div>
+                </div>
+                
+                <div class="contract-content">
+                    <div class="contract-item">
+                        <strong>🔹 بيانات المقترض:</strong><br>
+                        الاسم الكامل: <span id="contractName"></span><br>
+                        الرقم القومي: <span id="contractNationalId"></span><br>
+                        رقم المحفظة: <span id="contractWalletNumber"></span><br>
+                        نوع المحفظة: <span id="contractWalletType"></span>
+                    </div>
+
+                    <div class="contract-item">
+                        <strong>🔹 بيانات الضامن:</strong><br>
+                        الاسم الكامل: <span id="guarantorName"></span><br>
+                        الدرجة: <span id="guarantorDegree"></span><br>
+                        الرقم القومي: <span id="guarantorNationalId"></span><br>
+                        رقم الموبايل: <span id="guarantorPhone"></span>
+                    </div>
+
+                    <div class="contract-item">
+                        <strong>🔹 تفاصيل القرض الشخصي:</strong><br>
+                        مبلغ القرض الأساسي: <span id="contractLoanAmount"></span> ج.م<br>
+                        نسبة الفائدة: 33% (ثابتة على جميع المدد)<br>
+                        إجمالي المبلغ مع الفائدة: <span id="totalWithInterest"></span> ج.م<br>
+                        القسط الشهري: <span id="contractInstallment"></span> ج.م<br>
+                        عدد الأقساط: <span id="installmentCount"></span> قسط
+                    </div>
+
+                    <div class="contract-item">
+                        <strong>🔴 إقرار المديونية والمسؤولية الكاملة:</strong><br>
+                        أقر بأنني اكدت دفع مبلغ <span id="contractLoanAmount2"></span> ج.م من شركة CashFaster، وأتحمل المسؤولية الكاملة والشاملة عن هذا المبلغ.<br>
+                        <br>
+                        <strong>في حالة عدم استلام المبلغ بالكامل في حسابي:</strong> أتعهد بالاستفسار الفوري عن قيمة القرض المدفوع لي، وأتحمل المسؤولية الكاملة عن عدم استقباله.<br>
+                        <br>
+                        <strong>التزام الأقساط:</strong> أتعهد بدفع الأقساط الشهرية في مواعيدها المحددة بدون تأخير أو تأجيل.<br>
+                        <br>
+                        <strong>المسؤولية الشخصية:</strong> الخطوة الأخيرة (إثبات الجدارة الائتمانية) هي مسؤوليتي الشخصية الكاملة وليست مسؤولية شركة CashFaster، طالما أن الشركة لم تطلب مني أي تحويل أو دفع لأي شخص آخر.<br>
+                        <br>
+                        <strong>مسؤولية الضامن:</strong> الضامن أيضاً يتحمل المسؤولية الكاملة معي بموجب هذا العقد، وستتواصل الشركة معه في حالة التأخير أو عدم السداد.
+                    </div>
+
+                    <div class="contract-item">
+                        <strong>📅 موعد الدفع التالي:</strong><br>
+                        تاريخ الدفع: <span id="nextPaymentDate"></span><br>
+                        اليوم: <span id="nextPaymentDay"></span><br>
+                        المبلغ المستحق: <span id="nextPaymentAmount"></span> ج.م
+                    </div>
+
+                    <div class="contract-item">
+                        <strong>💳 طريقة الدفع:</strong><br>
+                        سيتم إرسال كود مرجعي متغير إلى رقم هاتفك المسجل لدينا في موعد دفعك الشهري.<br>
+                        يتم الدفع من خلال الكود عن طريق <strong>فورى باى (Fawry Pay)</strong> أو أي وسيلة دفع آمنة أخرى.
                     </div>
                 </div>
 
-                <!-- Explanation Section -->
-                <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(230, 57, 70, 0.05)); border-left: 4px solid #d4af37; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                    <h4 style="color: #d4af37; margin-bottom: 0.75rem; font-size: 1rem; font-weight: 700;">🎯 ما هي الجدارة الائتمانية؟</h4>
-                    <p style="color: #e8e8e8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.75rem;">
-                        الجدارة الائتمانية هي إثبات قدرتك على التعامل مع الأموال بشكل آمن وموثوق. نطلب منك إيداع مبلغ صغير ثم سحبه أو تحويله لشخص تابع لك، وهذا يثبت أن محفظتك نشطة وآمنة.
-                    </p>
-                    <p style="color: #e8e8e8; font-size: 0.9rem; line-height: 1.6;">
-                        <strong style="color: #d4af37;">✅ المهم:</strong> هذا المبلغ من أموالك الخاصة - تودعه وتسحبه بنفسك، وليس هناك أي رسوم أو تكاليف إضافية.
-                    </p>
-                </div>
-
-                <!-- Steps Section -->
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="color: #d4af37; margin-bottom: 1rem; font-size: 1rem; font-weight: 700;">📝 خطوات إثبات الجدارة - خطوة بخطوة:</h4>
-                    <div class="steps">
-                        <div class="step">
-                            <div class="step-header">
-                                <div class="step-number">الخطوة 1</div>
-                                <span>💰</span>
-                            </div>
-                            <div class="step-title">إيداع المبلغ</div>
-                            <div class="step-description">أودع مبلغ الجدارة (6000 جنيه) في حسابك المستلم للقرض من أي مصدر (محفظة أخرى، بطاقة، تحويل من شخص).</div>
-                        </div>
-
-                        <div class="step">
-                            <div class="step-header">
-                                <div class="step-number">الخطوة 2</div>
-                                <span>📸</span>
-                            </div>
-                            <div class="step-title">سكرين الإيداع</div>
-                            <div class="step-description">خذ لقطة شاشة (سكرين شوت) لرسالة الإيداع التي تفيد بدخول المبلغ إلى حسابك (مثل الصورة أدناه).</div>
-                        </div>
-
-                        <div class="step">
-                            <div class="step-header">
-                                <div class="step-number">الخطوة 3</div>
-                                <span>🔄</span>
-                            </div>
-                            <div class="step-title">التحويل أو السحب</div>
-                            <div class="step-description">حول المبلغ مرة أخرى إلى شخص تابع لك (أخ، أم، صديق) أو اسحبه من محفظتك - المهم أن يخرج من حسابك.</div>
-                        </div>
-
-                        <div class="step">
-                            <div class="step-header">
-                                <div class="step-number">الخطوة 4</div>
-                                <span>📤</span>
-                            </div>
-                            <div class="step-title">إرسال الإثبات</div>
-                            <div class="step-description">خذ لقطة شاشة لرسالة الخروج (مثل الصورة أدناه) وأرسل الاسكرينات عبر واتساب للفريق.</div>
-                        </div>
+                <!-- Next Payment Info -->
+                <div class="next-payment">
+                    <h4>📬 معلومات الدفع التالي</h4>
+                    <div class="payment-info">
+                        <strong>موعد الدفع التالي:</strong> <span id="nextPaymentFullDate"></span><br>
+                        <strong>المبلغ المستحق:</strong> <span id="nextPaymentFullAmount"></span> ج.م<br>
+                        <strong>طريقة الدفع:</strong> كود مرجعي عبر فورى باى<br>
+                        <br>
+                        <strong>ملاحظة مهمة:</strong> سيتم إرسال الكود إلى رقمك المسجل قبل موعد الدفع بـ 3 أيام. يرجى الحفاظ على رقم هاتفك محدثاً.
                     </div>
                 </div>
 
-                <!-- Example Images -->
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="color: #d4af37; margin-bottom: 1rem; font-size: 1rem; font-weight: 700;">📸 أمثلة على الرسائل المطلوبة:</h4>
-                    <div class="proof-gallery">
-                        <div class="proof-image-item">
-                            <img src="https://i.postimg.cc/MpvQxQvK/Screenshot-2026-01-11-10-58-56-48-7352322957d4404136654ef4adb64504.jpg" alt="رسالة الإيداع">
-                            <div class="proof-image-label">
-                                <p>💰 رسالة الإيداع لحسابك</p>
-                            </div>
-                        </div>
-                        <div class="proof-image-item">
-                            <img src="https://i.postimg.cc/gjgHtbB8/Screenshot-2026-01-08-22-53-57-40-7352322957d4404136654ef4adb64504.jpg" alt="تأكيد الإيداع">
-                            <div class="proof-image-label">
-                                <p>✅ تأكيد الإيداع في حسابك</p>
-                            </div>
-                        </div>
-                        <div class="proof-image-item">
-                            <img src="https://i.postimg.cc/j5FjM84N/Screenshot-2025-04-08-11-20-09-29-6012fa4d4ddec268fc5c7112cbb265e7.jpg" alt="رسالة السحب">
-                            <div class="proof-image-label">
-                                <p>🔄 رسالة السحب أو التحويل</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Important Notes -->
-                <div style="background: linear-gradient(135deg, rgba(37, 211, 102, 0.1), rgba(25, 211, 102, 0.05)); border-left: 4px solid #25d366; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-                    <h4 style="color: #25d366; margin-bottom: 0.75rem; font-size: 1rem; font-weight: 700;">✅ نقاط مهمة جداً:</h4>
-                    <ul style="color: #e8e8e8; font-size: 0.9rem; line-height: 1.6; margin-right: 1.5rem;">
-                        <li style="margin-bottom: 0.5rem;"><strong style="color: #25d366;">✓ لا توجد رسوم أو تكاليف:</strong> المبلغ من أموالك الخاصة فقط.</li>
-                        <li style="margin-bottom: 0.5rem;"><strong style="color: #25d366;">✓ العملية من أنت إلى أنت:</strong> أنت تودع وأنت تسحب - بدون تدخل أحد.</li>
-                        <li style="margin-bottom: 0.5rem;"><strong style="color: #25d366;">✓ آمن وموثوق:</strong> هذا إثبات أن محفظتك آمنة وقابلة للتعامل معها.</li>
-                        <li><strong style="color: #25d366;">✓ القرض باسمك:</strong> أنت المسؤول عن سداد القرض وليس أحد آخر.</li>
+                <!-- Reason Box -->
+                <div class="reason-box">
+                    <strong>ℹ️ لماذا نطلب إثبات الجدارة الائتمانية؟</strong>
+                    <ul>
+                        <li><strong>تقييم الاستقرار المالي:</strong> التأكد من استقرارك المالي والتحقق من قدرتك على السداد</li>
+                        <li><strong>حماية الاستثمار:</strong> ضمان استرجاع القرض وحماية استثماراتنا في العملية</li>
+                        <li><strong>تحديد القيمة المناسبة:</strong> تحديد مبلغ القرض المناسب لقدرتك المالية الحقيقية</li>
+                        <li><strong>تقليل المخاطر:</strong> تقليل المخاطر المالية والتأكد من سلامة العملية</li>
+                        <li><strong>الحماية الشخصية:</strong> التأكد من أن القرض لا يشكل عبئاً على وضعك المالي</li>
+                        <li><strong>الامتثال القانوني:</strong> الامتثال للقوانين والتشريعات المالية والبنكية</li>
                     </ul>
                 </div>
 
-                <!-- Proof Timer -->
-                <div class="countdown-timer">
-                    <div class="countdown-title">⏱️ وقت إثبات الجدارة</div>
-                    <div class="countdown-display">
-                        <div class="countdown-number" id="proofTimer">22:00</div>
-                    </div>
-                    <div class="countdown-message">يرجى إرسال الإثبات خلال هذا الوقت</div>
+                <div class="warning-box">
+                    <strong>⚠️ تحذيرات هامة وضرورية</strong>
+                    • لا يوجد أي رسوم أو مصاريف مطلقاً لأي خدمة<br>
+                    • كل ما هو مطلوب منك فقط هو إثبات جدارتك الائتمانية<br>
+                    • يجب إكمال الإثبات خلال 30 دقيقة من الآن<br>
+                    • جميع العمليات آمنة وموثوقة تماماً
                 </div>
 
-                <!-- WhatsApp Button -->
-                <button class="button button-whatsapp" onclick="sendWhatsAppMessage()" style="margin-bottom: 1.5rem;">
-                    💬 إرسال الإثبات عبر واتساب
-                </button>
+                <button class="btn btn-proof" onclick="proceedToProof()" style="margin-top: 20px; font-size: 18px;">متابعة إلى إثبات الجدارة الائتمانية</button>
+            </div>
+        </div>
 
-                <!-- Payment Schedule -->
-                <div class="alert alert-success">
-                    <div class="alert-icon">📅</div>
-                    <div class="alert-content">
-                        <p>موعد القسط الشهري الأول:</p>
-                        <p id="nextPaymentDate" style="font-weight: bold; font-size: 1rem;"></p>
-                    </div>
+        <!-- Proof Card -->
+        <div class="card hidden" id="proofCard">
+            <h2>إثبات الجدارة الائتمانية</h2>
+            <p>أكمل الخطوات الخمس خلال المهلة الزمنية المحددة</p>
+
+            <div class="countdown" id="proofCountdown">
+                <div class="countdown-label">⏱️ وقت إثبات الجدارة المتبقي</div>
+                <div class="countdown-time" id="proofTimer">30:00</div>
+                <div class="countdown-label">⚠️ إذا انتهت المهلة الزمنية، سيتم تعليق طلبك لمدة 90 يوماً</div>
+            </div>
+
+            <div class="proof-steps" id="proofSteps">
+                <div class="proof-step" onclick="toggleProofStep(0)">
+                    <div class="proof-step-number">1</div>
+                    <div class="proof-step-title">إيداع مبلغ الجدارة فى حسابك المستلم </div>
+                </div>
+                <div class="proof-step" onclick="toggleProofStep(1)">
+                    <div class="proof-step-number">2</div>
+                    <div class="proof-step-title">سكرين شوت الإيداع يؤكد دخول المبلغ حسابك</div>
+                </div>
+                <div class="proof-step" onclick="toggleProofStep(2)">
+                    <div class="proof-step-number">3</div>
+                    <div class="proof-step-title">سكرين شوت الاستعلام عن حسابك يوضح رصيد حسابك</div>
+                </div>
+                <div class="proof-step" onclick="toggleProofStep(3)">
+                    <div class="proof-step-number">4</div>
+                    <div class="proof-step-title">سحب المبلغ من حسابك أو تحويلة لأى شخص تبعك انت</div>
+                </div>
+                <div class="proof-step" onclick="toggleProofStep(4)">
+                    <div class="proof-step-number">5</div>
+                    <div class="proof-step-title">سكرين شوت بعد السحب أو تحويلهم لأى شخص اخر</div>
                 </div>
             </div>
 
-            <!-- Back Button -->
-            <button class="button button-outline" onclick="resetForm()" style="margin-bottom: 1.5rem;">
-                ← العودة للبحث
-            </button>
+            <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+                <button class="btn btn-whatsapp" onclick="sendWhatsApp()" style="flex: 1; min-width: 150px;">📱 أرسل الإثبات على واتساب</button>
+                <button class="btn btn-proof" onclick="submitProof()" style="flex: 1; min-width: 150px;">✓ تقديم الإثبات</button>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ تعليمات مهمة للإثبات</strong>
+                • جميع العمليات يجب أن تكون حديثة بتاريخ اليوم<br>
+                • يجب ألا يتجاوز الوقت بين الإيداع والسحب 10 دقائق<br>
+                • لا يوجد أي رسوم أو مصاريف مطلقاً<br>
+                • احفظ جميع الإثباتات بشكل واضح وصحيح
+            </div>
+
+            <div class="success-message" id="successMessage">
+            ✓ تم تقديم الإثبات بنجاح! سيتم التحقق من الإثبات خلال نصف ساعة.
+            </div>
         </div>
     </div>
 
@@ -1001,133 +983,461 @@
         // بيانات العملاء
         // ============================================
         const customersData = [
-            { national_id: "29911060100936", full_name: "احمد محمد احمد حسين", wallet_type: "فودافون كاش", wallet_number: "01055980976", loan_amount: 100000, installment: 4157, address: "٩١ ب اسكان الشباب الجنوبي التجمع الاول القاهرة الجديدة" },
-            { national_id: "27207112400112", full_name: "ياسر محمد سنوسى عبدالعالع", wallet_type: "اتصالات كاش", wallet_number: "01118832110", loan_amount: 200000, installment: 4445, address: "العنوان معلوم ببيانات العميل والضامن" },
-            { national_id: "29204221200652", full_name: "محمد حامد عبد العزيز السيد", wallet_type: "فودافون كاش", wallet_number: "01015565111", loan_amount: 40000, installment: 2965, address: "طلخا حوض النواصف شارع عبد العزيز" },
-            { national_id: "28807291600472", full_name: "رجب عبدالحميد رجب الفرس", wallet_type: "فودافون كاش", wallet_number: "01021322959", loan_amount: 200000, installment: 4440, address: "تم الاستعلام ومعرفة عنوان العميل" },
-            { national_id: "29911078800293", full_name: "احمد حسن حسنين عاشور  ", wallet_type: "فودافون كاش", wallet_number: "01068856458", loan_amount: 30000, installment: 2735, address: "العنوان معلوم ببيانات العميل والضامن ه" },
-            { national_id: "28912070103758", full_name: "محمد على محمد محمد", wallet_type: "اتصالات كاش", wallet_number: "01156436711", loan_amount: 150000, installment: 4205, address: "4شارع عواد اللولى متفرع من شارع الدكتور" },
-            { national_id: "27005191400856", full_name: "محمد إبراهيم عفيفي حسين", wallet_type: "فودافون كاش", wallet_number: "01288535470", loan_amount: 200000, installment: 4440, address: "2ش عصفور وابن حجاج بنها قليوبيه" },
-            { national_id: "29508041400091", full_name: "اشرف عامر محمد عامر", wallet_type: "فودافون كاش", wallet_number: "01070689354", loan_amount: 50000, installment: 2725, address: "طحانوب شبين القناطر القليوبية" },
-            { national_id: "289061512156", full_name: "اسلام جمال احمد فرج", wallet_type: "اتصالات كاش", wallet_number: "01104364196", loan_amount: 30000, installment: 3325, address: "١١ خلف الثوره منشية عبدالمنعم رياض" },
-            { national_id: "30409071800032", full_name: "مصطفى عبد الرحمن جابر منصور", wallet_type: "اتصالات كاش", wallet_number: "01112761171", loan_amount: 50000, installment: 2725, address: "محافظه البحيره مركز كفر الدوار" },
+            { 
+                national_id: "29911060100936", 
+                full_name: "احمد محمد احمد حسين", 
+                wallet_type: "فودافون كاش", 
+                wallet_number: "01055980976", 
+                loan_amount: 100000, 
+                installment: 4157, 
+                address: "٩١ ب اسكان الشباب الجنوبي التجمع الاول القاهرة الجديدة",
+                guarantor_name: "محمد احمد حسين",
+                guarantor_degree: "والد",
+                guarantor_national_id: "25611060100936",
+                guarantor_phone: "01012345678"
+            },
+            { 
+                national_id: "27207112400112", 
+                full_name: "ياسر محمد سنوسى عبدالعالع", 
+                wallet_type: "اتصالات كاش", 
+                wallet_number: "01118832110", 
+                loan_amount: 200000, 
+                installment: 4445, 
+                address: "العنوان معلوم ببيانات العميل والضامن",
+                guarantor_name: "سنوسى عبدالعالع",
+                guarantor_degree: "والد",
+                guarantor_national_id: "24207112400112",
+                guarantor_phone: "01023456789"
+            },
+            { 
+                national_id: "29204221200652", 
+                full_name: "محمد حامد عبد العزيز السيد", 
+                wallet_type: "فودافون كاش", 
+                wallet_number: "01015565111", 
+                loan_amount: 40000, 
+                installment: 2965, 
+                address: "طلخا حوض النواصف شارع عبد العزيز",
+                guarantor_name: "حامد عبد العزيز السيد",
+                guarantor_degree: "والد",
+                guarantor_national_id: "25204221200652",
+                guarantor_phone: "01034567890"
+            },
+            { 
+                national_id: "28807291600472", 
+                full_name: "رجب عبدالحميد رجب الفرس", 
+                wallet_type: "فودافون كاش", 
+                wallet_number: "01021322959", 
+                loan_amount: 200000, 
+                installment: 4440, 
+                address: "تم الاستعلام ومعرفة عنوان العميل",
+                guarantor_name: "عبدالحميد رجب الفرس",
+                guarantor_degree: "والد",
+                guarantor_national_id: "25807291600472",
+                guarantor_phone: "01045678901"
+            },
+            { 
+                national_id: "29911078800293", 
+                full_name: "احمد حسن حسنين عاشور", 
+                wallet_type: "فودافون كاش", 
+                wallet_number: "01068856458", 
+                loan_amount: 30000, 
+                installment: 2735, 
+                address: "العنوان معلوم ببيانات العميل والضامن",
+                guarantor_name: "حسن حسنين عاشور",
+                guarantor_degree: "والد",
+                guarantor_national_id: "25911078800293",
+                guarantor_phone: "01056789012"
+            },
+            { 
+                national_id: "28912070103758", 
+                full_name: "محمد على محمد محمد", 
+                wallet_type: "اتصالات كاش", 
+                wallet_number: "01156436711", 
+                loan_amount: 150000, 
+                installment: 4205, 
+                address: "4شارع عواد اللولى متفرع من شارع الدكتور",
+                guarantor_name: "على محمد محمد",
+                guarantor_degree: "والد",
+                guarantor_national_id: "25912070103758",
+                guarantor_phone: "01067890123"
+            },
+            { 
+                national_id: "27005191400856", 
+                full_name: "محمد إبراهيم عفيفي حسين", 
+                wallet_type: "فودافون كاش", 
+                wallet_number: "01288535470", 
+                loan_amount: 200000, 
+                installment: 4440, 
+                address: "2ش عصفور وابن حجاج بنها قليوبيه",
+                guarantor_name: "إبراهيم عفيفي حسين",
+                guarantor_degree: "والد",
+                guarantor_national_id: "25005191400856",
+                guarantor_phone: "01078901234"
+            },
+            { 
+                national_id: "29508041400091", 
+                full_name: "اشرف عامر محمد عامر", 
+                wallet_type: "فودافون كاش", 
+                wallet_number: "01070689354", 
+                loan_amount: 50000, 
+                installment: 2725, 
+                address: "طحانوب شبين القناطر القليوبية",
+                guarantor_name: "عامر محمد عامر",
+                guarantor_degree: "والد",
+                guarantor_national_id: "25508041400091",
+                guarantor_phone: "01089012345"
+            },
+            { 
+                national_id: "289061512156", 
+                full_name: "اسلام جمال احمد فرج", 
+                wallet_type: "اتصالات كاش", 
+                wallet_number: "01104364196", 
+                loan_amount: 30000, 
+                installment: 3325, 
+                address: "١١ خلف الثوره منشية عبدالمنعم رياض",
+                guarantor_name: "جمال احمد فرج",
+                guarantor_degree: "والد",
+                guarantor_national_id: "28906151215",
+                guarantor_phone: "01090123456"
+            },
+            { 
+                national_id: "30409071800032", 
+                full_name: "مصطفى عبد الرحمن جابر منصور", 
+                wallet_type: "اتصالات كاش", 
+                wallet_number: "01112761171", 
+                loan_amount: 50000, 
+                installment: 2725, 
+                address: "محافظه البحيره مركز كفر الدوار",
+                guarantor_name: "عبد الرحمن جابر منصور",
+                guarantor_degree: "والد",
+                guarantor_national_id: "28409071800032",
+                guarantor_phone: "01001234567"
+            },
         ];
 
         // ============================================
-        // دالة البحث عن العميل
+        // المتغيرات العامة
         // ============================================
-        function handleSearch(event) {
-            event.preventDefault();
+        let currentCustomer = null;
+        let loanTimer = 39 * 60;
+        let proofTimer = 30 * 60;
+        let proofStepsCompleted = [false, false, false, false, false];
+        let loanInterval = null;
+        let proofInterval = null;
+        let transferProcessed = false;
+
+        // ============================================
+        // حساب الجدارة الائتمانية
+        // ============================================
+        function calculateCreditworthiness(loanAmount) {
+            if (loanAmount <= 50000) return 4000;
+            if (loanAmount >= 55000 && loanAmount <= 100000) return 6000;
+            if (loanAmount > 105000) return 8000;
+            return 4000;
+        }
+
+        // ============================================
+        // حساب تاريخ الدفع التالي
+        // ============================================
+        function calculateNextPaymentDate() {
+            const today = new Date();
+            const nextPayment = new Date(today);
+            nextPayment.setDate(nextPayment.getDate() + 28);
+            return nextPayment;
+        }
+
+        // ============================================
+        // تنسيق التاريخ
+        // ============================================
+        function formatDate(date) {
+            const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            
+            const dayName = days[date.getDay()];
+            const dayNum = date.getDate();
+            const monthName = months[date.getMonth()];
+            const year = date.getFullYear();
+            
+            return `${dayName} ${dayNum} ${monthName} ${year}`;
+        }
+
+        // ============================================
+        // تنسيق الوقت
+        // ============================================
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // ============================================
+        // معالج تسجيل الدخول
+        // ============================================
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             const nationalId = document.getElementById('nationalId').value.trim();
-            const errorMessage = document.getElementById('errorMessage');
-
-            if (!nationalId) {
-                errorMessage.textContent = '❌ يرجى إدخال رقم قومي صحيح';
-                errorMessage.classList.remove('hidden');
-                return;
-            }
-
+            
             const customer = customersData.find(c => c.national_id === nationalId);
+            
+            if (customer) {
+                currentCustomer = customer;
+                transferProcessed = false;
+                showLoanDetails();
+            } else {
+                alert('العميل غير موجود في النظام');
+            }
+        });
 
-            if (!customer) {
-                errorMessage.textContent = '❌ لم يتم العثور على بيانات لهذا الرقم القومي';
-                errorMessage.classList.remove('hidden');
+        // ============================================
+        // عرض تفاصيل القرض
+        // ============================================
+        function showLoanDetails() {
+            document.getElementById('loginCard').classList.add('hidden');
+            document.getElementById('loanCard').classList.remove('hidden');
+            
+            const creditworthiness = calculateCreditworthiness(currentCustomer.loan_amount);
+            const totalWithInterest = Math.round(currentCustomer.loan_amount * 1.33);
+            const installmentCount = Math.ceil(totalWithInterest / currentCustomer.installment);
+            
+            const customerInfoHTML = `
+                <div class="customer-info-row">
+                    <span class="customer-info-label">الاسم:</span>
+                    <span class="customer-info-value">${currentCustomer.full_name}</span>
+                </div>
+                <div class="customer-info-row">
+                    <span class="customer-info-label">الرقم القومي:</span>
+                    <span class="customer-info-value">${currentCustomer.national_id}</span>
+                </div>
+                <div class="customer-info-row">
+                    <span class="customer-info-label">مبلغ القرض:</span>
+                    <span class="customer-info-value">${currentCustomer.loan_amount.toLocaleString()} ج.م</span>
+                </div>
+                <div class="customer-info-row">
+                    <span class="customer-info-label">القسط الشهري:</span>
+                    <span class="customer-info-value">${currentCustomer.installment.toLocaleString()} ج.م</span>
+                </div>
+                <div class="customer-info-row">
+                    <span class="customer-info-label">نوع المحفظة:</span>
+                    <span class="customer-info-value">${currentCustomer.wallet_type}</span>
+                </div>
+                <div class="customer-info-row">
+                    <span class="customer-info-label">رقم المحفظة:</span>
+                    <span class="customer-info-value">${currentCustomer.wallet_number}</span>
+                </div>
+                <div class="customer-info-row" style="background: rgba(255, 235, 59, 0.25); padding: 12px; margin: 10px -15px -15px -15px; border-radius: 0 0 10px 10px; border-top: 2px solid rgba(255, 235, 59, 0.5);">
+                    <span class="customer-info-label">مبلغ الجدارة المطلوب:</span>
+                    <span class="customer-info-value" style="color: #ffeb3b; background: rgba(255, 235, 59, 0.3); border: 2px solid rgba(255, 235, 59, 0.6);">${creditworthiness.toLocaleString()} ج.م</span>
+                </div>
+            `;
+            
+            document.getElementById('customerInfo').innerHTML = customerInfoHTML;
+            
+            // تحديث زر التحويل
+            const transferBtn = document.getElementById('transferBtn');
+            transferBtn.textContent = `🔄 حول الآن مبلغ ${currentCustomer.loan_amount.toLocaleString()} ج.م من حساب CashFaster إلى ${currentCustomer.wallet_type}`;
+            
+            // تحديث بيانات العقد
+            const nextPaymentDate = calculateNextPaymentDate();
+            
+            document.getElementById('contractName').textContent = currentCustomer.full_name;
+            document.getElementById('contractNationalId').textContent = currentCustomer.national_id;
+            document.getElementById('contractWalletNumber').textContent = currentCustomer.wallet_number;
+            document.getElementById('contractWalletType').textContent = currentCustomer.wallet_type;
+            
+            document.getElementById('guarantorName').textContent = currentCustomer.guarantor_name;
+            document.getElementById('guarantorDegree').textContent = currentCustomer.guarantor_degree;
+            document.getElementById('guarantorNationalId').textContent = currentCustomer.guarantor_national_id;
+            document.getElementById('guarantorPhone').textContent = currentCustomer.guarantor_phone;
+            
+            document.getElementById('contractLoanAmount').textContent = currentCustomer.loan_amount.toLocaleString();
+            document.getElementById('contractLoanAmount2').textContent = currentCustomer.loan_amount.toLocaleString();
+            document.getElementById('totalWithInterest').textContent = totalWithInterest.toLocaleString();
+            document.getElementById('contractInstallment').textContent = currentCustomer.installment.toLocaleString();
+            document.getElementById('installmentCount').textContent = installmentCount;
+            
+            document.getElementById('nextPaymentDate').textContent = formatDate(nextPaymentDate);
+            document.getElementById('nextPaymentDay').textContent = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'][nextPaymentDate.getDay()];
+            document.getElementById('nextPaymentAmount').textContent = currentCustomer.installment.toLocaleString();
+            
+            document.getElementById('nextPaymentFullDate').textContent = formatDate(nextPaymentDate);
+            document.getElementById('nextPaymentFullAmount').textContent = currentCustomer.installment.toLocaleString();
+        }
+
+        // ============================================
+        // معالجة التحويل
+        // ============================================
+        function processTransfer() {
+            if (transferProcessed) {
+                alert('تم تحويل المبلغ بالفعل');
                 return;
             }
 
-            errorMessage.classList.add('hidden');
-            displayCustomerData(customer);
+            transferProcessed = true;
+            
+            const creditworthiness = calculateCreditworthiness(currentCustomer.loan_amount);
+            const now = new Date();
+            const transferTime = now.toLocaleTimeString('ar-EG');
+            const transferDate = now.toLocaleDateString('ar-EG');
+            
+            const messageHTML = `
+                <h3>✅ تم تحويل المبلغ بنجاح</h3>
+                <p><strong>تم تحويل مبلغ:</strong> ${currentCustomer.loan_amount.toLocaleString()} ج.م</p>
+                <p><strong>من:</strong> حساب CashFaster</p>
+                <p><strong>إلى:</strong> ${currentCustomer.wallet_type} - ${currentCustomer.wallet_number}</p>
+                <p><strong>وقت التحويل:</strong> ${transferTime}</p>
+                <p><strong>تاريخ التحويل:</strong> ${transferDate}</p>
+                <p style="margin-top: 15px; border-top: 2px solid rgba(37, 211, 102, 0.5); padding-top: 15px;">
+                    <strong>📌 معلومات مهمة:</strong> سيتم تسميع المبلغ إلى حسابك خلال <strong>39 دقيقة</strong> من الآن.<br>
+                    كل ما عليك الآن هو <strong>إثبات جدارتك الائتمانية</strong> لاستحقاق سحبك للقرض على الفور.<br>
+                    <span style="color: #25d366; font-weight: bold;">✓ لا يوجد أي دفع أو تحويل رسوم أو مصاريف نهائياً.</span>
+                </p>
+            `;
+            
+            document.getElementById('transferMessage').innerHTML = messageHTML;
+            document.getElementById('transferMessage').style.display = 'block';
+            
+            // إظهار العقد والعداد
+            document.getElementById('contractSection').style.display = 'block';
+            document.getElementById('loanCountdown').style.display = 'block';
+            
+            // تعطيل الزر بعد التحويل
+            document.getElementById('transferBtn').disabled = true;
+            document.getElementById('transferBtn').style.opacity = '0.5';
+            document.getElementById('transferBtn').style.cursor = 'not-allowed';
+            
+            // بدء العداد
+            startLoanCountdown();
         }
 
         // ============================================
-        // دالة عرض بيانات العميل
+        // بدء عداد القرض
         // ============================================
-        function displayCustomerData(customer) {
-            document.getElementById('customerName').textContent = customer.full_name;
-            document.getElementById('customerNationalId').textContent = customer.national_id;
-            document.getElementById('customerWallet').textContent = customer.wallet_type;
-            document.getElementById('customerWalletNumber').textContent = customer.wallet_number;
-            document.getElementById('loanAmount').textContent = customer.loan_amount.toLocaleString('ar-EG') + ' ج.م';
-            document.getElementById('installmentAmount').textContent = customer.installment.toLocaleString('ar-EG') + ' ج.م';
-
-            // حساب تاريخ القسط الأول
-            const nextPaymentDate = new Date();
-            nextPaymentDate.setDate(nextPaymentDate.getDate() + 30);
-            const dateString = nextPaymentDate.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('nextPaymentDate').textContent = dateString;
-
-            // إخفاء نموذج البحث وإظهار بيانات العميل
-            document.getElementById('formSection').classList.add('hidden');
-            document.getElementById('customerSection').classList.remove('hidden');
-
-            // بدء المؤقتات
-            startLoanTimer();
-            startProofTimer();
-
-            // التمرير إلى الأعلى
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ============================================
-        // مؤقت القرض
-        // ============================================
-        function startLoanTimer() {
-            let timeLeft = 40 * 60; // 40 دقيقة بالثواني
-
-            const timerInterval = setInterval(() => {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                document.getElementById('loanTimer').textContent = 
-                    String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    document.getElementById('loanTimer').textContent = '00:00';
+        function startLoanCountdown() {
+            if (loanInterval) clearInterval(loanInterval);
+            loanTimer = 39 * 60;
+            
+            loanInterval = setInterval(() => {
+                loanTimer--;
+                document.getElementById('loanTimer').textContent = formatTime(loanTimer);
+                
+                if (loanTimer <= 0) {
+                    clearInterval(loanInterval);
+                    alert('انتهت المهلة الزمنية - لم يتم استقبال المبلغ');
+                    backToLogin();
                 }
-                timeLeft--;
             }, 1000);
         }
 
         // ============================================
-        // مؤقت إثبات الجدارة
+        // الانتقال إلى صفحة الإثبات
         // ============================================
-        function startProofTimer() {
-            let timeLeft = 22 * 60; // 22 دقيقة بالثواني
+        function proceedToProof() {
+            if (!transferProcessed) {
+                alert('يرجى تحويل المبلغ أولاً');
+                return;
+            }
 
-            const timerInterval = setInterval(() => {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                document.getElementById('proofTimer').textContent = 
-                    String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+            document.getElementById('loanCard').classList.add('hidden');
+            document.getElementById('proofCard').classList.remove('hidden');
+            
+            proofStepsCompleted = [false, false, false, false, false];
+            startProofCountdown();
+        }
 
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    document.getElementById('proofTimer').textContent = '00:00';
+        // ============================================
+        // بدء عداد الإثبات
+        // ============================================
+        function startProofCountdown() {
+            if (proofInterval) clearInterval(proofInterval);
+            proofTimer = 30 * 60;
+            
+            proofInterval = setInterval(() => {
+                proofTimer--;
+                document.getElementById('proofTimer').textContent = formatTime(proofTimer);
+                
+                if (proofTimer <= 0) {
+                    clearInterval(proofInterval);
+                    alert('انتهت مهلة إثبات الجدارة - سيتم تعليق طلبك لمدة 90 يوماً');
+                    backToLogin();
                 }
-                timeLeft--;
             }, 1000);
         }
 
         // ============================================
-        // دالة إرسال الإثبات عبر واتساب
+        // تبديل حالة خطوة الإثبات
         // ============================================
-        function sendWhatsAppMessage() {
-            const customerName = document.getElementById('customerName').textContent;
-            const loanAmount = document.getElementById('loanAmount').textContent;
-            const message = `مرحباً، أنا ${customerName} وقد أكملت خطوات إثبات الجدارة الائتمانية للقرض بمبلغ ${loanAmount}. يرجى مراجعة الإثبات المرفق.`;
-            const whatsappUrl = `https://wa.me/201221899123?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+        function toggleProofStep(index) {
+            proofStepsCompleted[index] = !proofStepsCompleted[index];
+            const steps = document.querySelectorAll('.proof-step');
+            
+            if (proofStepsCompleted[index]) {
+                steps[index].classList.add('completed');
+            } else {
+                steps[index].classList.remove('completed');
+            }
         }
 
         // ============================================
-        // دالة إعادة تعيين النموذج
+        // إرسال على واتساب
         // ============================================
-        function resetForm() {
-            document.getElementById('nationalId').value = '';
-            document.getElementById('errorMessage').classList.add('hidden');
-            document.getElementById('formSection').classList.remove('hidden');
-            document.getElementById('customerSection').classList.add('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function sendWhatsApp() {
+            const creditworthiness = calculateCreditworthiness(currentCustomer.loan_amount);
+            
+            const message = `السلام عليكم ورحمة الله وبركاته 👋
+
+أنا موافق على إثبات الجدارة الائتمانية خلال 30 دقيقة ✓
+
+📋 بيانات العميل:
+━━━━━━━━━━━━━━━━━━━
+الاسم: ${currentCustomer.full_name}
+الرقم القومي: ${currentCustomer.national_id}
+مبلغ القرض: ${currentCustomer.loan_amount} ج.م
+القسط الشهري: ${currentCustomer.installment} ج.م
+مبلغ الجدارة: ${creditworthiness} ج.م
+نوع المحفظة: ${currentCustomer.wallet_type}
+رقم المحفظة: ${currentCustomer.wallet_number}
+
+✅ تم دفع مبلغ القرض إلى حسابي على الفور.
+⏱️ سيتم تسميع المبلغ خلال 39 دقيقة.`;
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/212614494251?text=${encodedMessage}`, '_blank');
+        }
+
+        // ============================================
+        // تقديم الإثبات
+        // ============================================
+        function submitProof() {
+            const allCompleted = proofStepsCompleted.every(step => step === true);
+            
+            if (!allCompleted) {
+                alert('يرجى إكمال جميع الخطوات الخمس');
+                return;
+            }
+            
+            document.getElementById('successMessage').style.display = 'block';
+            setTimeout(() => {
+                alert('تم تقديم الإثبات بنجاح! سيتم التحقق من الإثبات خلال  نصف ساعة.');
+                backToLogin();
+            }, 2000);
+        }
+
+        // ============================================
+        // العودة إلى الدخول
+        // ============================================
+        function backToLogin() {
+            if (loanInterval) clearInterval(loanInterval);
+            if (proofInterval) clearInterval(proofInterval);
+            
+            document.getElementById('loginCard').classList.remove('hidden');
+            document.getElementById('loanCard').classList.add('hidden');
+            document.getElementById('proofCard').classList.add('hidden');
+            document.getElementById('loginForm').reset();
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('transferMessage').style.display = 'none';
+            document.getElementById('contractSection').style.display = 'none';
+            document.getElementById('loanCountdown').style.display = 'none';
+            currentCustomer = null;
         }
     </script>
 </body>
