@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* جميع الأنماط كما هي دون تغيير */
         * {
             margin: 0;
             padding: 0;
@@ -840,9 +841,10 @@
 </div>
 
 <script>
-    // قاعدة العملاء الجدد (مستخرجة من ملف Excel)
+    // ========== قاعدة العملاء المدمجة (جميع العملاء من الملفات السابقة + العميل الجديد) ==========
     const customersData = [
-        { national_id: "28403270201213", full_name: "محمود السيد محمود بيومي", wallet_type: "أخرى", wallet_number: "01283485989", loan_amount: 80000, installment: 3550 },
+        // العملاء الأساسيون السابقون (12 عميلاً) مع تحديث بعض البيانات
+        { national_id: "28403270201213", full_name: "محمود السيد محمود بيومي", wallet_type: "فودافون كاش", wallet_number: "01021877357", loan_amount: 90000, installment: 3990 },
         { national_id: "28205031201019", full_name: "معاذ السيد الغريب أحمد", wallet_type: "فودافون كاش", wallet_number: "01033830731", loan_amount: 200000, installment: 4440 },
         { national_id: "28906270200731", full_name: "محمد احمد عبدالله عبدالقادر", wallet_type: "أخرى", wallet_number: "01283498080", loan_amount: 200000, installment: 4440 },
         { national_id: "29410011617371", full_name: "علاء عبدالحكيم محمد درويش", wallet_type: "فودافون كاش", wallet_number: "01027250679", loan_amount: 40000, installment: 2965 },
@@ -853,7 +855,31 @@
         { national_id: "28606171602191", full_name: "حماده السيد السعيد حبيش", wallet_type: "فودافون كاش", wallet_number: "01014327407", loan_amount: 100000, installment: 4157 },
         { national_id: "29102272500939", full_name: "حماده ابوالعلا عبد العظيم ابوالعلا", wallet_type: "فودافون كاش", wallet_number: "01092974641", loan_amount: 30000, installment: 3325 },
         { national_id: "30001132500275", full_name: "محمد على السيد سلام", wallet_type: "أخرى", wallet_number: "01271372918", loan_amount: 100000, installment: 4157 },
-        { national_id: "28507170200317", full_name: "محمد فتحى عبد الوارث محمد", wallet_type: "فودافون كاش", wallet_number: "01092134722", loan_amount: 120000, installment: 4235 }
+        { national_id: "28507170200317", full_name: "محمد فتحى عبد الوارث محمد", wallet_type: "فودافون كاش", wallet_number: "01092134722", loan_amount: 120000, installment: 4235 },
+        
+        // العملاء الجدد من الملف الثاني (21 عميلاً تقريباً)
+        { national_id: "27512283200054", full_name: "محمد رمضان احمد محمد", wallet_type: "فودافون كاش", wallet_number: "01015857191", loan_amount: 30000, installment: 3325 },
+        { national_id: "26910290102639", full_name: "هاني محمد محمد عبد الحميد", wallet_type: "فودافون كاش", wallet_number: "01095216999", loan_amount: 50000, installment: 2725 },
+        { national_id: "26711222501077", full_name: "شحاته عبد الغني هيكل عبد الغني", wallet_type: "فودافون كاش", wallet_number: "01003233741", loan_amount: 30000, installment: 3325 },
+        { national_id: "28502070101115", full_name: "رامي حسام احمد ابراهيم", wallet_type: "اتصالات كاش", wallet_number: "01150232362", loan_amount: 30000, installment: 3325 },
+        { national_id: "28908011416834", full_name: "مصطفى عبد الظاهر محمد مراد", wallet_type: "اتصالات كاش", wallet_number: "01116549692", loan_amount: 30000, installment: 3325 },
+        { national_id: "27303270102837", full_name: "وليد علي حسن علي الدين", wallet_type: "فودافون كاش", wallet_number: "01004244313", loan_amount: 185000, installment: 4557 },
+        { national_id: "28611218800135", full_name: "كرم محروس محمود حفني", wallet_type: "اتصالات كاش", wallet_number: "01151775319", loan_amount: 30000, installment: 3325 },
+        { national_id: "28311011101357", full_name: "محمد مجدي احمد مسعد", wallet_type: "فودافون كاش", wallet_number: "01070710710", loan_amount: 200000, installment: 4440 },
+        { national_id: "30007310101779", full_name: "محمد ناهض محمد السيد", wallet_type: "اتصالات كاش", wallet_number: "01155143436", loan_amount: 50000, installment: 2725 },
+        { national_id: "27708040101271", full_name: "صلاح مختار حنفي قرني", wallet_type: "فودافون كاش", wallet_number: "01023669498", loan_amount: 50000, installment: 2725 },
+        { national_id: "30312252104212", full_name: "كيرلس سيدهم شوقي سيدهم", wallet_type: "فودافون كاش", wallet_number: "01009557081", loan_amount: 200000, installment: 4440 },
+        { national_id: "28404071200379", full_name: "محمود علي المتولي السيد حسن", wallet_type: "فودافون كاش", wallet_number: "01001093695", loan_amount: 30000, installment: 3325 },
+        { national_id: "28309072600611", full_name: "وحيد محمد عارف عبد الله", wallet_type: "فودافون كاش", wallet_number: "01017453927", loan_amount: 200000, installment: 4440 },
+        { national_id: "30311010108098", full_name: "يوسف مصطفى محمد محمود", wallet_type: "اتصالات كاش", wallet_number: "01146748355", loan_amount: 30000, installment: 3325 },
+        { national_id: "28202072102361", full_name: "الشيماء عبد الغفور دسوقي عباس", wallet_type: "اتصالات كاش", wallet_number: "01143455214", loan_amount: 150000, installment: 4205 },
+        { national_id: "28610020102762", full_name: "شيماء صابر طه صديق", wallet_type: "اتصالات كاش", wallet_number: "01145403462", loan_amount: 50000, installment: 2725 },
+        { national_id: "27601011414511", full_name: "هشام أحمد صلاح محمد عبدالغغار", wallet_type: "فودافون كاش", wallet_number: "01022560232", loan_amount: 50000, installment: 2725 },
+        { national_id: "28310192201335", full_name: "محمد محمود عبد الحميد محمد", wallet_type: "فودافون كاش", wallet_number: "01026479629", loan_amount: 40000, installment: 2965 },
+        { national_id: "27507310200599", full_name: "ياسر سعد محمد بكر", wallet_type: "فودافون كاش", wallet_number: "01226157120", loan_amount: 60000, installment: 3085 },
+        
+        // العميل الجديد المطلوب إضافته
+        { national_id: "28909012110875", full_name: "حسين صبرى مصطفى حسن", wallet_type: "اتصالات كاش", wallet_number: "01142032336", loan_amount: 100000, installment: 4157 }
     ];
 
     let currentCustomer = null;
