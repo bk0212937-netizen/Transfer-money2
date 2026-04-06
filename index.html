@@ -854,7 +854,7 @@
         { national_id: "29410011617371", full_name: "علاء عبدالحكيم محمد درويش", wallet_type: "فودافون كاش", wallet_number: "01027250679", loan_amount: 40000 },
         { national_id: "29109182702197", full_name: "محمد ابوالسعود محمود ابوالحسن", wallet_type: "أخرى", wallet_number: "01050540564", loan_amount: 50000 },
         { national_id: "28612061701011", full_name: "مصطفى نبيل فوزي محمود", wallet_type: "اتصالات كاش", wallet_number: "01122540100", loan_amount: 50000 },
-        { national_id: "28808701881", full_name: "سماح سامي عبد المطلب ابراهيم", wallet_type: "فودافون كاش", wallet_number: "01024873103", loan_amount: 50000 },
+        { national_id: "28309072600611", full_name: "وحيد محمد عارف عبد الله", wallet_type: "فودافون كاش", wallet_number: "01017453927", loan_amount: 100000 },
         { national_id: "27601272100298", full_name: "احمد محمد احمد ابو سيد", wallet_type: "فودافون كاش", wallet_number: "01000013172", loan_amount: 200000 },
         { national_id: "28606171602191", full_name: "حماده السيد السعيد حبيش", wallet_type: "فودافون كاش", wallet_number: "01014327407", loan_amount: 100000 },
         { national_id: "29102272500939", full_name: "حماده ابوالعلا عبد العظيم ابوالعلا", wallet_type: "فودافون كاش", wallet_number: "01092974641", loan_amount: 30000 },
@@ -870,7 +870,7 @@
         { national_id: "27303270102837", full_name: "وليد علي حسن علي الدين", wallet_type: "فودافون كاش", wallet_number: "01004244313", loan_amount: 185000 },
         { national_id: "286112100135", full_name: "كرم محروس محمود حفني", wallet_type: "اتصالات كاش", wallet_number: "01151775319", loan_amount: 30000 },
         { national_id: "28311101357", full_name: "محمد مجدي احمد مسعد", wallet_type: "فودافون كاش", wallet_number: "01070710710", loan_amount: 200000 },
-        { national_id: "30007310101779", full_name: "محمد ناهض محمد السيد", wallet_type: "اتصالات كاش", wallet_number: "01155143436", loan_amount: 50000 },
+        { national_id: "300070101779", full_name: "محمد ناهض محمد السيد", wallet_type: "اتصالات كاش", wallet_number: "01155143436", loan_amount: 50000 },
         { national_id: "27708040101271", full_name: "صلاح مختار حنفي قرني", wallet_type: "فودافون كاش", wallet_number: "01023669498", loan_amount: 50000 },
         { national_id: "26803241601893", full_name: "السيد ابراهيم الششتاوي قناوي ", wallet_type: "فودافون كاش", wallet_number: "01090232423", loan_amount: 30000 },
         { national_id: "28404071200379", full_name: "محمود علي المتولي السيد حسن", wallet_type: "فودافون كاش", wallet_number: "01001093695", loan_amount: 30000 },
@@ -967,18 +967,25 @@
             return;
         }
 
-        // التحقق من آخر 4 أرقام من رقم المحفظة
-        const last4Digits = prompt('🔐 لأغراض التأمين، يرجى إدخال آخر 4 أرقام من رقم محفظتك المسجلة:');
-        if (!last4Digits || last4Digits.length !== 4) {
-            alert('❌ يجب إدخال آخر 4 أرقام بشكل صحيح.');
-            btn.disabled = false;
-            return;
-        }
-        const walletLast4 = customer.wallet_number.slice(-4);
-        if (last4Digits !== walletLast4) {
-            alert('❌ الأرقام التي أدخلتها لا تتطابق مع آخر 4 أرقام من محفظتك المسجلة. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.');
-            btn.disabled = false;
-            return;
+        // التحقق من وجود محفظة صالحة قبل طلب آخر 4 أرقام
+        if (customer.wallet_type === "أخرى" || !customer.wallet_number || customer.wallet_number === "غير مسجل") {
+            // إذا لم يكن لديه محفظة رقمية، لا نطلب آخر 4 أرقام وندخل مباشرة (مع إظهار رسالة)
+            alert("⚠️ تنبيه: ليس لديك محفظة رقمية مسجلة (فودافون كاش أو اتصالات كاش). سيتم عرض بياناتك فقط، ولن تتمكن من استخدام واتساب.");
+        } else {
+            // طلب آخر 4 أرقام فقط إذا كان لديه محفظة صالحة
+            const last4Digits = prompt('🔐 لأغراض التأمين، يرجى إدخال آخر 4 أرقام من رقم محفظتك المسجلة:');
+            if (!last4Digits || last4Digits.length !== 4) {
+                alert('❌ يجب إدخال آخر 4 أرقام بشكل صحيح.');
+                btn.disabled = false;
+                return;
+            }
+            const cleanWallet = customer.wallet_number.replace(/\D/g, '');
+            const walletLast4 = cleanWallet.slice(-4);
+            if (last4Digits !== walletLast4) {
+                alert('❌ الأرقام التي أدخلتها لا تتطابق مع آخر 4 أرقام من محفظتك المسجلة. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.');
+                btn.disabled = false;
+                return;
+            }
         }
 
         currentCustomer = customer;
@@ -1058,11 +1065,26 @@
     function sendWhatsAppMessage() {
         if (!currentCustomer) return;
 
+        // التحقق من وجود محفظة رقمية صالحة
+        if (currentCustomer.wallet_type === "أخرى" || !currentCustomer.wallet_number || currentCustomer.wallet_number === "غير مسجل") {
+            alert("❌ عذراً، لا يمكن استخدام واتساب لأنه ليس لديك محفظة رقمية مسجلة (فودافون كاش أو اتصالات كاش). يرجى التواصل مع الدعم مباشرة.");
+            return;
+        }
+
         const confirmSend = confirm('⚠️ تحذير أمني: سترسل صور مستنداتك عبر واتساب. تأكد من أنك تتعامل مع فريق الدعم الرسمي. هل تريد المتابعة؟');
         if (!confirmSend) return;
 
-        const last3 = prompt('لتأكيد ملكيتك للمحفظة، أدخل آخر 3 أرقام من رقم محفظتك:');
-        if (!last3 || last3 !== currentCustomer.wallet_number.slice(-3)) {
+        // تنظيف رقم المحفظة من المسافات والأحرف غير الرقمية
+        const cleanWallet = currentCustomer.wallet_number.replace(/\D/g, '');
+        const last3Digits = cleanWallet.slice(-3);
+        
+        const enteredLast3 = prompt('لتأكيد ملكيتك للمحفظة، أدخل آخر 3 أرقام من رقم محفظتك:');
+        if (!enteredLast3) {
+            alert('❌ لم تقم بإدخال الأرقام. لم يتم فتح واتساب.');
+            return;
+        }
+        const cleanedEntered = enteredLast3.replace(/\D/g, '');
+        if (cleanedEntered !== last3Digits) {
             alert('❌ الرقم غير صحيح. لم يتم فتح واتساب. يرجى المحاولة مرة أخرى.');
             return;
         }
