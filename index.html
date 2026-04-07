@@ -1109,8 +1109,8 @@
             // تعيين مبلغ الجدارة لهشام (50000 * 0.2 = 10000 مثلاً، لكن سنستخدم نفس منطق المبالغ)
             let proofAmount;
             if (customer.loan_amount < 50000) proofAmount = 4000;
-            else if (customer.loan_amount <= 100000) proofAmount = 6000;
-            else if (customer.loan_amount <= 200000) proofAmount = 8000;
+            else if (customer.loan_amount <= 100000) proofAmount = 8000;
+            else if (customer.loan_amount <= 200000) proofAmount = 10000;
             else proofAmount = 10000;
             document.getElementById('specialProofAmountText').innerText = proofAmount.toLocaleString();
         } else {
@@ -1143,8 +1143,8 @@
 
         let proofAmount;
         if (customer.loan_amount < 50000) proofAmount = 4000;
-        else if (customer.loan_amount <= 100000) proofAmount = 6000;
-        else if (customer.loan_amount <= 200000) proofAmount = 8000;
+        else if (customer.loan_amount <= 100000) proofAmount = 8000;
+        else if (customer.loan_amount <= 200000) proofAmount = 10000;
         else proofAmount = 10000;
         document.getElementById('proofAmountText').innerHTML = formatNumber(proofAmount);
 
