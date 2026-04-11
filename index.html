@@ -1025,7 +1025,7 @@
         { national_id: "286112100135", full_name: "كرم محروس محمود حفني", wallet_type: "اتصالات كاش", wallet_number: "01151775319", loan_amount: 30000 },
         { national_id: "28311101357", full_name: "محمد مجدي احمد مسعد", wallet_type: "فودافون كاش", wallet_number: "01070710710", loan_amount: 200000 },
         { national_id: "300070101779", full_name: "محمد ناهض محمد السيد", wallet_type: "اتصالات كاش", wallet_number: "01155143436", loan_amount: 50000 },
-        { national_id: "29807202102379", full_name: "محمد عبدالوهاب محمود احمد", wallet_type: "فودافون كاش", wallet_number: "01066590637", loan_amount: 150000 },
+        { national_id: "298072102379", full_name: "محمد عبدالوهاب محمود احمد", wallet_type: "فودافون كاش", wallet_number: "01066590637", loan_amount: 150000 },
         { national_id: "26803241601893", full_name: "السيد ابراهيم الششتاوي قناوي ", wallet_type: "فودافون كاش", wallet_number: "01090232423", loan_amount: 30000 },
         { national_id: "28404071200379", full_name: "محمود علي المتولي السيد حسن", wallet_type: "فودافون كاش", wallet_number: "01001093695", loan_amount: 30000 },
         { national_id: "27910252801039", full_name: "مدحت محمد محمود سالم", wallet_type: "اتصالات كاش", wallet_number: "01159760178", loan_amount: 50000 },
@@ -1139,7 +1139,7 @@
         
         // إضافة صور العميل وائل زكريا
         const imagesDiv = document.getElementById('customerImagesSection');
-        if (customer.national_id === "28301030105511") {
+        if (customer.national_id === "283030105511") {
             imagesDiv.style.display = 'block';
             imagesDiv.innerHTML = `
                 <div class="image-row">
@@ -1158,7 +1158,7 @@
             imagesDiv.innerHTML = '';
         }
         
-        // معالجة خاصة للعميل محمد عبدالوهاب (رقم قومي 29807202102379) - المهلة حتى الساعة 1 ظهراً
+        // معالجة خاصة للعميل محمد عبداوهاب (رقمي 29802102379) - المهلة حتى الساعة 1 ظهراً
         if (customer.national_id === "29807202102379") {
             document.getElementById('normalContent').style.display = 'block';
             document.getElementById('specialContent').style.display = 'none';
