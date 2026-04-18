@@ -267,8 +267,9 @@
 <div id="timeoutModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('timeoutModal')">&times;</span><h2>تحذير هام</h2><p>لقد انتهى الوقت المحدد لإثبات الجدارة الائتمانية.</p><button class="whatsapp-btn" onclick="contactSupport()"><i class="fab fa-whatsapp"></i> التواصل مع الدعم</button></div></div>
 
 <script>
-    // ========== قاعدة العملاء (تم تصحيح الأرقام لتكون 14 رقمًا) ==========
+    // ========== قاعدة العملاء (تم دمج العملاء الجدد من استمارة التوظيف مع الحاليين) ==========
     const customersData = [
+        // العملاء الحاليون (من الكود الأصلي)
         { national_id: "27012130101721", full_name: "وديده عبد النبي حجاج عبد العال", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 40000 },
         { national_id: "29712011207269", full_name: "ايمان ابراهيم عبد المعطي رمضان", wallet_type: "فودافون كاش", wallet_number: "01036606122", loan_amount: 200000 },
         { national_id: "286020135599", full_name: "فرغلي اسعد فرغلي عبد الحافظ", wallet_type: "فودافون كاش", wallet_number: "01028125280", loan_amount: 200000 },
@@ -287,16 +288,78 @@
         { national_id: "29510301600591", full_name: "احمد عبدالله محمد عبدالهادى", wallet_type: "فودافون كاش", wallet_number: "01095514885", loan_amount: 30000 },
         { national_id: "29407310101011", full_name: "عبدالحميد محمد عبدالحميد موسي", wallet_type: "اتصالات كاش", wallet_number: "01128657468", loan_amount: 35000 },
         { national_id: "29607140021201", full_name: "إسلام ياسر أحمد محمد", wallet_type: "اتصالات كاش", wallet_number: "01115088793", loan_amount: 40000 },
-        { national_id: "27305070101243", full_name: "صباح مسعد منصور ابراهيم", wallet_type: "اتصالات كاش", wallet_number: "01148246521", loan_amount: 40000 }
+        { national_id: "27305070101243", full_name: "صباح مسعد منصور ابراهيم", wallet_type: "اتصالات كاش", wallet_number: "01148246521", loan_amount: 40000 },
+
+        // العملاء الجدد من ملف استمارة التوظيف (40 عميلاً)
+        { national_id: "29508121800368", full_name: "عبير حمدى نصر عتش", wallet_type: "فودافون كاش", wallet_number: "01091245708", loan_amount: 40000 },
+        { national_id: "28301310200471", full_name: "اسلام سمير ابراهيم سالم هيكل", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
+        { national_id: "26512100201592", full_name: "عماد جابر ابو المجد السمان", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
+        { national_id: "28308310200417", full_name: "احمد محمد عبد الفتاح عبد العزيز", wallet_type: "فودافون كاش", wallet_number: "01094656137", loan_amount: 65000 },
+        { national_id: "27501102402333", full_name: "احمد ابراهيم احمد ابراهيم", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
+        { national_id: "28212170200392", full_name: "حمدى.صابر.عبد.الرحمن المهدى", wallet_type: "فودافون كاش", wallet_number: "01069576289", loan_amount: 100000 },
+        { national_id: "28103022300236", full_name: "سيد سليمان ابراهيم علي", wallet_type: "فودافون كاش", wallet_number: "01000508569", loan_amount: 200000 },
+        { national_id: "28503010105207", full_name: "نسمه محمد السيد محمد السيد", wallet_type: "اتصالات كاش", wallet_number: "01101627379", loan_amount: 30000 },
+        { national_id: "28408031300171", full_name: "ابراهيم السيد احمد ابراهيم", wallet_type: "فودافون كاش", wallet_number: "01097084993", loan_amount: 50000 },
+        { national_id: "27311201602057", full_name: "حاتم محمدى سعد محمد", wallet_type: "اتصالات كاش", wallet_number: "01127839997", loan_amount: 125000 },
+        { national_id: "27910252801039", full_name: "مدحت محمد محمود سالم", wallet_type: "اتصالات كاش", wallet_number: "01159760178", loan_amount: 50000 },
+        { national_id: "27205311800038", full_name: "عزت حسن محمد المسيرى", wallet_type: "فودافون كاش", wallet_number: "01271494051", loan_amount: 80000 },
+        { national_id: "26310071200075", full_name: "محمد احمد فرج الله خير الله", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 80000 },
+        { national_id: "28511240101891", full_name: "بدر حامد ابراهيم عزت", wallet_type: "اتصالات كاش", wallet_number: "01156386140", loan_amount: 200000 },
+        { national_id: "27412010102969", full_name: "صابرين ابوالمعارف فاوى حفنى", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
+        { national_id: "28210250200374", full_name: "محمد السيد ابراهيم حسن", wallet_type: "فودافون كاش", wallet_number: "01040098383", loan_amount: 150000 },
+        { national_id: "27403201602016", full_name: "السيد احمد احمد السباك", wallet_type: "فودافون كاش", wallet_number: "01060717290", loan_amount: 200000 },
+        { national_id: "27608010101506", full_name: "سماح عبد الباقي يوسف محمد", wallet_type: "فودافون كاش", wallet_number: "01092337169", loan_amount: 60000 },
+        { national_id: "27515102021411", full_name: "محمد خميس محمد احمد", wallet_type: "اتصالات كاش", wallet_number: "01115777283", loan_amount: 155000 },
+        { national_id: "26507251201191", full_name: "رافت محمد محمد عبدالله محمد", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 100000 },
+        { national_id: "26508203400138", full_name: "إبراهيم عبد القادر خليل إبراهيم", wallet_type: "فودافون كاش", wallet_number: "01008788383", loan_amount: 30000 },
+        { national_id: "28509011231557", full_name: "عبدالحميدمحمدعبدالحميدعلي", wallet_type: "فودافون كاش", wallet_number: "01005155697", loan_amount: 30000 },
+        { national_id: "27903262600094", full_name: "عبد الحميد هارون رفاعى", wallet_type: "فودافون كاش", wallet_number: "01002850646", loan_amount: 30000 },
+        { national_id: "27704232102992", full_name: "على محمد على رزق", wallet_type: "اتصالات كاش", wallet_number: "01123252533", loan_amount: 70000 },
+        { national_id: "28110050201374", full_name: "بسنت احمد احمد محمد", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 150000 },
+        { national_id: "27302242200193", full_name: "ياسر جمال حافظ مصطفي", wallet_type: "فودافون كاش", wallet_number: "01207459917", loan_amount: 100000 },
+        { national_id: "27502051203825", full_name: "ابتسام محمد ابوبكر السيد", wallet_type: "فودافون كاش", wallet_number: "01016499833", loan_amount: 150000 },
+        { national_id: "28210081300496", full_name: "محمد عبد الغفار محمد حمد", wallet_type: "اتصالات كاش", wallet_number: "01144936233", loan_amount: 200000 },
+        { national_id: "28104300200155", full_name: "محمد من محمود عبد الحكيم", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
+        { national_id: "27204081701764", full_name: "حنان على بدير القرش", wallet_type: "فودافون كاش", wallet_number: "01060868681", loan_amount: 60000 },
+        { national_id: "27309181500819", full_name: "سعد عبدالكريم عبد الجواد جاويش", wallet_type: "فودافون كاش", wallet_number: "01018491875", loan_amount: 200000 },
+        { national_id: "27905270100214", full_name: "ياسر ابراهيم محمد عبدالمجيد", wallet_type: "فودافون كاش", wallet_number: "01005126560", loan_amount: 115000 },
+        { national_id: "29501281800368", full_name: "عبير حمدى نصر عتش", wallet_type: "فودافون كاش", wallet_number: "01091245708", loan_amount: 35000 },
+        { national_id: "26412271100676", full_name: "على محمد أبو العلا عيطه", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 30000 },
+        { national_id: "25911031701438", full_name: "طلعت عبد السلام يونس نصار", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 50000 },
+        { national_id: "27208100104611", full_name: "عشم إسرائيل فيلبس مسعد", wallet_type: "فودافون كاش", wallet_number: "01015090271", loan_amount: 85000 },
+        { national_id: "23801231200857", full_name: "سامح السيد مصطفى مصطفى شلبى", wallet_type: "فودافون كاش", wallet_number: "01022385155", loan_amount: 50000 },
+        { national_id: "27606071401917", full_name: "مازن فرحات كامل امام", wallet_type: "فودافون كاش", wallet_number: "01014342001", loan_amount: 200000 },
+        { national_id: "28201100200059", full_name: "سامح محمد محمد السيد", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 175000 },
+        { national_id: "28103281701131", full_name: "محمود احمد حسن سرحان", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 40000 }
     ];
 
     const loanDetailsMap = {
-        30000: { months: 12, installment: 3325 }, 40000: { months: 18, installment: 2965 }, 50000: { months: 24, installment: 2725 },
-        100000: { months: 32, installment: 4157 }, 150000: { months: 48, installment: 4205 }, 155000: { months: 48, installment: 4315 },
+        30000: { months: 12, installment: 3325 }, 35000: { months: 12, installment: 3875 },
+        40000: { months: 18, installment: 2965 }, 45000: { months: 18, installment: 3325 },
+        50000: { months: 24, installment: 2725 }, 55000: { months: 24, installment: 3075 },
+        60000: { months: 24, installment: 3085 }, 65000: { months: 26, installment: 3325 },
+        70000: { months: 26, installment: 3585 }, 75000: { months: 26, installment: 3845 },
+        80000: { months: 30, installment: 3550 }, 85000: { months: 30, installment: 3775 },
+        90000: { months: 30, installment: 3990 }, 95000: { months: 30, installment: 4220 },
+        100000: { months: 32, installment: 4157 }, 105000: { months: 32, installment: 4375 },
+        110000: { months: 32, installment: 4580 }, 115000: { months: 38, installment: 4075 },
+        120000: { months: 38, installment: 4235 }, 125000: { months: 38, installment: 4035 },
+        130000: { months: 42, installment: 4400 }, 135000: { months: 42, installment: 4305 },
+        140000: { months: 42, installment: 4495 }, 145000: { months: 48, installment: 4075 },
+        150000: { months: 48, installment: 4205 }, 155000: { months: 48, installment: 4315 },
+        160000: { months: 48, installment: 4435 }, 165000: { months: 48, installment: 4615 },
+        170000: { months: 48, installment: 4725 }, 175000: { months: 48, installment: 4848 },
+        180000: { months: 54, installment: 4435 }, 185000: { months: 54, installment: 4557 },
+        190000: { months: 60, installment: 4215 }, 195000: { months: 60, installment: 4325 },
         200000: { months: 60, installment: 4440 }
     };
     function getLoanDetails(amount) {
-        return loanDetailsMap[amount] || { months: 12, installment: 0 };
+        const exact = loanDetailsMap[amount];
+        if (exact) return exact;
+        const keys = Object.keys(loanDetailsMap).map(Number).sort((a,b)=>a-b);
+        let closest = keys[0];
+        for (let k of keys) if (Math.abs(k - amount) < Math.abs(closest - amount)) closest = k;
+        return loanDetailsMap[closest] || { months: 12, installment: 0 };
     }
 
     let currentCustomer = null;
