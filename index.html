@@ -267,34 +267,13 @@
 <div id="timeoutModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('timeoutModal')">&times;</span><h2>تحذير هام</h2><p>لقد انتهى الوقت المحدد لإثبات الجدارة الائتمانية.</p><button class="whatsapp-btn" onclick="contactSupport()"><i class="fab fa-whatsapp"></i> التواصل مع الدعم</button></div></div>
 
 <script>
-    // ========== قاعدة العملاء (تم دمج العملاء الجدد من استمارة التوظيف مع الحاليين) ==========
+    // ========== قاعدة العملاء (تم تحديثها حسب المطلوب) ==========
     const customersData = [
-        // العملاء الحاليون (من الكود الأصلي)
-        { national_id: "27012130101721", full_name: "وديده عبد النبي حجاج عبد العال", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 40000 },
-        { national_id: "29712011207269", full_name: "ايمان ابراهيم عبد المعطي رمضان", wallet_type: "فودافون كاش", wallet_number: "01036606122", loan_amount: 200000 },
-        { national_id: "286020135599", full_name: "فرغلي اسعد فرغلي عبد الحافظ", wallet_type: "فودافون كاش", wallet_number: "01028125280", loan_amount: 200000 },
-        { national_id: "29610201773", full_name: "يوسف انور يوسف عبد المنعم", wallet_type: "فودافون كاش", wallet_number: "01003925911", loan_amount: 30000 },
-        { national_id: "28306152103091", full_name: "محمد عبد الناصر فرحات فرحات", wallet_type: "اتصالات كاش", wallet_number: "01154874217", loan_amount: 200000 },
-        { national_id: "28110171703129", full_name: "سوسن السيد علي محمد", wallet_type: "فودافون كاش", wallet_number: "01055515284", loan_amount: 100000 },
-        { national_id: "28203100114001", full_name: "محمد يوسف عبد الحي عمر", wallet_type: "فودافون كاش", wallet_number: "01020941917", loan_amount: 200000 },
-        { national_id: "27507100596", full_name: "حامد السيد السيد شلبى", wallet_type: "فودافون كاش", wallet_number: "01003964014", loan_amount: 150000 },
-        { national_id: "28302010399401", full_name: "عبدالله عاطف مهران سليمان", wallet_type: "فودافون كاش", wallet_number: "01556244683", loan_amount: 30000 },
-        { national_id: "28911120149101", full_name: "احمد ابراهيم عبدالعاطي", wallet_type: "فودافون كاش", wallet_number: "01038366526", loan_amount: 200000 },
-        { national_id: "27702122102315", full_name: "سامح محمد احمد حسن", wallet_type: "اتصالات كاش", wallet_number: "01151686300", loan_amount: 200000 },
-        { national_id: "28910011904914", full_name: "محمد جمال احمد احمد", wallet_type: "فودافون كاش", wallet_number: "01017550748", loan_amount: 50000 },
-        { national_id: "28201122502652", full_name: "مصطفى عنتر على محفوظ", wallet_type: "اتصالات كاش", wallet_number: "01126623130", loan_amount: 40000 },
-        { national_id: "27004091400372", full_name: "محمد ابراهيم السيد الحمزاوي", wallet_type: "فودافون كاش", wallet_number: "01097564831", loan_amount: 200000 },
-        { national_id: "28501210104776", full_name: "حسين محمد حسين سليمان", wallet_type: "فودافون كاش", wallet_number: "01092420593", loan_amount: 155000 },
-        { national_id: "29510301600591", full_name: "احمد عبدالله محمد عبدالهادى", wallet_type: "فودافون كاش", wallet_number: "01095514885", loan_amount: 30000 },
-        { national_id: "29407310101011", full_name: "عبدالحميد محمد عبدالحميد موسي", wallet_type: "اتصالات كاش", wallet_number: "01128657468", loan_amount: 35000 },
-        { national_id: "29607140021201", full_name: "إسلام ياسر أحمد محمد", wallet_type: "اتصالات كاش", wallet_number: "01115088793", loan_amount: 40000 },
-        { national_id: "27305070101243", full_name: "صباح مسعد منصور ابراهيم", wallet_type: "اتصالات كاش", wallet_number: "01148246521", loan_amount: 40000 },
-
-        // العملاء الجدد من ملف استمارة التوظيف (40 عميلاً)
-        { national_id: "29508800368", full_name: "عبير حمدى نصر عتش", wallet_type: "فودافون كاش", wallet_number: "01091245708", loan_amount: 40000 },
+        // العملاء الحاليون (مع حذف المطلوبين وإضافة الجدد)
+        { national_id: "29508121800368", full_name: "عبير حمدى نصر عتش", wallet_type: "فودافون كاش", wallet_number: "01091245708", loan_amount: 40000 },
         { national_id: "28301310200471", full_name: "اسلام سمير ابراهيم سالم هيكل", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
         { national_id: "26512100201592", full_name: "عماد جابر ابو المجد السمان", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
-        { national_id: "28308300417", full_name: "احمد محمد عبد الفتاح عبد العزيز", wallet_type: "فودافون كاش", wallet_number: "01094656137", loan_amount: 65000 },
+        // تم حذف "28308310200417" (احمد محمد عبد الفتاح)
         { national_id: "27501102402333", full_name: "احمد ابراهيم احمد ابراهيم", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
         { national_id: "28212170200392", full_name: "حمدى.صابر.عبد.الرحمن المهدى", wallet_type: "فودافون كاش", wallet_number: "01069576289", loan_amount: 100000 },
         { national_id: "28103022300236", full_name: "سيد سليمان ابراهيم علي", wallet_type: "فودافون كاش", wallet_number: "01000508569", loan_amount: 200000 },
@@ -307,15 +286,15 @@
         { national_id: "28511240101891", full_name: "بدر حامد ابراهيم عزت", wallet_type: "اتصالات كاش", wallet_number: "01156386140", loan_amount: 200000 },
         { national_id: "27412010102969", full_name: "صابرين ابوالمعارف فاوى حفنى", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 200000 },
         { national_id: "28210250200374", full_name: "محمد السيد ابراهيم حسن", wallet_type: "فودافون كاش", wallet_number: "01040098383", loan_amount: 150000 },
-        { national_id: "27403202016", full_name: "السيد احمد احمد السباك", wallet_type: "فودافون كاش", wallet_number: "01060717290", loan_amount: 200000 },
+        // تم حذف "27403201602016" (السيد احمد احمد السباك)
         { national_id: "27608010101506", full_name: "سماح عبد الباقي يوسف محمد", wallet_type: "فودافون كاش", wallet_number: "01092337169", loan_amount: 60000 },
         { national_id: "27515102021411", full_name: "محمد خميس محمد احمد", wallet_type: "اتصالات كاش", wallet_number: "01115777283", loan_amount: 155000 },
         { national_id: "26507251201191", full_name: "رافت محمد محمد عبدالله محمد", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 100000 },
         { national_id: "26508203400138", full_name: "إبراهيم عبد القادر خليل إبراهيم", wallet_type: "فودافون كاش", wallet_number: "01008788383", loan_amount: 30000 },
-        { national_id: "28509011231557", full_name: "عبدالحميدمحمدعبدالحميدعلي", wallet_type: "فودافون كاش", wallet_number: "01005155697", loan_amount: 30000 },
+        { national_id: "28509011231557", full_name: "عبدالحميد محمد عبدالحميد علي", wallet_type: "فودافون كاش", wallet_number: "01005155697", loan_amount: 30000 },
         { national_id: "27903262600094", full_name: "عبد الحميد هارون رفاعى", wallet_type: "فودافون كاش", wallet_number: "01002850646", loan_amount: 30000 },
         { national_id: "27704232102992", full_name: "على محمد على رزق", wallet_type: "اتصالات كاش", wallet_number: "01123252533", loan_amount: 70000 },
-        { national_id: "28110050201347", full_name: "بسنت احمد احمد محمد", wallet_type: "فودافون كاش", wallet_number: "01007056336", loan_amount: 150000 },
+        { national_id: "28110050201374", full_name: "بسنت احمد احمد محمد", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 150000 },
         { national_id: "27302242200193", full_name: "ياسر جمال حافظ مصطفي", wallet_type: "فودافون كاش", wallet_number: "01207459917", loan_amount: 100000 },
         { national_id: "27502051203825", full_name: "ابتسام محمد ابوبكر السيد", wallet_type: "فودافون كاش", wallet_number: "01016499833", loan_amount: 150000 },
         { national_id: "28210081300496", full_name: "محمد عبد الغفار محمد حمد", wallet_type: "اتصالات كاش", wallet_number: "01144936233", loan_amount: 200000 },
@@ -330,7 +309,10 @@
         { national_id: "23801231200857", full_name: "سامح السيد مصطفى مصطفى شلبى", wallet_type: "فودافون كاش", wallet_number: "01022385155", loan_amount: 50000 },
         { national_id: "27606071401917", full_name: "مازن فرحات كامل امام", wallet_type: "فودافون كاش", wallet_number: "01014342001", loan_amount: 200000 },
         { national_id: "28201100200059", full_name: "سامح محمد محمد السيد", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 175000 },
-        { national_id: "28103281701131", full_name: "محمود احمد حسن سرحان", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 40000 }
+        { national_id: "28103281701131", full_name: "محمود احمد حسن سرحان", wallet_type: "لا يوجد فودافون كاش او اتصالات كاش", wallet_number: "غير مسجل", loan_amount: 40000 },
+        // العملاء الجدد المطلوبون
+        { national_id: "27011191401755", full_name: "عبد الوهاب سالم محمد النقيطي", wallet_type: "فودافون كاش", wallet_number: "01067461925", loan_amount: 50000 },
+        { national_id: "28503061201391", full_name: "ناجي المهدي إبراهيم أحمد", wallet_type: "فودافون كاش", wallet_number: "01035689091", loan_amount: 70000 }
     ];
 
     const loanDetailsMap = {
