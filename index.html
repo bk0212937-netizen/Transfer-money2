@@ -124,7 +124,7 @@
             background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 0, 110, 0.1));
             border: 3px solid var(--accent-orange);
             border-radius: 2rem;
-            padding: 2.5rem;
+            padding: 2rem;
             text-align: center;
             margin: 1.5rem 0;
             animation: pulseWarning 1.5s infinite;
@@ -136,13 +136,32 @@
         }
         .suspended-icon { font-size: 4rem; color: var(--accent-orange); margin-bottom: 1rem; }
         .suspended-title { font-size: 1.8rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 1rem; }
-        .suspended-message { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.8; }
+        .suspended-message { font-size: 1rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.8; }
+        .selfie-container {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 300px;
+            border: 2px solid var(--accent-gold);
+        }
+        .selfie-container img {
+            width: 100%;
+            border-radius: 1rem;
+            display: block;
+        }
+        .selfie-caption {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
         .btn-whatsapp-suspend {
             background: linear-gradient(135deg, #25D366, #128C7E);
             border: none;
-            padding: 1rem 2rem;
+            padding: 0.9rem 1.8rem;
             border-radius: 3rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
@@ -171,6 +190,7 @@
             .card-details-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
             .search-card { padding: 1.2rem; }
             .creditworthiness-section { padding: 1.2rem; }
+            .suspended-title { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -206,13 +226,13 @@
     </div>
 
     <script>
-        // ========== قاعدة بيانات العملاء الكاملة (جميع العملاء من ملف Excel + العملاء الجدد من استمارة التسجيل 6.xlsx) ==========
-        // إضافة حقل suspended للعميلة "امنيه محمد محروس عبد الغفار" (رقم البطاقة 29401011427522)
+        // ========== قاعدة بيانات العملاء الكاملة (جميع العملاء من ملف Excel + العملاء الجدد) ==========
+        // العميلة "امنيه محمد محروس عبد الغفار" (رقم البطاقة 29401011427522) معلقة مع صورة سيلفي
         const customersDatabase = {
             // العملاء الأساسيون من الملف الأول
             "28310021401735": { name: "احمد عبدالهادي احمد عبدالهادي", wallet: "فودافون كاش", walletNum: "01024442779", loan: 120000, suspended: false },
             "26301141900259": { name: "محمد كمال محمد فهمى", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 55000, suspended: false },
-            "29401011427522": { name: "امنيه محمد محروس عبد الغفار", wallet: "فودافون كاش", walletNum: "01032842112", loan: 65000, suspended: true },  // معلق
+            "29401011427522": { name: "امنيه محمد محروس عبد الغفار", wallet: "فودافون كاش", walletNum: "01032842112", loan: 65000, suspended: true, selfieUrl: "https://i.ibb.co/BVPtC6m5/taken-picture-u-SJlf1ma-diepx-3395780.jpg" },
             "29602120101179": { name: "مصطفي عمر عبد العزيز حسين", wallet: "اتصالات كاش", walletNum: "01111010803", loan: 50000, suspended: false },
             "26805070201379": { name: "حمدى مصطفى كامل علام", wallet: "فودافون كاش", walletNum: "01018366943", loan: 100000, suspended: false },
             "27508061800731": { name: "عمر عبد الحليم عبد المجيد عوض", wallet: "فودافون كاش", walletNum: "01015964596", loan: 30000, suspended: false },
@@ -330,21 +350,32 @@
         }
 
         function displaySuspendedMessage(customer) {
-            // إخفاء المحتوى العادي وإظهار رسالة التعليق
             document.getElementById('normalContent').style.display = 'none';
             const suspendedDiv = document.getElementById('suspendedContainer');
             suspendedDiv.style.display = 'block';
+            // بناء كتلة الصورة إذا وجدت
+            let selfieHtml = '';
+            if (customer.selfieUrl) {
+                selfieHtml = `
+                    <div class="selfie-container">
+                        <img src="${customer.selfieUrl}" alt="صورة سيلفي للعميلة ${customer.name}" loading="lazy">
+                        <div class="selfie-caption"><i class="fas fa-camera"></i> صورة السيلفي المرفقة للتحقق من الهوية</div>
+                    </div>
+                `;
+            }
             suspendedDiv.innerHTML = `
                 <div class="suspended-card">
                     <div class="suspended-icon"><i class="fas fa-clock"></i></div>
                     <div class="suspended-title">⏳ الطلب معلق</div>
+                    ${selfieHtml}
                     <div class="suspended-message">
-                        عزيزتي العميلة ${customer.name}<br>
+                        <strong>عزيزتي العميلة ${customer.name}</strong><br>
                         طلب التمويل الخاص بك معلق حاليًا.<br>
                         لفتح التعليق يرجى متابعة مندوبتنا في قسم التحويلات المالية على واتساب<br>
-                        لتتم عملية فتح الطلب وصرف القرض.
+                        لتتم عملية فتح الطلب وصرف القرض.<br>
+                        <small style="color: var(--accent-orange);"><i class="fas fa-shield-alt"></i> للتأكد من هويتك، سيتم مطابقة الصورة مع بياناتك.</small>
                     </div>
-                    <button class="btn-whatsapp-suspend" onclick="openWhatsAppForSuspended('${customer.name}', '${customer.id}')">
+                    <button class="btn-whatsapp-suspend" onclick="openWhatsAppForSuspended('${customer.name.replace(/'/g, "\\'")}', '${customer.id}')">
                         <i class="fab fa-whatsapp fa-lg"></i> تواصل مع مندوبتنا الآن
                     </button>
                 </div>
