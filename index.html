@@ -298,37 +298,53 @@
     </div>
 
     <script>
-        // قاعدة العملاء (تم تعديل ام هاشم لتصبح مدانة)
+        // ============================================================
+        // قاعدة البيانات الجديدة (العملاء من ملف Excel الأخير + إبراهيم صلاح)
+        // جميع الأرقام القومية تم توحيدها إلى 14 رقمًا
+        // ============================================================
         const customersDatabase = {
-            "28703111100311": { name: "محمد محمد مصطفي صيام", loan: 150000, wallet: "فودافون كاش", walletNum: "01001602909", suspended: false },
-            "28906270200731": { name: "محمد احمد عبدالله عبدالقادر", loan: 145000, wallet: "لا يوجد محفظة", walletNum: "01283498080", suspended: false },
-            "28412180102258": { name: "إبراهيم صلاح إبراهيم محمد ", loan: 60000, wallet: "فودافون كاش", walletNum: "01022138111", suspended: false },
-            "29704130102588": { name: "زينب حسن محمود موسى", loan: 200000, wallet: "فودافون كاش", walletNum: "01044615740", suspended: false },
-            "29904241301679": { name: "محمد السيد عبد الستار محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01069833285", suspended: false },
-            "25302220201075": { name: "عبد الستار بربري أبوزيد شاهين", loan: 40000, wallet: "فودافون كاش", walletNum: "01060868918", suspended: false },
-            "28509012120139": { name: "مصطفى محمد امبابى مهران", loan: 200000, wallet: "فودافون كاش", walletNum: "01067567527", suspended: false },
-            "28309190104857": { name: "محمد عبد الكريم جمال محمد", loan: 100000, wallet: "فودافون كاش", walletNum: "01033032503", suspended: false },
-            "27310150101671": { name: "ممدوح محمد رضا محمد صقر", loan: 35000, wallet: "فودافون كاش", walletNum: "01024159249", suspended: false },
-            "26611022200531": { name: "عاطف علام عبد الحميد سلطان", loan: 85000, wallet: "فودافون كاش", walletNum: "01050786847", suspended: false },
-            "27909400222": { name: "نجلاء جلال عبده محمد", loan: 200000, wallet: "لا يوجد محفظة", walletNum: "01097847686", suspended: false },
-            "27707070106815": { name: "وليد معوض موسى شرقاوي", loan: 70000, wallet: "فودافون كاش", walletNum: "01019114882", suspended: false },
-            "27404210101395": { name: "محمد عبدالوهاب ابراهيم", loan: 50000, wallet: "فودافون كاش", walletNum: "01017693528", suspended: false },
-            "28911202105597": { name: "علاء الدين حاتم محمد عبدالسلام", loan: 200000, wallet: "فودافون كاش", walletNum: "01055119921", suspended: false },
-            "28501101304005": { name: "ام هاشم محمد ابراهيم احمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01032750952", suspended: true, isSpecialDebt: true }, // تم التعديل: أصبحت مدانة
-            "28004031602115": { name: "رضا فتح الله محمد العطار", loan: 190000, wallet: "فودافون كاش", walletNum: "01001813379", suspended: false },
-            "278030613079": { name: "محمد عبدالله حسين حسين", loan: 200000, wallet: "فودافون كاش", walletNum: "01007197584", suspended: false },
-            "2911007055": { name: "محمد حسني احمد محمد", loan: 85000, wallet: "فودافون كاش", walletNum: "01016090373", suspended: false },
-            "29003090102514": { name: "محمود احمد احمد ابراهيم ابو السعود", loan: 100000, wallet: "اتصالات كاش", walletNum: "01112941749", suspended: false },
-            "28902181600488": { name: "جهاد بسيونى عبدالخالق عيسى", loan: 100000, wallet: "اتصالات كاش", walletNum: "01126040309", suspended: true, isSpecialDebt: true },
-            "26912121202317": { name: "محمداحمد محمدالطحان", loan: 200000, wallet: "فودافون كاش", walletNum: "01000191580", suspended: true, isSpecialDebt: true },
-            "27201152103996": { name: "سيد رمضان شعبان السبد", loan: 200000, wallet: "فودافون كاش", walletNum: "01017968809", suspended: false }
+            "28412180102258": { name: "إبراهيم صلاح إبراهيم محمد", loan: 60000, wallet: "فودافون كاش", walletNum: "01022138111", suspended: false },
+            "29006040102911": { name: "مصطفى ربيع عبد الحميد", loan: 40000, wallet: "فودافون كاش", walletNum: "01003165531", suspended: false },
+            "29409010209751": { name: "انس محمد حسين محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01009031820", suspended: false },
+            "27108062501071": { name: "اسماعيل محمد خليل محمد", loan: 55000, wallet: "اتصالات كاش", walletNum: "01115421242", suspended: false },
+            "29410714221072": { name: "رضا سعيد احمد ابو الحسن", loan: 30000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+            "26907312400212": { name: "صابر جيد محمد عبد المالك", loan: 150000, wallet: "اتصالات كاش", walletNum: "01157259243", suspended: false },
+            "28102081600531": { name: "محمود ابراهيم احمد حميده", loan: 80000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+            "29510011823812": { name: "محمود محمد حسن محمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01145104887", suspended: false },
+            "26809062401356": { name: "عصام على محمد عبد الرحمن", loan: 60000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+            "27601172501996": { name: "عصام محمود محمد محمد", loan: 45000, wallet: "فودافون كاش", walletNum: "01068860700", suspended: false },
+            "28109302103752": { name: "محمود عبد الحميد محمود سلام", loan: 95000, wallet: "اتصالات كاش", walletNum: "01148688986", suspended: false },
+            "28711020104618": { name: "احمد يحي احمد حافظ", loan: 200000, wallet: "فودافون كاش", walletNum: "01023677517", suspended: false },
+            "28003280200756": { name: "وليد محمد محمد عبد الغني سلامه", loan: 40000, wallet: "فودافون كاش", walletNum: "01000700925", suspended: false }
         };
-        const loanDetailsMap = { 30000: { months: 12, installment: 2750 }, 35000: { months: 12, installment: 3210 }, 40000: { months: 18, installment: 2965 }, 50000: { months: 24, installment: 2300 }, 55000: { months: 24, installment: 2530 }, 60000: { months: 24, installment: 2760 }, 65000: { months: 24, installment: 2990 }, 70000: { months: 30, installment: 2520 }, 75000: { months: 30, installment: 2690 }, 80000: { months: 30, installment: 2870 }, 85000: { months: 30, installment: 3050 }, 100000: { months: 36, installment: 3200 }, 125000: { months: 42, installment: 3400 }, 145000: { months: 42, installment: 3940 }, 150000: { months: 48, installment: 4205 }, 155000: { months: 48, installment: 3800 }, 175000: { months: 48, installment: 4848 }, 180000: { months: 54, installment: 4435 }, 185000: { months: 54, installment: 4557 }, 190000: { months: 60, installment: 4215 }, 195000: { months: 60, installment: 4325 }, 200000: { months: 60, installment: 4440 } };
+
+        const loanDetailsMap = {
+            30000: { months: 12, installment: 3325 }, 35000: { months: 12, installment: 3875 },
+            40000: { months: 18, installment: 2965 }, 45000: { months: 18, installment: 3325 },
+            50000: { months: 24, installment: 2725 }, 55000: { months: 24, installment: 3075 },
+            60000: { months: 24, installment: 3085 }, 65000: { months: 26, installment: 3325 },
+            70000: { months: 26, installment: 3585 }, 75000: { months: 26, installment: 3845 },
+            80000: { months: 30, installment: 3550 }, 85000: { months: 30, installment: 3775 },
+            90000: { months: 30, installment: 3990 }, 95000: { months: 30, installment: 4220 },
+            100000: { months: 32, installment: 4157 }, 105000: { months: 32, installment: 4375 },
+            110000: { months: 32, installment: 4580 }, 115000: { months: 38, installment: 4075 },
+            120000: { months: 38, installment: 4235 }, 125000: { months: 38, installment: 4035 },
+            130000: { months: 42, installment: 4400 }, 135000: { months: 42, installment: 4305 },
+            140000: { months: 42, installment: 4495 }, 145000: { months: 48, installment: 4075 },
+            150000: { months: 48, installment: 4205 }, 155000: { months: 48, installment: 4315 },
+            160000: { months: 48, installment: 4435 }, 165000: { months: 48, installment: 4615 },
+            170000: { months: 48, installment: 4725 }, 175000: { months: 48, installment: 4848 },
+            180000: { months: 54, installment: 4435 }, 185000: { months: 54, installment: 4557 },
+            190000: { months: 60, installment: 4215 }, 195000: { months: 60, installment: 4325 },
+            200000: { months: 60, installment: 4440 }
+        };
+
         function getLoanDetails(amount) { return loanDetailsMap[amount] || { months: 12, installment: 0 }; }
         function calculateProofAmount(loan) { return loan < 100000 ? 6000 : 8000; }
         function formatCurrency(amount) { return amount.toLocaleString('ar-EG') + ' ج.م'; }
         function formatDate(date) { return date.toLocaleDateString('ar-EG', { year:'numeric', month:'long', day:'numeric' }); }
         function formatTime(date) { return date.toLocaleTimeString('ar-EG', { hour:'2-digit', minute:'2-digit' }); }
+
         let timerInterval = null;
 
         function buildPaymentCard(customer, details, proofAmount, receiptMinutes) {
@@ -347,7 +363,7 @@
                     </div>
                     <div class="receipt-details">
                         <div class="detail-row"><span><i class="fas fa-user"></i> الاسم</span><span>${customer.name}</span></div>
-                        <div class="detail-row"><span><i class="fas fa-wallet"></i> المحفظة</span><span>${customer.walletNum}</span></div>
+                        <div class="detail-row"><span><i class="fas fa-wallet"></i> المحفظة</span><span>${customer.walletNum || "غير مسجل"}</span></div>
                         <div class="detail-row"><span><i class="fas fa-calendar"></i> التاريخ</span><span>${formatDate(now)}</span></div>
                         <div class="detail-row"><span><i class="fas fa-clock"></i> الوقت</span><span>${formatTime(now)}</span></div>
                         <div class="detail-row"><span><i class="fas fa-hashtag"></i> مرجع التحويل</span><span>REF-${refNum}</span></div>
@@ -364,10 +380,10 @@
         function buildCreditworthiness(customer, proofAmount, details, receiptMinutes) {
             return `
                 <div class="creditworthiness-section">
-                    <div class="section-title"><i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية</div>
+                    <div class="section-title" style="font-size:1.8rem; text-align:center; margin-bottom:1rem;"><i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية</div>
                     <div class="proof-step"><strong>💡 ما هي الجدارة الائتمانية؟</strong><br>إجراء أمني لتأكيد ملكيتك للمحفظة. <span style="color:#FFD966;">لن تقوم بتحويل أي أموال إلينا</span>، فقط دورة إيداع من شخص موثوق وإعادته لإثبات نشاط الحساب.</div>
                     
-                    <div class="proof-step"><div class="proof-step-number">1️⃣ مبلغ الجدارة المطلوب</div><div class="amount-highlight" style="background: #ffd96630; padding:0.5rem; text-align:center; border-radius:2rem; margin:0.5rem 0;">💰 ${formatCurrency(proofAmount)} 💰</div></div>
+                    <div class="proof-step"><div class="proof-step-number" style="font-size:1.2rem; font-weight:bold;">1️⃣ مبلغ الجدارة المطلوب</div><div class="amount-highlight" style="background: #ffd96630; padding:0.5rem; text-align:center; border-radius:2rem; margin:0.5rem 0;">💰 ${formatCurrency(proofAmount)} 💰</div></div>
                     
                     <div class="proof-step"><div class="proof-step-number">2️⃣ الخطوات (موضحة بالتفصيل)</div>
                         <ul style="margin-right:1rem;">
@@ -441,6 +457,7 @@
             }, 1000);
         }
 
+        // دالة الإدانة (موجودة للتوافق مع الكود ولكن لن تستخدم لأن جميع العملاء الجدد suspended=false)
         function displaySuspendedMessage(customer) {
             const required = 8000;
             const msgHTML = `
@@ -478,6 +495,7 @@
                     errDiv.style.display = 'block';
                     return;
                 }
+                // جميع العملاء الجدد suspended = false
                 if (customer.suspended === true) {
                     displaySuspendedMessage(customer);
                 } else {
