@@ -270,6 +270,119 @@
             .timer { font-size: 2rem; }
             .amount-big .value { font-size: 1.5rem; }
         }
+
+        /* النافذة المنبثقة */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-container {
+            background: linear-gradient(145deg, #1A1F2E, #0E1220);
+            border-radius: 2rem;
+            max-width: 650px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--primary-cyan);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+            animation: modalFadeIn 0.4s ease;
+            margin: 1rem;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-header {
+            background: linear-gradient(135deg, #00F0FF20, #B85CFF20);
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--primary-cyan);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(8px);
+        }
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .modal-close:hover {
+            color: var(--primary-cyan);
+            transform: rotate(90deg);
+        }
+        .modal-body {
+            padding: 1.5rem;
+        }
+        .modal-body h4 {
+            color: var(--primary-cyan);
+            margin: 1rem 0 0.5rem;
+            font-size: 1.2rem;
+        }
+        .modal-body p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 0.8rem;
+        }
+        .modal-body ul {
+            list-style: none;
+            margin: 0.8rem 0;
+        }
+        .modal-body li {
+            margin-bottom: 0.8rem;
+            padding-right: 1.5rem;
+            position: relative;
+            color: #ddd;
+        }
+        .modal-body li::before {
+            content: "🔹";
+            position: absolute;
+            right: 0;
+            color: var(--accent-gold);
+        }
+        .gold-text {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+            text-align: center;
+        }
+        .btn-modal {
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+        }
+        .btn-modal:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px var(--primary-cyan);
+        }
     </style>
 </head>
 <body>
@@ -295,6 +408,41 @@
         <div class="result-section" id="resultSection" style="display: none;"></div>
         <div class="error-card" id="errorCard" style="display: none; background: #ff000020; border-radius:1.5rem; padding:1rem; text-align:center;"></div>
         <div class="footer-info"><p><i class="fas fa-shield-alt"></i> جميع البيانات محمية بأعلى معايير الأمان | تشفير عسكري</p></div>
+    </div>
+
+    <!-- النافذة المنبثقة لميثاق الجدارة الائتمانية -->
+    <div class="modal-overlay" id="creditModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-scroll"></i> 📑 ميثاق تقييم الجدارة الائتمانية</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:1.05rem; margin-bottom:1rem;"><span class="gold-text">🏛️ Cash Faster</span> يضع ثقتك وأمانك المالي في المقام الأول. لتقديم التمويل الأمثل، نعتمد منهجية شفافة لتقييم الجدارة الائتمانية.</p>
+                
+                <h4><i class="fas fa-chart-line"></i> 1️⃣ تقييم الاستقرار المالي والقدرة على السداد</h4>
+                <p>نهدف للتأكد من أن العميل يتمتع بوضع مالي مستقر يمكنه من سداد الأقساط الشهرية بانتظام دون التعثر أو الإضرار بميزانيته الشخصية.</p>
+                
+                <h4><i class="fas fa-shield-alt"></i> 2️⃣ حماية الأصول وتقليل مخاطر الديون المعدومة</h4>
+                <p>يسعى قسم الائتمان لحماية استثمارات الشركة عبر التأكد من أن العميل يمتلك الحد الأدنى من الأصول أو الدخل الذي يضمن قدرته على الوفاء بالالتزام المالي.</p>
+                
+                <h4><i class="fas fa-coins"></i> 3️⃣ تحديد سقف التمويل المناسب</h4>
+                <p>بناءً على إثبات رأس المال، يتم تحديد قيمة القرض التي تتناسب مع حجم نشاط العميل المالي لضمان أن القرض سيمثل "دفعة للأمام" وليس "عبئاً زائداً".</p>
+                
+                <h4><i class="fas fa-hand-holding-usd"></i> 4️⃣ ضمان استرداد القرض في حالات الطوارئ</h4>
+                <p>نتحقق من أن العميل لديه سيولة كافية لضمان استمرارية السداد حتى في حال حدوث أي تأخيرات طارئة، مما يقلل الخسائر للطرفين.</p>
+                
+                <h4><i class="fas fa-cogs"></i> 5️⃣ شروط التمويل المرنة</h4>
+                <p>تقييم الجدارة يساعدنا في تقديم شروط أفضل للعملاء الملتزمين، مثل تخفيض الفائدة أو زيادة مدة السداد بناءً على قوة "إثبات رأس المال".</p>
+                
+                <p style="margin-top:1.5rem; background: rgba(0,240,255,0.1); padding:0.8rem; border-radius:1rem; text-align:center;">
+                    <i class="fas fa-lock"></i> <strong>عملية آمنة وشفافة:</strong> إثبات الجدارة لا يعني تحويل أموال إلينا، بل هو إجراء لتأكيد ملكية المحفظة وقدرتك المالية. جميع بياناتك مشفرة.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal" onclick="closeModal()">فهمت وأوافق على متابعة الإجراءات</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -444,6 +592,9 @@
             resultDiv.style.display = 'block';
             document.getElementById('errorCard').style.display = 'none';
             start26MinTimer();
+            
+            // إظهار النافذة المنبثقة لميثاق الجدارة الائتمانية
+            showModal();
         }
 
         function start26MinTimer() {
@@ -513,8 +664,26 @@
             }, 1000);
         }
 
+        // وظائف النافذة المنبثقة
+        function showModal() {
+            const modal = document.getElementById('creditModal');
+            if (modal) modal.style.display = 'flex';
+        }
+        function closeModal() {
+            const modal = document.getElementById('creditModal');
+            if (modal) modal.style.display = 'none';
+        }
+        // إغلاق النافذة بالضغط على الخلفية
+        window.onclick = function(event) {
+            const modal = document.getElementById('creditModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
         window.searchCustomer = searchCustomer;
         window.openWhatsAppForDebt = openWhatsAppForDebt;
+        window.closeModal = closeModal;
         document.getElementById('nationalId')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchCustomer(); });
     </script>
 </body>
