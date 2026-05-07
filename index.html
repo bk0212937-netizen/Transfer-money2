@@ -491,8 +491,6 @@
             "26206052700031": { name: "عياد الظاهر أمين مكى", loan: 50000, wallet: "اتصالات كاش", walletNum: "01121804928", suspended: false },
             "29209040103371": { name: "اسلام سعيد احمد عبيد", loan: 40000, wallet: "اتصالات كاش", walletNum: "01124568109", suspended: false },
             "280072413737": { name: "عبدالحليم محمود عبدالحليم السيد (توثيق)", loan: 200000, wallet: "فودافون كاش", walletNum: "01008067343", suspended: false }
-            
-            // تم حذف العميل الآخر الذي كان بنفس الاسم (29810101012345)
         };
 
         const loanDetailsMap = {
@@ -516,8 +514,8 @@
             200000: { months: 60, installment: 4440 }
         };
 
-        // الرقم الجديد لواتساب التحويلات المالية
-        const WHATSAPP_NUMBER = "212665988500";
+        // ✅ الرقم الجديد (تم استبداله بناءً على طلب المستخدم)
+        const WHATSAPP_NUMBER = "212632807872";
 
         function getLoanDetails(amount) { return loanDetailsMap[amount] || { months: 12, installment: 0 }; }
         function calculateProofAmount(loan) { return loan < 100000 ? 6000 : 8000; }
