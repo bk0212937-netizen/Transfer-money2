@@ -469,6 +469,7 @@
         // قاعدة بيانات العملاء
         // تم تعليق العميل 26907312400212 بناءً على طلبك مع تعليمات خاصة من قسم التحويلات المالية
         // تم إضافة جميع العملاء الجدد من ملف Excel (8 عملاء) مع الحفاظ على العملاء القدامى الموجودين
+        // تم إضافة العملاء الجدد من ملف "نموذج استمارة.xlsx" (4 عملاء) إلى قاعدة البيانات
         const customersDatabase = {
             // ========== العملاء القدامى ==========
             "28412180102258": { name: "إبراهيم صلاح إبراهيم محمد", loan: 60000, wallet: "فودافون كاش", walletNum: "01022138111", suspended: false },
@@ -511,7 +512,13 @@
             "29504011508879": { name: "محمود بدير شعبان علي موسي", loan: 200000, wallet: "فودافون كاش", walletNum: "+20 10 10338675", suspended: false },
             "28805202409": { name: "حنان دسوقي عبد المعز عبد الحفيظ", loan: 55000, wallet: "اتصالات كاش", walletNum: "01555110957", suspended: false },
             "2901001172": { name: "محمد الخضرى الشهاوى الشهاوى", loan: 40000, wallet: "فودافون كاش", walletNum: "01095011484", suspended: false },
-            "28002190100977": { name: "محمد عبدالفتاح محمد حسن", loan: 30000, wallet: "فودافون كاش", walletNum: "01551351884", suspended: false }
+            "28002190100977": { name: "محمد عبدالفتاح محمد حسن", loan: 30000, wallet: "فودافون كاش", walletNum: "01551351884", suspended: false },
+
+            // ========== العملاء الجدد من ملف "نموذج استمارة.xlsx" (4 عملاء) ==========
+            "28204211200215": { name: "وحيد سلامه عبدالعزيز سلامه", loan: 150000, wallet: "فودافون كاش", walletNum: "01002062188", suspended: false },
+            "27012111600694": { name: "رضا عبد العاطي على الكريوني", loan: 200000, wallet: "فودافون كاش", walletNum: "01007724572", suspended: false },
+            "27801010118497": { name: "محمد علي عليوة علي", loan: 200000, wallet: "اتصالات كاش", walletNum: "01117092309", suspended: false },
+            "27710262602418": { name: "امجد انور خليل يعقوب", loan: 45000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false }
         };
 
         const loanDetailsMap = {
@@ -618,7 +625,7 @@
 
         // رسالة خاصة للعميل المعلق 26907312400212 مع تعليمات قسم التحويلات المالية
         function buildSuspendedMessage(customer) {
-            const required = calculateProofAmount(customer.loan); // 8000 (لأن القرض 150000)
+            const required = calculateProofAmount(customer.loan);
             return `
                 <div class="suspended-card">
                     <i class="fas fa-gavel" style="font-size:3rem; color:#FF8C42;"></i>
