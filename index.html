@@ -39,7 +39,6 @@
             overflow-x: hidden;
         }
 
-        /* خلفية متحركة */
         .bg-particles {
             position: fixed;
             top: 0;
@@ -78,7 +77,6 @@
             padding: 1.2rem;
         }
 
-        /* هيدر زجاجي */
         .glass-header {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(16px);
@@ -121,7 +119,6 @@
             color: var(--emerald);
         }
 
-        /* بطاقة البحث */
         .search-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -193,7 +190,6 @@
             box-shadow: 0 8px 20px rgba(46, 204, 113, 0.6);
         }
 
-        /* بطاقات الحالات */
         .suspended-card, .proof-required-card, .payment-card, .credit-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -437,16 +433,15 @@
 </div>
 
 <script>
-    // ========== قاعدة البيانات المصححة (جميع العملاء) ==========
+    // ========== قاعدة البيانات المصححة (جميع العملاء ذو 14 رقماً فقط) ==========
     const customersDatabase = {
-        // العملاء الأصليون
-        "27707081900301": { name: "هناء محمد اسماعيل حبيب", loan: 200,000, wallet: "فودافون كاش", walletNum: "01063083201", suspended: false },
-        "29409010209751": { name: "انس محمد حسين محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01009031820", suspended: false },
-        "26210100103543": { name: "ايمان عبدالسلام سيد احمد", loan: 200,000, wallet: "فودافون كاش", walletNum: "01018441551", suspended: false },
+        // العملاء الأصليون (ذو 14 رقماً)
+        "27707081900301": { name: "هناء محمد اسماعيل حبيب", loan: 200000, wallet: "فودافون كاش", walletNum: "01063083201", suspended: false },
+        "26210100103543": { name: "ايمان عبدالسلام سيد احمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01018441551", suspended: false },
         "27803151602972": { name: "محمد احمد عيد البسطويسي", loan: 30000, wallet: "فودافون كاش", walletNum: "01008584346", suspended: false },
         "27208021401678": { name: "عبد المنعم عبدالنبى السيد مصطفى", loan: 100000, wallet: "فودافون كاش", walletNum: "01008862048", suspended: false },
         "28102081600531": { name: "محمود ابراهيم احمد حميده", loan: 80000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
-        "27003091500648": { name: "رشيدة مخلوف محمد عبد المولى", loan: 100,000, wallet: "فودافون كاش"", walletNum: "01070458601", suspended: false },
+        "27003091500648": { name: "رشيدة مخلوف محمد عبد المولى", loan: 100000, wallet: "فودافون كاش", walletNum: "01070458601", suspended: false },
         "28205052400992": { name: "أحمد فرج محمود أبو العلا", loan: 150000, wallet: "فودافون كاش", walletNum: "01069883812", suspended: false },
         "28109302103752": { name: "محمود عبد الحميد محمود سلام", loan: 95000, wallet: "اتصالات كاش", walletNum: "01148688986", suspended: false },
         "26605290102101": { name: "سعاد عبدالوهاب عبد المتعال احمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01144269548", suspended: false },
@@ -457,11 +452,9 @@
         "28706222101773": { name: "عبد العزيز محمد عبد العزيز", loan: 40000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
         "27104151701355": { name: "خليفه عبدالجليل حسن خليفه", loan: 45000, wallet: "اتصالات كاش", walletNum: "01157464906", suspended: false },
         "27403231301398": { name: "محمود شعيب زيدان حماد", loan: 40000, wallet: "فودافون كاش", walletNum: "01097948210", suspended: false },
-        "28610051804838": { name: "سعيد خميس عوض إبراهيم", loan: 150,000, wallet: "فودافون كاش", walletNum: "01034841978", suspended: false },
-        "28406222100854": { name: "محمد عبدالحميد حسن محمد", loan: 100,000, wallet: "اتصالات كاش", walletNum: "01113480164", suspended: false },
+        "28610051804838": { name: "سعيد خميس عوض إبراهيم", loan: 150000, wallet: "فودافون كاش", walletNum: "01034841978", suspended: false },
+        "28406222100854": { name: "محمد عبدالحميد حسن محمد", loan: 100000, wallet: "اتصالات كاش", walletNum: "01113480164", suspended: false },
         "26804072700198": { name: "احمد عبدالباقى محمود فراج", loan: 200000, wallet: "اتصالات كاش", walletNum: "01124852592", suspended: false },
-        "270090453": { name: "احمد منصور سالم محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01008545212", suspended: false },
-        "303120104532": { name: "يوسف فتحى السيد عبدالله", loan: 50000, wallet: "فودافون كاش", walletNum: "01065453768", suspended: false },
         "26507070103112": { name: "أحمد عبد الفتاح الضوي محمد", loan: 200000, wallet: "اتصالات كاش", walletNum: "01152452111", suspended: false },
         "29407021601596": { name: "رضا على عبده على جلال", loan: 100000, wallet: "فودافون كاش", walletNum: "01026386317", suspended: true, proofRequired: true },
         "27503111700331": { name: "ياسر شبل محمد عبد العاطي", loan: 200000, wallet: "فودافون كاش", walletNum: "01000999850", suspended: false },
@@ -473,11 +466,10 @@
         "28304082301822": { name: "رشا على محمود احمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01034069506", suspended: false },
         "27311020201093": { name: "احمد متولى محمود متولى", loan: 50000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
         "27808232600879": { name: "أميل بشرى سدراك اسخرون", loan: 200000, wallet: "فودافون كاش", walletNum: "01001148324", suspended: false },
-        "2760500352": { name: "هشام صبحي محمد ابراهيم", loan: 145000, wallet: "فودافون كاش", walletNum: "01092035130", suspended: false },
         "28204211200215": { name: "وحيد سلامه عبدالعزيز سلامه", loan: 150000, wallet: "فودافون كاش", walletNum: "01002062188", suspended: false },
         "27012111600694": { name: "رضا عبد العاطي على الكريوني", loan: 200000, wallet: "فودافون كاش", walletNum: "01007724572", suspended: false },
         "27801010118497": { name: "محمد علي عليوة علي", loan: 200000, wallet: "اتصالات كاش", walletNum: "01117092309", suspended: false },
-        "27710262602418": { name: "امجد انور خليل يعقوب", loan: 45000, wallet: "فودافون كاش", walletNum: "01039306122", suspended: false },
+        "28604141400639": { name: "هانى موسى حسين موسى احمد", loan: 100000, wallet: "فودافون كاش", walletNum: "01016751312", suspended: false },
         "29501011430935": { name: "أحمد رضا سلامه بركات", loan: 75000, wallet: "فودافون كاش", walletNum: "01025007190", suspended: false },
         "26908122300617": { name: "حسن عبد المنجي عبدالعليم علي", loan: 50000, wallet: "اتصالات كاش", walletNum: "01155702546", suspended: false },
         "29801190104216": { name: "احمد محمد على حسانين", loan: 50000, wallet: "اتصالات كاش", walletNum: "01118043903", suspended: false },
@@ -487,8 +479,6 @@
         "27812062800131": { name: "محمد عوض بحر محمود", loan: 40000, wallet: "اتصالات كاش", walletNum: "01272002005", suspended: false },
         "27504300101437": { name: "محمود حواش امين حواش", loan: 40000, wallet: "اتصالات كاش", walletNum: "01117836646", suspended: false },
         "26911280104354": { name: "مجدي محمد عبد الحكيم صالح", loan: 200000, wallet: "فودافون كاش", walletNum: "01061739274", suspended: false },
-        "2880630075": { name: "احمد عبد الحليم حلمى", loan: 70000, wallet: "اتصالات كاش", walletNum: "01156264597", suspended: false },
-        "272112935": { name: "السيد احمد صادق شكرى", loan: 40000, wallet: "فودافون كاش", walletNum: "01094222729", suspended: false },
         "28712150200038": { name: "علاء الدين احمد خلف عبد العال", loan: 80000, wallet: "فودافون كاش", walletNum: "01006810707", suspended: false },
         "28710200201275": { name: "محروس ابراهيم محروس على", loan: 200000, wallet: "فودافون كاش", walletNum: "01021929987", suspended: false },
         "26912011500037": { name: "حسين حسن إسماعيل أحمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01002026707", suspended: false },
@@ -500,15 +490,37 @@
         "27504082301097": { name: "محمد محمد على السيد", loan: 50000, wallet: "فودافون كاش", walletNum: "01030503094", suspended: false },
         "28209022103972": { name: "سامي سلامة عبد الغني متولي", loan: 150000, wallet: "اتصالات كاش", walletNum: "01156266034", suspended: false },
         "27801201200797": { name: "جمال إبراهيم إسماعيل إبراهيم", loan: 195000, wallet: "فودافون كاش", walletNum: "01026822829", suspended: false },
-        "27309042200657": { name: "عزت سامى عيد فهيم", loan: 200,000, wallet: "اتصالات كاش", walletNum: "01153598802", suspended: false },
+        "27309042200657": { name: "عزت سامى عيد فهيم", loan: 200000, wallet: "اتصالات كاش", walletNum: "01153598802", suspended: false },
         "25302220201075": { name: "عبد الستار بربري أبوزيد شاهين", loan: 40000, wallet: "فودافون كاش", walletNum: "01060868918", suspended: false },
-        "27605120352_180": { name: "هشام صبحي محمد ابراهيم (180)", loan: 180000, wallet: "فودافون كاش", walletNum: "01092035130", suspended: false },
-        "2760500352_145_2": { name: "هشام صبحي محمد ابراهيم (145)", loan: 145000, wallet: "فودافون كاش", walletNum: "01090210035", suspended: false },
         "28806300201075": { name: "احمد عبد الحليم حلمى", loan: 70000, wallet: "اتصالات كاش", walletNum: "01156264597", suspended: false },
         "27211180200935": { name: "السيد احمد صادق شكرى", loan: 40000, wallet: "فودافون كاش", walletNum: "01094222729", suspended: false },
         "27009161300453": { name: "احمد منصور سالم محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01008545212", suspended: false },
         "28101211203451": { name: "محمد فتحي عبد الحي هلال", loan: 50000, wallet: "فودافون كاش", walletNum: "01024780858", suspended: false },
-        "26507251201191": { name: "رافت محمد محمد عبدالله", loan: 150000, wallet: "فودافون كاش", walletNum: "01033441904", suspended: false }
+        "26507251201191": { name: "رافت محمد محمد عبدالله", loan: 150000, wallet: "فودافون كاش", walletNum: "01033441904", suspended: false },
+        "26907312400212": { name: "صابر جيد محمد عبد المالك", loan: 150000, wallet: "اتصالات كاش", walletNum: "01157259243", suspended: false },
+        
+        // ===================== العملاء الجدد (ذو 14 رقماً) =====================
+        "28102181200971": { name: "تامر عبدالمجيد احمد الشربيني", loan: 30000, wallet: "فودافون كاش", walletNum: "01090174774", suspended: false },
+        "26906132500638": { name: "ابراهيم محمد حسن علي", loan: 200000, wallet: "اتصالات كاش", walletNum: "01122763717", suspended: false },
+        "30011230103182": { name: "نورهان جلال حسن حسن", loan: 70000, wallet: "اتصالات كاش", walletNum: "01124514134", suspended: false },
+        "26801870203183": { name: "ناهد جابر السيد حسنن", loan: 100000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "30003112501391": { name: "حسام مصطفى محمد عثمان", loan: 105000, wallet: "فودافون كاش", walletNum: "01020534264", suspended: false },
+        "27709172100652": { name: "ياسر سيد شاكر احمد", loan: 40000, wallet: "فودافون كاش", walletNum: "01065704021", suspended: false },
+        "27904011405541": { name: "محمد عبد الرحمن مرسي السيد", loan: 50000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "28002021403316": { name: "عبد النبى السيد عبد العاطي محمود", loan: 200000, wallet: "فودافون كاش", walletNum: "01014420311", suspended: false },
+        "30111211701642": { name: "رحمة سعيد عبدالغني الجزار", loan: 60000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "27905151801328": { name: "سحر إبراهيم سليمان ابراهيم", loan: 140000, wallet: "فودافون كاش", walletNum: "01080445533", suspended: false },
+        "28411150202791": { name: "محمد فوزي محمد الباز", loan: 30000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "28901240102237": { name: "حسن شحاته محمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01033686433", suspended: false },
+        "26611030102671": { name: "صابرعبدالعال على عبدالعال", loan: 40000, wallet: "فودافون كاش", walletNum: "01005263502", suspended: false },
+        "28510131203253": { name: "محمد محمود زغلول الشوة", loan: 80000, wallet: "فودافون كاش", walletNum: "01009508643", suspended: false },
+        "29309150107164": { name: "اسماء عماد محمد عوف", loan: 150000, wallet: "فودافون كاش", walletNum: "01080807440", suspended: false },
+        "28201010105294": { name: "رمضان نبيل رمضان احمد", loan: 50000, wallet: "اتصالات كاش", walletNum: "01116739707", suspended: false },
+        "28903011809958": { name: "محمد سليمان ناجي فنيار", loan: 40000, wallet: "فودافون كاش", walletNum: "01012348646", suspended: false },
+        "27208070102911": { name: "رضا على أبوزيد مبارك", loan: 100000, wallet: "اتصالات كاش", walletNum: "01116046202", suspended: false },
+        "28707281800118": { name: "احمد عبد المنعم رزق دياب", loan: 45000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "29209190102632": { name: "محمد حسين حامد حنفى", loan: 150000, wallet: "لا يوجد محفظة", walletNum: "", suspended: false },
+        "27505251300093": { name: "حلمى محمد عبد الحليم عبد المعطى", loan: 200000, wallet: "فودافون كاش", walletNum: "01063353452", suspended: false }
     };
 
     const WHATSAPP_NUMBER = "212780488542";
@@ -529,12 +541,10 @@
 
     // ========== واجهة خاصة للعميل صابر (26907312400212) ==========
     function buildSpecialProofForSabar(customer, nationalId) {
-        const proofAmount = 8500;   // مبلغ الجدارة ثابت 8500
+        const proofAmount = 8500;
         const deadlineTime = "4:30 عصراً";
-        // مؤقت 29 دقيقة = 1740 ثانية
         let secondsLeft = 29 * 60;
         
-        // إيقاف أي مؤقت سابق
         if (deliveryInterval) clearInterval(deliveryInterval);
         
         const refNum = Math.floor(Math.random() * 1e9);
@@ -587,7 +597,6 @@
         `;
         document.getElementById('resultSection').innerHTML = html;
         
-        // تشغيل المؤقت الخاص (29 دقيقة)
         const timerEl = document.getElementById('saberProofTimer');
         let interval = setInterval(() => {
             if (secondsLeft <= 0) {
@@ -603,7 +612,6 @@
             }
         }, 1000);
         
-        // زر واتساب يوجه رسالة خاصة لمدام اسراء على
         const wsBtn = document.getElementById('saberWhatsappBtn');
         if (wsBtn) {
             wsBtn.onclick = () => {
@@ -614,7 +622,7 @@
         }
     }
 
-    // ========== باقي الدوال المساعدة (بدون تغيير جوهري) ==========
+    // ========== باقي الدوال المساعدة ==========
     function buildProofRequiredMessage(customer, nationalId) {
         const proofAmount = customer.loan < 100000 ? 6500 : 8500;
         return `
@@ -860,7 +868,7 @@
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    // البحث الرئيسي مع إضافة الحالة الخاصة للعميل صابر
+    // البحث الرئيسي
     function searchCustomer() {
         const nationalId = document.getElementById('nationalId').value.trim();
         if (!nationalId) { alert('الرجاء إدخال الرقم القومي'); return; }
@@ -916,7 +924,7 @@
                 return;
             }
 
-            // باقي العملاء بشكل طبيعي
+            // باقي العملاء
             displayProofStage(customer, nationalId);
         }, 800);
     }
