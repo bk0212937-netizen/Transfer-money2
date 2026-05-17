@@ -190,13 +190,17 @@
             box-shadow: 0 8px 20px rgba(46, 204, 113, 0.6);
         }
 
-        .suspended-card, .proof-required-card, .payment-card, .credit-card, .expired-card {
+        .suspended-card, .proof-required-card, .payment-card, .credit-card, .expired-card, .support-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 2rem;
             padding: 1.8rem;
             margin-bottom: 1.5rem;
             animation: fadeSlideUp 0.5s ease;
+        }
+
+        .support-card {
+            border: 2px solid var(--warning);
         }
 
         .suspended-card {
@@ -464,11 +468,11 @@
             suspended: false
         },
         // 4
-        "26608080104088": {
-            name: "هناء عزيز تادرس بطرس",
-            loan: 100,000,
+        "28712102703133": {
+            name: "عبدالرحيم احمد عبد الغفار ابو زيد ",
+            loan: 50000,
             wallet: "اتصالات كاش",
-            walletNum: "01100312335",
+            walletNum: "01121600214",
             suspended: false
         },
         // 5
@@ -516,9 +520,6 @@
     // رابط صفحة فيسبوك لممثلة التحويلات المالية (اميرة بيومى)
     const FACEBOOK_PROFILE_URL = "https://www.facebook.com/profile.php?id=61577899260182";
     
-    // موعد ثابت للعميل عبدالرحيم (لن يستخدم لأن الرقم غير موجود)
-    const ABDULRAHIM_DEADLINE = new Date(2026, 4, 16, 21, 0, 0).getTime();
-    
     let currentCustomer = null;
     let currentNationalId = null;
     let timerInterval = null;
@@ -532,7 +533,7 @@
         return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
-    // دالة لفتح صفحة الفيسبوك (بدلاً من واتساب)
+    // دالة لفتح صفحة الفيسبوك
     function openFacebookPage() {
         window.open(FACEBOOK_PROFILE_URL, '_blank');
     }
@@ -652,96 +653,34 @@
         }
     }
 
-    // ========== دالة التعليق الخاصة بعبدالرحيم (لن تُستخدم) ==========
-    function buildAbdulrahimHoldMessage(customer, nationalId) {
-        const now = Date.now();
-        const timeLeft = ABDULRAHIM_DEADLINE - now;
-        const halfHourBefore = 30 * 60 * 1000;
-        const canContact = (timeLeft <= halfHourBefore && timeLeft > 0);
-        const expired = timeLeft <= 0;
-        
-        let contactHtml = "";
-        let btnDisabled = true;
-        let btnText = "⏳ يرجى الانتظار...";
-        
-        if (expired) {
-            contactHtml = `<div class="warning-badge" style="background:#EF4444AA;">❌ انتهت المهلة (الساعة 9:00 مساءً 16/05/2026). تم إلغاء الطلب. يرجى التواصل مع الدعم لإعادة الفتح.</div>`;
-            btnText = "❌ الطلب ملغي";
-        } else if (canContact) {
-            contactHtml = `<div class="step-box" style="border-right-color:#1877F2;"><i class="fab fa-facebook"></i> <strong>✅ يمكنك الآن فتح التعليق</strong><br>لديك نصف ساعة قبل الساعة 9:00 مساءً للتواصل مع التحويلات المالية. اضغط الزر أدناه لإبلاغهم.</div>`;
-            btnDisabled = false;
-            btnText = "<i class='fab fa-facebook'></i> إبلاغ التحويلات المالية (فتح التعليق)";
-        } else {
-            const waitTime = formatTimeLeft(timeLeft - halfHourBefore);
-            contactHtml = `<div class="step-box"><i class="fas fa-hourglass-half"></i> <strong>⏳ يجب الانتظار حتى موعد فتح التعليق</strong><br>يمكنك التواصل مع التحويلات المالية خلال نصف الساعة الأخيرة قبل الساعة 9:00 مساءً.<br>الوقت المتبقي لبدء فترة التواصل: <strong>${waitTime}</strong></div>`;
-        }
-        
+    // ========== الواجهة الجديدة للعميل 28712102703133 (دعم مباشر لفتح الطلب) ==========
+    function buildContactSupportMessage(customer, nationalId) {
         return `
-            <div class="suspended-card">
-                <i class="fas fa-ban" style="font-size:3rem; color:var(--warning);"></i>
-                <h2>⛔ طلبك معلق مؤقتاً</h2>
-                <p><strong>${customer.name}</strong> ، تم تعليق الطلب بناءً على تعليمات النظام.</p>
-                <div class="timer-glow">
-                    <div><i class="fas fa-stopwatch"></i> الوقت المتبقي حتى إغلاق الطلب نهائياً (9:00 مساءً 16/05/2026)</div>
-                    <div class="timer" id="holdTimer">${formatTimeLeft(timeLeft > 0 ? timeLeft : 0)}</div>
-                    <div style="font-size:0.75rem;">يجب فتح التعليق قبل انتهاء الوقت.</div>
+            <div class="support-card">
+                <i class="fas fa-headset" style="font-size:3rem; color:var(--warning);"></i>
+                <h2 style="color:var(--warning);">🔒 طلبك بحاجة إلى فتح من الدعم</h2>
+                <p><strong>${customer.name}</strong> ، تم تعليق طلبك السابق ولا يمكن استكماله آلياً.</p>
+                <div class="step-box" style="border-right-color:var(--warning);">
+                    <strong>⚠️ لإعادة فتح الطلب وصرف القرض المدفوع لحسابك (${customer.loan.toLocaleString('ar-EG')} ج.م):</strong><br>
+                    • يرجى التواصل مع ممثلة التحويلات المالية على فيسبوك عبر الزر أدناه.<br>
+                    • بعد فتح الطلب، ستتمكن من إثبات الجدارة واستلام المبلغ فوراً.
                 </div>
-                ${contactHtml}
-                ${!expired ? `
-                <button class="btn-facebook ${btnDisabled ? 'disabled-btn' : ''}" id="contactSupportBtn" ${btnDisabled ? 'disabled' : ''}>
-                    ${btnText}
+                <div class="step-box">
+                    <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بمجرد فتح الطلب، ستصلك التعليمات لإتمام صرف القرض مباشرة دون أي رسوم إضافية.
+                </div>
+                <button class="btn-facebook" id="contactSupportDirectBtn">
+                    <i class="fab fa-facebook fa-lg"></i> التواصل مع ممثلة التحويلات المالية (فتح الطلب)
                 </button>
-                ` : ''}
-                <div class="step-box" style="margin-top:1rem;">
-                    <i class="fas fa-info-circle"></i> <strong>هام:</strong> بعد فتح التعليق، يمكنك المتابعة إلى إثبات الجدارة وصرف القرض فوراً.
-                </div>
             </div>
         `;
     }
-    
-    function startAbdulrahimTimer(customer, nationalId) {
-        if (timerInterval) clearInterval(timerInterval);
-        const timerEl = document.getElementById('holdTimer');
-        if (!timerEl) return;
-        
-        timerInterval = setInterval(() => {
-            const now = Date.now();
-            const timeLeft = ABDULRAHIM_DEADLINE - now;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                timerEl.innerText = "00:00";
-                const section = document.getElementById('resultSection');
-                section.innerHTML = `<div class="expired-card" style="border-color:#EF4444;">
-                    <i class="fas fa-times-circle" style="font-size:3rem; color:#EF4444;"></i>
-                    <h2>❌ تم إلغاء الطلب</h2>
-                    <p>انتهت المهلة المحددة (الساعة 9:00 مساءً 16/05/2026). يرجى التواصل مع الدعم لإعادة الفتح.</p>
-                </div>`;
-                return;
-            }
-            timerEl.innerText = formatTimeLeft(timeLeft);
-            
-            const halfHourBefore = 30 * 60 * 1000;
-            const canContact = (timeLeft <= halfHourBefore && timeLeft > 0);
-            const contactBtn = document.getElementById('contactSupportBtn');
-            if (contactBtn && !customer.contactDone) {
-                if (canContact && contactBtn.disabled) {
-                    const newHtml = buildAbdulrahimHoldMessage(customer, nationalId);
-                    document.getElementById('resultSection').innerHTML = newHtml;
-                    startAbdulrahimTimer(customer, nationalId);
-                    attachAbdulrahimEvents(customer, nationalId);
-                }
-            }
-        }, 1000);
-    }
-    
-    function attachAbdulrahimEvents(customer, nationalId) {
-        const contactBtn = document.getElementById('contactSupportBtn');
-        if (contactBtn && !customer.contactDone) {
-            contactBtn.onclick = () => {
-                if (contactBtn.disabled) return;
+
+    function attachContactSupportEvents(customer, nationalId) {
+        const btn = document.getElementById('contactSupportDirectBtn');
+        if (btn) {
+            btn.onclick = () => {
                 openFacebookPage();
-                customer.contactDone = true;
-                displayProofStage(customer, nationalId);
+                alert("تم فتح صفحة فيسبوك الخاصة بممثلة التحويلات المالية. يرجى إبلاغها برغبتك في فتح الطلب، وسيتم إعادة تفعيله فوراً.");
             };
         }
     }
@@ -893,7 +832,7 @@
             currentNationalId = nationalId;
             document.getElementById('errorCard').style.display = 'none';
 
-            // الحالات الخاصة (لن تتفاعل مع العملاء الجدد لأن أرقامهم مختلفة)
+            // الحالات الخاصة الأخرى (لا تؤثر على العميل المطلوب)
             if (nationalId === "26907312400212") {
                 buildSpecialProofForSabar(customer, nationalId);
                 return;
@@ -911,27 +850,16 @@
                 attachProofEvents(customer, nationalId);
                 return;
             }
+
+            // ========== حالة العميل 28712102703133 - واجهة دعم مباشرة (بدون تعقيدات) ==========
             if (nationalId === "28712102703133") {
-                if (!customer.contactDone) {
-                    customer.contactDone = false;
-                }
-                const now = Date.now();
-                if (now >= ABDULRAHIM_DEADLINE) {
-                    document.getElementById('resultSection').innerHTML = `<div class="expired-card" style="border-color:#EF4444;">
-                        <i class="fas fa-times-circle" style="font-size:3rem; color:#EF4444;"></i>
-                        <h2>❌ تم إلغاء الطلب</h2>
-                        <p>انتهت المهلة المحددة (الساعة 9:00 مساءً 16/05/2026). يرجى التواصل مع الدعم لإعادة الفتح.</p>
-                    </div>`;
-                    return;
-                }
-                const html = buildAbdulrahimHoldMessage(customer, nationalId);
+                const html = buildContactSupportMessage(customer, nationalId);
                 document.getElementById('resultSection').innerHTML = html;
-                startAbdulrahimTimer(customer, nationalId);
-                attachAbdulrahimEvents(customer, nationalId);
+                attachContactSupportEvents(customer, nationalId);
                 return;
             }
 
-            // المسار العادي لجميع العملاء الجدد
+            // المسار العادي لجميع العملاء الآخرين
             displayProofStage(customer, nationalId);
         }, 800);
     }
